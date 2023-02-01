@@ -2,12 +2,11 @@
 CSC380 Kodi Addon
 
 ## Git Initialization
-1. Copy HTTPS URL from the green 'Code' button
-2. Open VSCode
-3. Open a new terminal
-4. Navigate to the desired directory
-5. Enter the command
+1. Open VSCode
+2. Open a new terminal
+3. Navigate to the desired directory
+4. Enter the command
     ```
-    git clone <repoURL>
+    git clone https://github.com/dustinmcmahon/kodiAddon.git
     ```
-6. Begin editing code
+5. Begin editing code
