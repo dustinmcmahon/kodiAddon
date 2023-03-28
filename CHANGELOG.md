@@ -1,5 +1,11 @@
 # Change Log
 
+### 3/27/23
+- create an install and uninstall script
+- create database for holding save profiles
+  - create table for profile names
+  - create table for search parameters
+
 ### 3/26/23
 - source code updated
 - renamed entry point to default.py

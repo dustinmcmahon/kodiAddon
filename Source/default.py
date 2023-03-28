@@ -1,6 +1,10 @@
+import xbmc
 import xbmcgui
 import xbmcaddon
 import metaData
+import install
+
+install.createDB()
 
 addon = xbmcaddon.Addon()
 
@@ -22,9 +26,7 @@ class MyPlayer(xbmcgui.Window):
     #     if controlID == 10:
     #         play_random_movie()
 
-xbmc.Dialog().ok(addon.getAddonInfo("name"), metaData.getActors())
-
-#if (__name__ == "__main__"):
-    #w = MyPlayer()
-    #w.doModal()
-    #del w
+if (__name__ == "__main__"):
+    w = MyPlayer()
+    w.doModal()
+    del w
