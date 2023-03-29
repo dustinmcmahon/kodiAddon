@@ -1,19 +1,36 @@
 import sqlite3
+import os
 import xbmcaddon
 
 addon = xbmcaddon.Addon()
 addonPath = addon.getAddonInfo('path')
 
+def install():
+    if not os.path.exists("{}\kesProfile.db".format(addonPath)):
+        createDB()
+
 def createDB():
     connection = sqlite3.connect("{}\kesProfile.db".format(addonPath))
     cursor = connection.cursor()
     createTables(cursor)
+    fillTable(cursor)
 
 def createTables(cursor: sqlite3.Cursor):
     cursor.executescript("""
         BEGIN;
-        CREATE TABLE IF NOT EXISTS profile(id INTEGER, name TEXT, dateUsedLast date, timeUsedLast timestamp);
-        CREATE TABLE IF NOT EXISTS searchOption(id INTEGER, title TEXT);
-        CREATE TABLE IF NOT EXISTS profileOptions(id INTEGER, r_profile INTEGER, r_searchOption INTEGER, value);
+        CREATE TABLE IF NOT EXISTS profile(id INTEGER PRIMARY KEY, name TEXT, dateUsedLast date, timeUsedLast timestamp);
+        CREATE TABLE IF NOT EXISTS searchOptionDefaults(id INTEGER PRIMARY KEY, title TEXT UNIQUE ON CONFLICT IGNORE);
+        CREATE TABLE IF NOT EXISTS profileOptions(id INTEGER PRIMARY KEY, r_profile INTEGER REFERENCES profile(id), r_searchOptionDefault INTEGER REFERENCES searchOptionDefaults(id), value);
         COMMIT;
     """)
+
+def fillTable(cursor: sqlite3.Cursor):
+    cursor.executescript("""
+        BEGIN;
+        INSERT OR IGNORE INTO searchOptionDefaults (title) values ('mediaType'),(watchStatus),(tag),(length),(studio),(mostWatched),(genre),(rating),(cast),(year),(director)
+        COMMIT;
+    """)
+
+def uninstall():
+    if not os.path.exists("{}\kesProfile.db".format(addonPath)):
+        os.remove("{}\kesProfile.db".format(addonPath))

@@ -4,7 +4,7 @@ import xbmcaddon
 import metaData
 import install
 
-install.createDB()
+install.install()
 
 addon = xbmcaddon.Addon()
 
