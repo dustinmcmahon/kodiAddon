@@ -26,7 +26,11 @@ class MyPlayer(xbmcgui.Window):
     #     if controlID == 10:
     #         play_random_movie()
 
+"""
 if (__name__ == "__main__"):
     w = MyPlayer()
     w.doModal()
     del w
+"""
+
+xbmcgui.Dialog().ok("KES", metaData.getMetaData('actor'))

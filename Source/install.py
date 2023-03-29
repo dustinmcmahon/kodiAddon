@@ -27,7 +27,7 @@ def createTables(cursor: sqlite3.Cursor):
 def fillTable(cursor: sqlite3.Cursor):
     cursor.executescript("""
         BEGIN;
-        INSERT OR IGNORE INTO searchOptionDefaults (title) values ('mediaType'),(watchStatus),(tag),(length),(studio),(mostWatched),(genre),(rating),(cast),(year),(director)
+        INSERT OR IGNORE INTO searchOptionDefaults (title) values ('mediaType'),('watchStatus'),('tag'),('length'),('studio'),('mostWatched'),('genre'),('rating'),('cast'),('year'),('director');
         COMMIT;
     """)
 

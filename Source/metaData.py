@@ -1,9 +1,11 @@
 import sqlite3
+import os
+import xbmcaddon
 
 ########
 ## This section doesnt work
-
-videoDB = "..\\userdata\\Database\\MyVideos121.db"
+addon = xbmcaddon.Addon()
+videoDB = addon.getAddonInfo('path').replace("addons\\video.kodi.episode.selector\\", "userdata\\Database\\MyVideos121.db")
 
 def getMetaData(dataType):
     connection = sqlite3.connect(videoDB)
@@ -15,7 +17,8 @@ def getMetaData(dataType):
 
     connection.commit()
     connection.close()
-    return returnList
+    print(returnList)
+    return 'Success!'
 
 def testMetaData():
     print("Testing Actors: {}".format(getMetaData("actor")))
@@ -28,7 +31,15 @@ def testMetaData():
 
 #######
 
-infoHolder = xbmc.InfoTagVideo()
-
 def getActors():
+    actors = xbmc.execcuteJSONRPC('{"jsonrpc": "2.0", "method": ""}')
+    return actors
+
+def getDirectors():
+    return []
+
+def getTags():
+    return 
+
+def getGenres():
     return []
