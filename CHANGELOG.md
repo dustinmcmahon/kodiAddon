@@ -4,6 +4,8 @@
 - Moved profile DB
 - Added Mac & Windows Install locations
 - Wrapper for sqlite calls to video db
+- Individual functions for getting meta data have been created
+- These functions return an array of tuples [(id, title), (id2, title2)...]
 
 ### 3/27/23
 - create an install and uninstall script

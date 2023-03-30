@@ -32,5 +32,5 @@ if (__name__ == "__main__"):
     w.doModal()
     del w
 """
-
-xbmcgui.Dialog().ok("KES", metaData.getMetaData('actor'))
+metaData.testMetaData()
+xbmcgui.Dialog().ok("KES", "Complete!")
