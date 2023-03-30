@@ -1,11 +1,15 @@
 import sqlite3
 import os
+import xbmc
 import xbmcaddon
 
 ########
 ## This section doesnt work
 addon = xbmcaddon.Addon()
-videoDB = addon.getAddonInfo('path').replace("addons\\video.kodi.episode.selector\\", "userdata\\Database\\MyVideos121.db")
+if xbmc.getCondVisibility('system.platform.windows'):
+    videoDB = addon.getAddonInfo('path').replace("addons\\video.kodi.episode.selector\\", "userdata\\Database\\MyVideos121.db")
+if xbmc.getCondVisibility('system.platform.osx'):
+    videoDB = addon.getAddonInfo('path').replace("addons/video.kodi.episode.selector/", "userdata/Database/MyVideos121.db")
 
 def getMetaData(dataType):
     connection = sqlite3.connect(videoDB)

@@ -1,16 +1,23 @@
 import sqlite3
 import os
+import xbmc
 import xbmcaddon
 
 addon = xbmcaddon.Addon()
-addonPath = addon.getAddonInfo('path')
+if xbmc.getCondVisibility('system.platform.windows'):
+    addonDataFolder = addon.getAddonInfo('path').replace("addons\\video.kodi.episode.selector\\", "userdata\\addon_data\\video.kodi.episode.selector\\")
+if xbmc.getCondVisibility('system.platform.osx'):
+    addonDataFolder = addon.getAddonInfo('path').replace("addons/video.kodi.episode.selector/", "userdata/addon_data/video.kodi.episode.selector/")
 
 def install():
-    if not os.path.exists("{}\kesProfile.db".format(addonPath)):
+    if not os.path.exists(addonDataFolder):
+        #create folder for addon data
+        os.mkdir(addonDataFolder)
+    if not os.path.exists("{}\kesProfile.db".format(addonDataFolder)):
         createDB()
 
 def createDB():
-    connection = sqlite3.connect("{}\kesProfile.db".format(addonPath))
+    connection = sqlite3.connect("{}\kesProfile.db".format(addonDataFolder))
     cursor = connection.cursor()
     createTables(cursor)
     fillTable(cursor)
@@ -32,5 +39,5 @@ def fillTable(cursor: sqlite3.Cursor):
     """)
 
 def uninstall():
-    if not os.path.exists("{}\kesProfile.db".format(addonPath)):
-        os.remove("{}\kesProfile.db".format(addonPath))
+    if not os.path.exists("{}\kesProfile.db".format(addonDataFolder)):
+        os.remove("{}\kesProfile.db".format(addonDataFolder))

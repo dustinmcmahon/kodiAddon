@@ -1,5 +1,10 @@
 # Change Log
 
+### 3/29/23
+- Moved profile DB
+- Added Mac & Windows Install locations
+- Wrapper for sqlite calls to video db
+
 ### 3/27/23
 - create an install and uninstall script
 - create database for holding save profiles
