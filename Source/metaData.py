@@ -21,29 +21,61 @@ def getMetaData(dataType):
 
     connection.commit()
     connection.close()
-    print(returnList)
-    return 'Success!'
+    return returnList
 
+# unit test for functions
 def testMetaData():
-    print("Testing Actors: {}".format(getMetaData("actor")))
-    print("Testing Genre: {}".format(getMetaData("genre")))
-    print("Testing Studio: {}".format(getMetaData("studio")))
-    print("Testing Tags: {}".format(getMetaData("tag")))
-
-#this is the unit test for the getMetaData function
-#testMetaData()
-
-#######
+    print("Testing Actors: {}".format(getActors()))
+    print("Testing Directors: {}".format(getDirectors()))
+    print("Testing Genre: {}".format(getGenres()))
+    print("Testing Studio: {}".format(getStudios()))
+    print("Testing Tags: {}".format(getTags()))
 
 def getActors():
-    actors = xbmc.execcuteJSONRPC('{"jsonrpc": "2.0", "method": ""}')
+    connection = sqlite3.connect(videoDB)
+    actors = connection.cursor().execute('SELECT actor_id, name FROM actor').fetchall()
+    connection.commit()
+    connection.close()
     return actors
 
-def getDirectors():
-    return []
+def getActor(actorID):
+    connection = sqlite3.connect(videoDB)
+    name = connection.cursor().execute('SELECT name FROM actor WHERE actor_id = {}'.format(actorID)).fetchall()
+    connection.commit()
+    connection.close()
+    return name
 
-def getTags():
-    return 
+def getActorRole(actorID, mediaID):
+    connection = sqlite3.connect(videoDB)
+    role = connection.cursor().execute('SELECT role FROM actor_link WHERE actor_id = {} AND media_id = {}'.format(actorID, mediaID)).fetchall()
+    connection.commit()
+    connection.close()
+    return role
+
+def getDirectors():
+    connection = sqlite3.connect(videoDB)
+    directors = connection.cursor().execute('SELECT actor.actor_id,actor.name FROM director_link LEFT JOIN actor ON director_link.actor_id = actor.actor_id').fetchall()
+    connection.commit()
+    connection.close()
+    return directors
 
 def getGenres():
-    return []
+    connection = sqlite3.connect(videoDB)
+    genres = connection.cursor().execute('SELECT * FROM genre').fetchall()
+    connection.commit()
+    connection.close()
+    return genres
+
+def getStudios():
+    connection = sqlite3.connect(videoDB)
+    studios = connection.cursor().execute('SELECT * FROM studio').fetchall()
+    connection.commit()
+    connection.close()
+    return studios
+
+def getTags():
+    connection = sqlite3.connect(videoDB)
+    tags = connection.cursor().execute('SELECT * FROM tag').fetchall()
+    connection.commit()
+    connection.close()
+    return tags
