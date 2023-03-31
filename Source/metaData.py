@@ -38,6 +38,20 @@ def getActors():
     connection.close()
     return actors
 
+def getActor(actorID):
+    connection = sqlite3.connect(videoDB)
+    name = connection.cursor().execute('SELECT name FROM actor WHERE actor_id = {}'.format(actorID)).fetchall()
+    connection.commit()
+    connection.close()
+    return name
+
+def getActorRole(actorID, mediaID):
+    connection = sqlite3.connect(videoDB)
+    role = connection.cursor().execute('SELECT role FROM actor_link WHERE actor_id = {} AND media_id = {}'.format(actorID, mediaID)).fetchall()
+    connection.commit()
+    connection.close()
+    return role
+
 def getDirectors():
     connection = sqlite3.connect(videoDB)
     directors = connection.cursor().execute('SELECT actor.actor_id,actor.name FROM director_link LEFT JOIN actor ON director_link.actor_id = actor.actor_id').fetchall()

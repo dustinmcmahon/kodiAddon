@@ -1,5 +1,9 @@
 # Change Log
 
+### 3/31/23
+- added searchOption class
+- created setters and getters and add/delete functions
+
 ### 3/29/23
 - Moved profile DB
 - Added Mac & Windows Install locations
