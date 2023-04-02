@@ -1,5 +1,8 @@
 # Change Log
 
+### 4/2/23
+- created test cases for the searchOption class
+
 ### 3/31/23
 - added searchOption class
 - created setters and getters and add/delete functions
