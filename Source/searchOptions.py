@@ -10,12 +10,13 @@ class SearchOptions:
         self.include = []
         self.exclude = []
         self.watchStatus = []
-        self.length = []
+        self.length = [0,0]
         self.year = []
         self.rating = []
         self.mediaType = ['movie', 'episode']
         self.studio = []
         self.mostWatched = False
+        self.function = 0 # possible options: 1 = playOne, 2 = showList, 3 = loopPlay
 
     # genre functions
     def getGenre(self):
@@ -180,7 +181,110 @@ class SearchOptions:
     def setMostWatched(self, value):
         self.mostWatched = value
 
+    # Playback Functions
+    def setPBFunction(self, value):
+        self.function = value
+
+    def getPBFunction(self):
+        return self.function
+
 # Unit Test Cases
 def unitTest():
     testCase = SearchOptions()
-    testCase.setCast(1)
+
+    # Genre Testing
+    print('Genre')
+    testCase.setGenre([3,5,7])
+    testCase.addGenre(1)
+    testCase.removeGenre(3)
+    print(testCase.getGenre())
+
+    # Tag Testing
+    print('Tag')
+    testCase.setTag([3,5,7])
+    testCase.addTag(1)
+    testCase.removeTag(3)
+    print(testCase.getTag())
+
+    # Cast Testing
+    print('Cast')
+    testCase.setCast([3,5,7])
+    testCase.addCast(1)
+    testCase.removeCast(3)
+    print(testCase.getCast())
+
+    # Director Testing
+    print('Director')
+    testCase.setDirector([3,5,7])
+    testCase.addDirector(1)
+    testCase.removeDirector(3)
+    print(testCase.getDirector())
+
+    # Include Testing
+    print('Include')
+    testCase.setInclude([3,5,7])
+    testCase.addInclude(1)
+    testCase.removeInclude(3)
+    print(testCase.getInclude())
+
+    # Exclude Testing
+    print('Exclude')
+    testCase.setExclude([3,5,7])
+    testCase.addExclude(1)
+    testCase.removeExclude(3)
+    print(testCase.getExclude())
+
+    # Watch Status Testing
+    print('Watch Status')
+    testCase.setWatchStatus([0])
+    print('Set Status: {}'.format(testCase.getWatchStatus()))
+    testCase.addWatchStatus(1)
+    print('Add Status: {}'.format(testCase.getWatchStatus()))
+    testCase.removeWatchStatus(0)
+    print('Remove Status: {}'.format(testCase.getWatchStatus()))
+
+    # Length Testing
+    print('Length')
+    testCase.setMINLength(10)
+    testCase.setMAXLength(1258)
+    print(testCase.getLength())
+
+    # Year Testing
+    print('Year')
+    testCase.setYear([3,5,7])
+    testCase.addYear(1)
+    testCase.removeYear(3)
+    print(testCase.getYear())
+    
+    # Rating Testing
+    print('Rating')
+    testCase.setRating([3,5,7])
+    testCase.addRating(1)
+    testCase.removeRating(3)
+    print(testCase.getRating())
+
+    # Media Type Testing
+    print('Media Type')
+    print(testCase.getMediaType())
+    testCase.removeMediaType('episode')
+    print(testCase.getMediaType())
+    
+    # Studio Testing
+    print('Studio')
+    testCase.setStudio([3,5,7])
+    testCase.addStudio(1)
+    testCase.removeStudio(3)
+    print(testCase.getStudio())
+
+    # Most Watched Testing
+    print('Most Watched')
+    print(testCase.getMostWatched())
+    testCase.setMostWatched(True)
+    print(testCase.getMostWatched())
+
+    # Function Testing
+    print('Playback Functions')
+    testCase.setPBFunction(2)
+    print(testCase.getPBFunction())
+
+unitTest()
