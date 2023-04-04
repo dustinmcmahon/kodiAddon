@@ -1,5 +1,12 @@
 # Change Log
 
+### 4/3/23
+- renamed install.py to searchProfile.py
+  - creates required db, tables, and default data required to save search profiles
+  - added CRUD functions for search profile
+    - insert working to add a new profile
+    - functions for options have been started
+
 ### 4/2/23
 - created test cases for the searchOption class
 

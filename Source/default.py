@@ -2,12 +2,16 @@ import xbmc
 import xbmcgui
 import xbmcaddon
 import metaData
-import install
+import jsongets
+import searchOptions
+import searchProfile
+#import kesGUI
 
-install.install()
+searchProfile.install()
 
 addon = xbmcaddon.Addon()
 
+#interface = kesGUI.build()
 
 class MyPlayer(xbmcgui.Window):
     def __init__(self):
@@ -32,5 +36,9 @@ if (__name__ == "__main__"):
     w.doModal()
     del w
 """
-metaData.testMetaData()
-xbmcgui.Dialog().ok("KES", "Complete!")
+
+print(jsongets.getMovieDetails(3))
+
+#test case passed
+#metaData.testMetaData()
+#xbmcgui.Dialog().ok("KES", "Complete!")
