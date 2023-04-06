@@ -41,4 +41,20 @@ print(jsongets.getMovieDetails(3))
 
 #test case passed
 #metaData.testMetaData()
-#xbmcgui.Dialog().ok("KES", "Complete!")
+xbmcgui.Dialog().ok("KES", "Complete!")
+
+
+#####
+'''
+This is a function where we can compile all of our unit tests
+Each Python file should have a single unit test function to test all other functions
+'''
+#####
+def unitTest():
+    # Meta Data Unit Tests
+    # Prints the results of each of the get meta data functions
+    metaData.testMetaData()
+
+    # Search Option Unit Test
+    # Creates a searchOption object, sets, adds, and removes each potential option and prints results
+    searchOptions.unitTest()

@@ -15,8 +15,7 @@ def install():
     if not os.path.exists(addonDataFolder):
         #create folder for addon data
         os.mkdir(addonDataFolder)
-    if not os.path.exists(kesDBPath):
-        createDB()
+    createDB()
 
 # Create the Database to hold profile data
 def createDB():
@@ -50,84 +49,144 @@ def uninstall():
 def addProfile(name: str, options: searchOptions):
     connection = sqlite3.connect(kesDBPath)
     cursor = connection.cursor()
+    profileID = _getProfileID(name, cursor)
+    _addOptions(profileID, options, cursor)
+    connection.commit()
+    connection.close()
+
+# get the id of the profile based on the name
+# create one if it does not exist
+def _getProfileID(name: str, cursor: sqlite3.Cursor):
     profiles = cursor.execute("SELECT id FROM profile WHERE name = '{}';".format(name)).fetchall()
     if len(profiles) == 0:
-        profiles = _insertProfile(name)
-    profileID = profiles[0].id
-    _addOptions(profileID, options)
-
-def _insertProfile(name: str):
-    connection = sqlite3.connect(kesDBPath)
-    cursor = connection.cursor()
-    return cursor.execute("INSERT INTO profile (name) VALUES ({}) RETURNING id;".format(name)).fetchall()
-
-# Trigger CRUD Operations for all options
-def _addOptions(profileID: int, options: searchOptions):
-    _addGenres(profileID, options.getGenre())
-    _addTags(profileID, options.getTag())
-    _addCast(profileID, options.getCast())
-    _addDirector(profileID, options.getDirector())
-    _addIncludes(profileID, options.getInclude())
-    _addExcludes(profileID, options.getExclude())
-    _addWatchStatus(profileID, options.getWatchStatus())
-    _addLength(profileID, options.getLength())
-    _addYears(profileID, options.getYear())
-    _addRating(profileID, options.getRating())
-    _addMediaType(profileID, options.getMediaType)
-    _addStudios(profileID, options.getStudio)
-    _addMostWatched(profileID, options.getMostWatched)
+        profiles = cursor.execute("INSERT INTO profile (name) VALUES ({}) RETURNING id;".format(name)).fetchall()
+    return profiles[0].id
+    
+# Trigger the C portion of the CRUD Operations for all options
+def _addOptions(profileID: int, options: searchOptions, cursor: sqlite3.Cursor):
+    _addGenres(profileID, options.getGenre(), cursor)
+    _addTags(profileID, options.getTag(), cursor)
+    _addCast(profileID, options.getCast(), cursor)
+    _addDirector(profileID, options.getDirector(), cursor)
+    _addIncludes(profileID, options.getInclude(), cursor)
+    _addExcludes(profileID, options.getExclude(), cursor)
+    _addWatchStatus(profileID, options.getWatchStatus(), cursor)
+    _addLength(profileID, options.getLength(), cursor)
+    _addYears(profileID, options.getYear(), cursor)
+    _addRating(profileID, options.getRating(), cursor)
+    _addMediaType(profileID, options.getMediaType, cursor)
+    _addStudios(profileID, options.getStudio, cursor)
+    _addMostWatched(profileID, options.getMostWatched, cursor)
 
 # Trigger CRUD Operations for genre
-def _addGenres(profileID: int, genres):
-    return True
+def _addGenres(profileID: int, genres, cursor: sqlite3.Cursor):
+    if len(genres) != 0:
+        valueList = ""
+        defaultID = cursor.execute("SELECT id FROM searchOptionDefaults WHERE title = 'genres';")
+        for x in genres:
+            valueList = ",({},{},{})".format(x,profileID,defaultID) if valueList != "" else "{},({},{},{})".format(valueList, x,profileID,defaultID)
+        cursor.execute("INSERT INTO profileOptions (value,r_profile,r_searchOptionType) VALUES {};".format(valueList))
 
 # Trigger CRUD Operations for tags
-def _addTags(profileID: int, tags):
-    return True
+def _addTags(profileID: int, tags, cursor: sqlite3.Cursor):
+    if len(tags) != 0:
+        valueList = ""
+        defaultID = cursor.execute("SELECT id FROM searchOptionDefaults WHERE title = 'tag';")
+        for x in tags:
+            valueList = ",({},{},{})".format(x,profileID,defaultID) if valueList != "" else "{},({},{},{})".format(valueList, x,profileID,defaultID)
+        cursor.execute("INSERT INTO profileOptions (value,r_profile,r_searchOptionType) VALUES {};".format(valueList))
 
 # Trigger CRUD Operations for cast
-def _addCast(profileID: int, cast):
-    return True
+def _addCast(profileID: int, cast, cursor: sqlite3.Cursor):
+    if len(cast) != 0:
+        valueList = ""
+        defaultID = cursor.execute("SELECT id FROM searchOptionDefaults WHERE title = 'cast';")
+        for x in cast:
+            valueList = ",({},{},{})".format(x,profileID,defaultID) if valueList != "" else "{},({},{},{})".format(valueList, x,profileID,defaultID)
+        cursor.execute("INSERT INTO profileOptions (value,r_profile,r_searchOptionType) VALUES {};".format(valueList))
 
 # Trigger CRUD Operations for director
-def _addDirector(profileID: int, director):
-    return True
+def _addDirector(profileID: int, director, cursor: sqlite3.Cursor):
+    if len(director) != 0:
+        valueList = ""
+        defaultID = cursor.execute("SELECT id FROM searchOptionDefaults WHERE title = 'director';")
+        for x in director:
+            valueList = ",({},{},{})".format(x,profileID,defaultID) if valueList != "" else "{},({},{},{})".format(valueList, x,profileID,defaultID)
+        cursor.execute("INSERT INTO profileOptions (value,r_profile,r_searchOptionType) VALUES {};".format(valueList))
 
 # Trigger CRUD Operations for include list
-def _addIncludes(profileID: int, includes):
-    return True
+def _addIncludes(profileID: int, includes, cursor: sqlite3.Cursor):
+    if len(includes) != 0:
+        valueList = ""
+        defaultID = cursor.execute("SELECT id FROM searchOptionDefaults WHERE title = 'include';")
+        for x in includes:
+            valueList = ",({},{},{})".format(x,profileID,defaultID) if valueList != "" else "{},({},{},{})".format(valueList, x,profileID,defaultID)
+        cursor.execute("INSERT INTO profileOptions (value,r_profile,r_searchOptionType) VALUES {};".format(valueList))
 
 # Trigger CRUD Operations for exclude list
-def _addExcludes(profileID: int, exludes):
-    return True
+def _addExcludes(profileID: int, excludes, cursor: sqlite3.Cursor):
+    if len(excludes) != 0:
+        valueList = ""
+        defaultID = cursor.execute("SELECT id FROM searchOptionDefaults WHERE title = 'exclude';")
+        for x in excludes:
+            valueList = ",({},{},{})".format(x,profileID,defaultID) if valueList != "" else "{},({},{},{})".format(valueList, x,profileID,defaultID)
+        cursor.execute("INSERT INTO profileOptions (value,r_profile,r_searchOptionType) VALUES {};".format(valueList))
 
 # Trigger CRUD Operations for Watch Status
-def _addWatchStatus(profileID: int, watchStatus):
-    return True
+def _addWatchStatus(profileID: int, watchStatus, cursor: sqlite3.Cursor):
+    if len(watchStatus) != 0:
+        valueList = ""
+        defaultID = cursor.execute("SELECT id FROM searchOptionDefaults WHERE title = 'watchStatus';")
+        for x in watchStatus:
+            valueList = ",({},{},{})".format(x,profileID,defaultID) if valueList != "" else "{},({},{},{})".format(valueList, x,profileID,defaultID)
+        cursor.execute("INSERT INTO profileOptions (value,r_profile,r_searchOptionType) VALUES {};".format(valueList))
 
 # Trigger CRUD Operations for length
-def _addLength(profileID: int, length):
-    return True
+def _addLength(profileID: int, length, cursor: sqlite3.Cursor):
+        minID = cursor.execute("SELECT id FROM searchOptionDefaults WHERE title = 'lengthMIN';")
+        maxID = cursor.execute("SELECT id FROM searchOptionDefaults WHERE title = 'lengthMAX';")
+        cursor.execute("INSERT INTO profileOptions (value, r_profile, r_searchOptionType) VALUES ({},{},{}), ({},{},{});".format(length[0],profileID,minID,length[1],profileID,maxID))
 
 # Trigger CRUD Operations for year
-def _addYears(profileID: int, years):
-    return True
+def _addYears(profileID: int, years, cursor: sqlite3.Cursor):
+    if len(years) != 0:
+        valueList = ""
+        defaultID = cursor.execute("SELECT id FROM searchOptionDefaults WHERE title = 'year';")
+        for x in years:
+            valueList = ",({},{},{})".format(x,profileID,defaultID) if valueList != "" else "{},({},{},{})".format(valueList, x,profileID,defaultID)
+        cursor.execute("INSERT INTO profileOptions (value,r_profile,r_searchOptionType) VALUES {};".format(valueList))
 
 # Trigger CRUD Operations for rating
-def _addRating(profileID: int, rating):
-    return True
+def _addRating(profileID: int, rating, cursor: sqlite3.Cursor):
+    if len(rating) != 0:
+        valueList = ""
+        defaultID = cursor.execute("SELECT id FROM searchOptionDefaults WHERE title = 'rating';")
+        for x in rating:
+            valueList = ",({},{},{})".format(x,profileID,defaultID) if valueList != "" else "{},({},{},{})".format(valueList, x,profileID,defaultID)
+        cursor.execute("INSERT INTO profileOptions (value,r_profile,r_searchOptionType) VALUES {};".format(valueList))
 
 # Trigger CRUD Operations for media type
-def _addMediaType(profileID: int, mediaType):
-    return True
+def _addMediaType(profileID: int, mediaType, cursor: sqlite3.Cursor):
+    if len(mediaType) != 0:
+        valueList = ""
+        defaultID = cursor.execute("SELECT id FROM searchOptionDefaults WHERE title = 'mediaType';")
+        for x in mediaType:
+            valueList = ",({},{},{})".format(x,profileID,defaultID) if valueList != "" else "{},({},{},{})".format(valueList, x,profileID,defaultID)
+        cursor.execute("INSERT INTO profileOptions (value,r_profile,r_searchOptionType) VALUES {};".format(valueList))
 
 # Trigger CRUD Operations for studios
-def _addStudios(profileID: int, studios):
-    return True
+def _addStudios(profileID: int, studios, cursor: sqlite3.Cursor):
+    if len(studios) != 0:
+        valueList = ""
+        defaultID = cursor.execute("SELECT id FROM searchOptionDefaults WHERE title = 'studio';")
+        for x in studios:
+            valueList = ",({},{},{})".format(x,profileID,defaultID) if valueList != "" else "{},({},{},{})".format(valueList, x,profileID,defaultID)
+        cursor.execute("INSERT INTO profileOptions (value,r_profile,r_searchOptionType) VALUES {};".format(valueList))
 
 # Trigger CRUD Operations for Most Watched
-def _addMostWatched(profileID: int, mostWatched):
-    return True
+def _addMostWatched(profileID: int, mostWatched, cursor: sqlite3.Cursor):
+    defaultID = cursor.execute("SELECT id FROM searchOptionDefaults WHERE title = 'mostWatched';")
+    cursor.execute("INSERT INTO profileOptions (value,r_profile,r_searchOptionType) VALUES ({},{},{});".format(mostWatched,profileID,defaultID))
 
 # test cases
 def unitTest():
