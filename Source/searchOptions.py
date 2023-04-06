@@ -1,8 +1,8 @@
-#imports may not be needed
+# imports may not be needed
 
 class SearchOptions:
 
-    def __init__(self):  #   when object created
+    def __init__(self):  # when object created
         self.genre = []
         self.tag = []
         self.cast = []
@@ -10,73 +10,73 @@ class SearchOptions:
         self.include = []
         self.exclude = []
         self.watchStatus = []
-        self.length = [0,0]
+        self.length = [0, 0]
         self.year = []
         self.rating = []
         self.mediaType = ['movie', 'episode']
         self.studio = []
         self.mostWatched = False
-        self.function = 0 # possible options: 1 = playOne, 2 = showList, 3 = loopPlay
+        self.function = 0  # possible options: 1 = playOne, 2 = showList, 3 = loopPlay
 
     # genre functions
     def getGenre(self):
         return self.genre
-    
+
     def setGenre(self, newGenre):
         self.genre = newGenre
 
-    def addGenre(self, genreID):
-        self.genre.append(genreID)
+    def addGenre(self, genreName):
+        self.genre.append(genreName)
 
-    def removeGenre(self, genreID):
-        self.genre.remove(genreID)
+    def removeGenre(self, genreName):
+        self.genre.remove(genreName)
 
     # tag functions
     def getTag(self):
         return self.tag
-    
+
     def setTag(self, newTag):
         self.tag = newTag
-    
-    def addTag(self, tagID):
-        self.tag.append(tagID)
 
-    def removeTag(self, tagID):
-        self.tag.remove(tagID)
+    def addTag(self, tagName):
+        self.tag.append(tagName)
+
+    def removeTag(self, tagName):
+        self.tag.remove(tagName)
 
     # cast functions
     def getCast(self):
         return self.cast
-    
+
     def setCast(self, newCast):
         self.cast = newCast
-    
-    def addCast(self, castID):
-        self.cast.append(castID)
 
-    def removeCast(self, castID):
-        self.cast.remove(castID)
+    def addCast(self, castName):
+        self.cast.append(castName)
+
+    def removeCast(self, castName):
+        self.cast.remove(castName)
 
     # director functions
     def getDirector(self):
         return self.director
-    
+
     def setDirector(self, newDirector):
         self.director = newDirector
-    
-    def addDirector(self, directorID):
-        self.director.append(directorID)
 
-    def removeDirector(self, directorID):
-        self.director.remove(directorID)
+    def addDirector(self, directorName):
+        self.director.append(directorName)
+
+    def removeDirector(self, directorName):
+        self.director.remove(directorName)
 
     # include functions
     def getInclude(self):
         return self.include
-    
+
     def setInclude(self, newInclude):
         self.include = newInclude
-    
+
     def addInclude(self, includeID):
         self.include.append(includeID)
 
@@ -86,10 +86,10 @@ class SearchOptions:
     # exclude functions
     def getExclude(self):
         return self.exclude
-    
+
     def setExclude(self, newExclude):
         self.exclude = newExclude
-    
+
     def addExclude(self, excludeID):
         self.exclude.append(excludeID)
 
@@ -99,10 +99,10 @@ class SearchOptions:
     # watchStatus functions
     def getWatchStatus(self):
         return self.watchStatus
-    
+
     def setWatchStatus(self, newWatchStatus):
         self.watchStatus = newWatchStatus
-    
+
     def addWatchStatus(self, watchStatusVal):
         self.watchStatus.append(watchStatusVal)
 
@@ -113,11 +113,11 @@ class SearchOptions:
     # ['min_length', 'max_length']
     def getLength(self):
         return self.length
-    
+
     # set to 0 to ignore min
     def setMINLength(self, lengthVal):
         self.length[0] = lengthVal
-        
+
     # set to 0 to ignore max
     def setMAXLength(self, lengthVal):
         self.length[1] = lengthVal
@@ -125,10 +125,10 @@ class SearchOptions:
     # year functions
     def getYear(self):
         return self.year
-    
+
     def setYear(self, newYear):
         self.year = newYear
-    
+
     def addYear(self, yearID):
         self.year.append(yearID)
 
@@ -138,10 +138,10 @@ class SearchOptions:
     # rating functions
     def getRating(self):
         return self.rating
-    
+
     def setRating(self, newRating):
         self.rating = newRating
-    
+
     def addRating(self, ratingVal):
         self.rating.append(ratingVal)
 
@@ -151,10 +151,10 @@ class SearchOptions:
     # mediaType functions
     def getMediaType(self):
         return self.mediaType
-    
+
     def setMediaType(self, newMediaType):
         self.mediaType = newMediaType
-    
+
     def addMediaType(self, type):
         self.mediaType.append(type)
 
@@ -164,20 +164,20 @@ class SearchOptions:
     # studio functions
     def getStudio(self):
         return self.studio
-    
+
     def setStudio(self, newStudio):
         self.studio = newStudio
 
-    def addStudio(self, studioID):
-        self.studio.append(studioID)
+    def addStudio(self, studioName):
+        self.studio.append(studioName)
 
-    def removeStudio(self, studioID):
-        self.studio.remove(studioID)
+    def removeStudio(self, studioName):
+        self.studio.remove(studioName)
 
     # mostWatched functions
     def getMostWatched(self):
         return self.mostWatched
-    
+
     def setMostWatched(self, value):
         self.mostWatched = value
 
@@ -189,47 +189,49 @@ class SearchOptions:
         return self.function
 
 # Unit Test Cases
+
+
 def unitTest():
     testCase = SearchOptions()
 
     # Genre Testing
     print('Genre')
-    testCase.setGenre([3,5,7])
-    testCase.addGenre(1)
-    testCase.removeGenre(3)
+    testCase.setGenre(['comedy', 'fantasy', 'crime'])
+    testCase.addGenre('action')
+    testCase.removeGenre('fantasy')
     print(testCase.getGenre())
 
     # Tag Testing
     print('Tag')
-    testCase.setTag([3,5,7])
-    testCase.addTag(1)
-    testCase.removeTag(3)
+    testCase.setTag(['disney', 'family-friendly', 'cartoon'])
+    testCase.addTag('magic')
+    testCase.removeTag('family-friendly')
     print(testCase.getTag())
 
     # Cast Testing
     print('Cast')
-    testCase.setCast([3,5,7])
-    testCase.addCast(1)
-    testCase.removeCast(3)
+    testCase.setCast(['Anne', 'Will Smith', 'Tom Cruise'])
+    testCase.addCast('Marilyn Monroe')
+    testCase.removeCast('Anne')
     print(testCase.getCast())
 
     # Director Testing
     print('Director')
-    testCase.setDirector([3,5,7])
-    testCase.addDirector(1)
-    testCase.removeDirector(3)
+    testCase.setDirector(['James Gunn', 'Kevin Feige', 'Jon Watts'])
+    testCase.addDirector('Joe Russo')
+    testCase.removeDirector('Jon Watts')
     print(testCase.getDirector())
 
     # Include Testing
     print('Include')
-    testCase.setInclude([3,5,7])
+    testCase.setInclude([3, 5, 7])
     testCase.addInclude(1)
     testCase.removeInclude(3)
     print(testCase.getInclude())
 
     # Exclude Testing
     print('Exclude')
-    testCase.setExclude([3,5,7])
+    testCase.setExclude([3, 5, 7])
     testCase.addExclude(1)
     testCase.removeExclude(3)
     print(testCase.getExclude())
@@ -251,14 +253,14 @@ def unitTest():
 
     # Year Testing
     print('Year')
-    testCase.setYear([3,5,7])
+    testCase.setYear([3, 5, 7])
     testCase.addYear(1)
     testCase.removeYear(3)
     print(testCase.getYear())
-    
+
     # Rating Testing
     print('Rating')
-    testCase.setRating([3,5,7])
+    testCase.setRating([3, 5, 7])
     testCase.addRating(1)
     testCase.removeRating(3)
     print(testCase.getRating())
@@ -268,12 +270,12 @@ def unitTest():
     print(testCase.getMediaType())
     testCase.removeMediaType('episode')
     print(testCase.getMediaType())
-    
+
     # Studio Testing
     print('Studio')
-    testCase.setStudio([3,5,7])
-    testCase.addStudio(1)
-    testCase.removeStudio(3)
+    testCase.setStudio(['Universal', 'Paramount Pictures', 'Disney'])
+    testCase.addStudio('Columbia')
+    testCase.removeStudio('Disney')
     print(testCase.getStudio())
 
     # Most Watched Testing
@@ -286,5 +288,6 @@ def unitTest():
     print('Playback Functions')
     testCase.setPBFunction(2)
     print(testCase.getPBFunction())
+
 
 unitTest()
