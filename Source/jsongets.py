@@ -79,3 +79,9 @@ def getTVshowDetails(tvshow_id):
     else:
         print("No Tv show details found.")
         return None
+    
+def unitTests():
+    print(getMovies())
+    print(getMovieDetails(1))
+    print(getTVshows())
+    print(getTVshowDetails(1))

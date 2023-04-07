@@ -10,33 +10,33 @@ import xbmc
 import json
 import searchOptions
 
-# {"field": "genre", "operator": "contains", "value": ["", "", ""]}
-# {"field": "genre", "operator": "is", "value": ""}
-def _genre_filter_(genreList):
+# {"field": name, "operator": "contains", "value": ["", "", ""]}
+# {"field": name, "operator": "is", "value": ""}
+def _filterList_(name,valueList):
     defaultReturn = {}
-    if len(genreList) == 1:
-        defaultReturn = {"field": "genre", "operator": "is", "value": genreList[0]}
-    elif len(genreList) > 1:
-        for x in genreList:
+    if len(valueList) == 1:
+        defaultReturn = {"field": name, "operator": "is", "value": valueList[0]}
+    elif len(valueList) > 1:
+        for x in valueList:
             if defaultReturn == {}:
-                defaultReturn = x
-            else:
-                defaultReturn 
+                defaultReturn = []
+            defaultReturn.append(x)
+        defaultReturn = {"field": name, "operator": "contains", "value": defaultReturn}
     return defaultReturn
 
 # Filter function
 ## Pass in the Search Options
 def filter(options: searchOptions):
-    genreFilter = _genre_filter_(options.getGenre())
-    tagFilter = _tag_filter_(options.getTag())
-    castFilter = _cast_filter_(options.getCast())
-    directorFilter = _director_filter_(options.getDirector())
-    includeFilter = _include_filter_(options.getInclude())
-    excludeFilter = _exclude_filter_(options.getExclude())
-    lengthFilter = _length_filter_(options.getLength())
-    yearFilter = _year_filter_(options.getYear())
-    studioFilter = _studio_filter_(options.getStudio())
-    ratingFilter = _rating_filter_(options.getRating())
+    genreFilter = _filterList_('genre', options.getGenre())
+    tagFilter = _filterList_('tag', options.getTag())
+    castFilter = _filterList_('cast', options.getCast())
+    directorFilter = _filterList_('director', options.getDirector())
+    #includeFilter = _filterList_(options.getInclude())
+    #excludeFilter = _filterList_(options.getExclude())
+    #lengthFilter = _filterList_(options.getLength())
+    yearFilter = _filterList_('year', options.getYear())
+    studioFilter = _filterList_('studio', options.getStudio())
+    ratingFilter = _filterList_('rating', options.getRating())
 
     filterList = []
     if genreFilter != {}:
@@ -47,12 +47,14 @@ def filter(options: searchOptions):
         filterList.append(castFilter)
     if directorFilter != {}:
         filterList.append(directorFilter)
+    '''
     if includeFilter != {}:
         filterList.append(includeFilter)
     if excludeFilter != {}:
         filterList.append(excludeFilter)
     if lengthFilter != {}:
         filterList.append(lengthFilter)
+    '''
     if yearFilter != {}:
         filterList.append(yearFilter)
     if studioFilter != {}:
@@ -94,3 +96,12 @@ def filter(options: searchOptions):
         print("no item found")
         return {}
 
+
+def unitTest(options: searchOptions):
+    print(_filterList_('genre', options.getGenre()))
+    print(_filterList_('tag', options.getTag()))
+    print(_filterList_('cast', options.getCast()))
+    print(_filterList_('director', options.getDirector()))
+    print(_filterList_('year', options.getYear()))
+    print(_filterList_('studio', options.getStudio()))
+    print(_filterList_('rating', options.getRating()))
