@@ -273,9 +273,9 @@ def unitTest():
 
     # Studio Testing
     print('Studio')
-    testCase.setStudio(['Universal', 'Columbia', 'Paramount Production'])
-    testCase.addStudio('Disney World')
-    testCase.removeStudio('Columbia')
+    testCase.setStudio(['Universal', 'Paramount Pictures', 'Disney'])
+    testCase.addStudio('Columbia')
+    testCase.removeStudio('Disney')
     print(testCase.getStudio())
 
     # Most Watched Testing
