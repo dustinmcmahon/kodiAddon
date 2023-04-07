@@ -25,11 +25,11 @@ class SearchOptions:
     def setGenre(self, newGenre):
         self.genre = newGenre
 
-    def addGenre(self, genreID):
-        self.genre.append(genreID)
+    def addGenre(self, genreName):
+        self.genre.append(genreName)
 
-    def removeGenre(self, genreID):
-        self.genre.remove(genreID)
+    def removeGenre(self, genreName):
+        self.genre.remove(genreName)
 
     # tag functions
     def getTag(self):
@@ -38,11 +38,11 @@ class SearchOptions:
     def setTag(self, newTag):
         self.tag = newTag
 
-    def addTag(self, tagID):
-        self.tag.append(tagID)
+    def addTag(self, tagName):
+        self.tag.append(tagName)
 
-    def removeTag(self, tagID):
-        self.tag.remove(tagID)
+    def removeTag(self, tagName):
+        self.tag.remove(tagName)
 
     # cast functions
     def getCast(self):
@@ -51,11 +51,11 @@ class SearchOptions:
     def setCast(self, newCast):
         self.cast = newCast
 
-    def addCast(self, castID):
-        self.cast.append(castID)
+    def addCast(self, castName):
+        self.cast.append(castName)
 
-    def removeCast(self, castID):
-        self.cast.remove(castID)
+    def removeCast(self, castName):
+        self.cast.remove(castName)
 
     # director functions
     def getDirector(self):
@@ -64,11 +64,11 @@ class SearchOptions:
     def setDirector(self, newDirector):
         self.director = newDirector
 
-    def addDirector(self, directorID):
-        self.director.append(directorID)
+    def addDirector(self, directorName):
+        self.director.append(directorName)
 
-    def removeDirector(self, directorID):
-        self.director.remove(directorID)
+    def removeDirector(self, directorName):
+        self.director.remove(directorName)
 
     # include functions
     def getInclude(self):
@@ -168,11 +168,11 @@ class SearchOptions:
     def setStudio(self, newStudio):
         self.studio = newStudio
 
-    def addStudio(self, studioID):
-        self.studio.append(studioID)
+    def addStudio(self, studioName):
+        self.studio.append(studioName)
 
-    def removeStudio(self, studioID):
-        self.studio.remove(studioID)
+    def removeStudio(self, studioName):
+        self.studio.remove(studioName)
 
     # mostWatched functions
     def getMostWatched(self):
@@ -196,30 +196,30 @@ def unitTest():
 
     # Genre Testing
     print('Genre')
-    testCase.setGenre([3, 5, 7])
-    testCase.addGenre(1)
-    testCase.removeGenre(3)
+    testCase.setGenre(['comedy', 'fantasy', 'crime'])
+    testCase.addGenre('action')
+    testCase.removeGenre('fantasy')
     print(testCase.getGenre())
 
     # Tag Testing
     print('Tag')
-    testCase.setTag([3, 5, 7])
-    testCase.addTag(1)
-    testCase.removeTag(3)
+    testCase.setTag(['disney', 'family-friendly', 'cartoon'])
+    testCase.addTag('magic')
+    testCase.removeTag('family-friendly')
     print(testCase.getTag())
 
     # Cast Testing
     print('Cast')
-    testCase.setCast([3, 5, 7])
-    testCase.addCast(1)
-    testCase.removeCast(3)
+    testCase.setCast(['Anne', 'Will Smith', 'Tom Cruise'])
+    testCase.addCast('Marilyn Monroe')
+    testCase.removeCast('Anne')
     print(testCase.getCast())
 
     # Director Testing
     print('Director')
-    testCase.setDirector([3, 5, 7])
-    testCase.addDirector(1)
-    testCase.removeDirector(3)
+    testCase.setDirector(['James Gunn', 'Kevin Feige', 'Jon Watts'])
+    testCase.addDirector('Joe Russo')
+    testCase.removeDirector('Jon Watts')
     print(testCase.getDirector())
 
     # Include Testing
@@ -273,9 +273,9 @@ def unitTest():
 
     # Studio Testing
     print('Studio')
-    testCase.setStudio([3, 5, 7])
-    testCase.addStudio(1)
-    testCase.removeStudio(3)
+    testCase.setStudio(['Universal', 'Paramount Pictures', 'Disney'])
+    testCase.addStudio('Columbia')
+    testCase.removeStudio('Disney')
     print(testCase.getStudio())
 
     # Most Watched Testing
