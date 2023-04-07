@@ -1,5 +1,7 @@
 # Change Log
 
+### 4/7/23
+- Uploaded gui.py
 ### 4/6/23
 - updated search option test cases to work with strings and not numbers
 - finished create/delete functions for profiles
