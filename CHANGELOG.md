@@ -1,5 +1,12 @@
 # Change Log
 
+### 4/6/23
+- updated search option test cases to work with strings and not numbers
+- finished create/delete functions for profiles
+- finished unit testing for create/delete functions for profiles
+- moved all unit tests to default.unitTest()
+- searchOptions unit test returns a completed searchOption object to be tested with
+
 ### 4/5/23
 - removed uninstall.py
 - fixed install to always update the searchOptionType table to include all default options
