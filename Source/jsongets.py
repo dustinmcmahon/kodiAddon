@@ -9,9 +9,9 @@ def getMovies():
     response_obj = json.loads(movies)
     if "result" in response_obj:
         movies = response_obj["result"]["movies"]
-        movies_str = '\n'.join([movie['label'] for movie in movies])
-        print(movies_str)
-        return movies_str
+        # movies_str = '\n'.join([movie['label'] for movie in movies])
+        # print(movies_str)
+        return movies
     else:
         print("No movie found")
         return None
@@ -23,9 +23,9 @@ def getTVshows():
     response_obj = json.loads(tvshows)
     if "result" in response_obj:
         tvshows = response_obj["result"]["tvshows"]
-        tvshows_str = '\n'.join([tvshow['label'] for tvshow in tvshows])
-        print(tvshows_str)
-        return tvshows_str
+        # tvshows_str = '\n'.join([tvshow['label'] for tvshow in tvshows])
+        # print(tvshows_str)
+        return tvshows
     else:
         print("no tvshows found")
         return None
@@ -46,10 +46,10 @@ def getMovieDetails(movie_id):
     response_obj = json.loads(response)
     if "result" in response_obj:
         movie_details = response_obj["result"]["moviedetails"]
-        movie_details_str = '\n'.join(
-            [f'{key}: {value}' for key, value in movie_details.items()])
-        print(movie_details_str)
-        return movie_details_str
+        # movie_details_str = '\n'.join(
+        #     [f'{key}: {value}' for key, value in movie_details.items()])
+        # print(movie_details_str)
+        return movie_details
     else:
         print("No movie details found.")
         return None
@@ -72,10 +72,16 @@ def getTVshowDetails(tvshow_id):
     response_obj = json.loads(response)
     if "result" in response_obj:
         tvshow_details = response_obj["result"]["tvshowdetails"]
-        tvshow_details_str = '\n'.join(
-            [f'{key}: {value}' for key, value in tvshow_details.items()])
-        print(tvshow_details_str)
-        return tvshow_details_str
+        # tvshow_details_str = '\n'.join(
+        #     [f'{key}: {value}' for key, value in tvshow_details.items()])
+        # print(tvshow_details_str)
+        return tvshow_details
     else:
         print("No Tv show details found.")
         return None
+    
+def unitTests():
+    print(getMovies())
+    print(getMovieDetails(1))
+    print(getTVshows())
+    print(getTVshowDetails(1))
