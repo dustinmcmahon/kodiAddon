@@ -1,5 +1,25 @@
 # Change Log
 
+### 4/6/23
+- updated search option test cases to work with strings and not numbers
+- finished create/delete functions for profiles
+- finished unit testing for create/delete functions for profiles
+- moved all unit tests to default.unitTest()
+- searchOptions unit test returns a completed searchOption object to be tested with
+
+### 4/5/23
+- removed uninstall.py
+- fixed install to always update the searchOptionType table to include all default options
+- added unitTesting section to default.py
+- finished Create functions for searchProfile
+
+### 4/3/23
+- renamed install.py to searchProfile.py
+  - creates required db, tables, and default data required to save search profiles
+  - added CRUD functions for search profile
+    - insert working to add a new profile
+    - functions for options have been started
+
 ### 4/2/23
 - created test cases for the searchOption class
 

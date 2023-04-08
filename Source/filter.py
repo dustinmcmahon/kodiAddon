@@ -12,25 +12,20 @@ import searchOptions
 
 # {"field": "genre", "operator": "contains", "value": ["", "", ""]}
 # {"field": "genre", "operator": "is", "value": ""}
-
-
 def _genre_filter_(genreList):
     defaultReturn = {}
     if len(genreList) == 1:
-        defaultReturn = {"field": "genre",
-                         "operator": "is", "value": genreList[0]}
+        defaultReturn = {"field": "genre", "operator": "is", "value": genreList[0]}
     elif len(genreList) > 1:
         for x in genreList:
             if defaultReturn == {}:
                 defaultReturn = x
             else:
-                defaultReturn
+                defaultReturn 
     return defaultReturn
 
 # Filter function
-# Pass in the Search Options
-
-
+## Pass in the Search Options
 def filter(options: searchOptions):
     genreFilter = _genre_filter_(options.getGenre())
     tagFilter = _tag_filter_(options.getTag())
@@ -79,18 +74,16 @@ def filter(options: searchOptions):
     elif options.getPBFunction() == 3:
         loopPlay(videoList)
 
-
     command = {
         "jsonrpc": "2.0",
         "method": "VideoLibrary.GetEpisodes",
         "params": {
-            # get_genre_filer() = {"field": "genre", "operator": "is", "value": genre}
-            "filter": {"or": filterList},
+            "filter": { "or" : filterList }, # get_genre_filer() = {"field": "genre", "operator": "is", "value": genre}
             "properties": ["art", "rating", "thumbnail", "playcount", "file"],
             "sort": {"order": "ascending", "method": "label"}
         },
         "id": "library"}
-
+    
     response = xbmc.executeJSONRPC(json.dumps(command))
     response_obj = json.loads(response)
     if "result" in response_obj:
@@ -100,3 +93,4 @@ def filter(options: searchOptions):
     else:
         print("no item found")
         return {}
+
