@@ -1,5 +1,6 @@
 import xbmcgui
 import xbmc
+import xbmcaddon
 import metaData
 
 #Try again later
@@ -12,10 +13,16 @@ dummy_list = [
 ]
 
 
+addon = xbmcaddon.Addon()
+addonDataFolder = ""
+if xbmc.getCondVisibility('system.platform.windows'):
+    addonDataFolder = addon.getAddonInfo('path').replace("addons\\video.kodi.episode.selector\\", "userdata\\addon_data\\video.kodi.episode.selector\\")
+if xbmc.getCondVisibility('system.platform.osx') or xbmc.getCondVisibility('system.platform.linux'):
+    addonDataFolder = addon.getAddonInfo('path').replace("addons/video.kodi.episode.selector/", "userdata/addon_data/video.kodi.episode.selector/")
+
+imagesFolder = addon.getAddonInfo('path') + "/images/"
 
 class MyWindow(xbmcgui.Window):
-
-
     # def display_list(self):
     #         dialog = xbmcgui.Dialog()
     #         dialog.ok("List", str(dummy_list))
@@ -92,7 +99,8 @@ class MyWindow(xbmcgui.Window):
 
        #The Orange
     def show_circle(self, x, y, radius, color):
-        circle = xbmcgui.ControlImage(x, y, radius, radius, "/Users/collegecarol/Desktop/Kodi/Kodi4/circle.png", color)
+        circlePath = imagesFolder + "circle.png"
+        circle = xbmcgui.ControlImage(x, y, radius, radius, circlePath, color)
         self.addControl(circle)
 
     # def onClick(self, controlId: int):
@@ -119,168 +127,101 @@ class MyWindow(xbmcgui.Window):
     # for param in dummy_list:
     #     first_params.append(param[0])
     #//////////////////////////////////////Types of Buttons 
-    # def __init__(mediaType) -> None:
-    #     super().__init__()
-    #     mediaType.button = xbmcgui.ControlButton(0, 10, 200, 106, "    ")
-    #     mediaType.addControl(mediaType.button)
 
-    #     mediaType.listThing = xbmcgui.ControlList(0, 100, 300, 200)
-    #     mediaType.addControl(mediaType.listThing)
-    #     # self.item1 = xbmcgui.ListItem("Item 1 but a ListItem")
-    #     # self.listThing.addItem(self.item1)
-    #     # self.listThing.addItem("Item2 but a string")
-    #     for item in dummy_list:
-    #         mediaType.listThing.addItem(str(item))
-
-    #     mediaType.listThing.setVisible(False)
-
-    # def onAction(mediaType, action: xbmcgui.Action) -> None:
-    #     print(f"action: {action}")
-    #     if action == xbmcgui.ACTION_PREVIOUS_MENU:
-    #         mediaType.close()
-
-    #     if action == xbmcgui.ACTION_MOUSE_LEFT_CLICK:
-    #         control = mediaType.getFocus()
-    #         if control.getId() == mediaType.button.getId():
-    #             mediaType.listThing.setVisible(not mediaType.listThing.isVisible())
-    #         text = "visible" if mediaType.listThing.isVisible() else "invisible"
-    #         xbmc.log("button was pressed, listThing is now " + text)
-
-    # def __init__(watchStatus) -> None:
-    #     super().__init__()
-    #     watchStatus.button = xbmcgui.ControlButton(150, 10, 200, 106, "    ")
-    #     watchStatus.addControl(watchStatus.button)
-
-    #     watchStatus.listThing = xbmcgui.ControlList(110, 100, 300, 200)
-    #     watchStatus.addControl(watchStatus.listThing)
-    #     for item in dummy_list:
-    #         watchStatus.listThing.addItem(str(item))
-
-    #     watchStatus.listThing.setVisible(False)
-
-
-    # def onAction(watchStatus, action: xbmcgui.Action) -> None:
-    #     print(f"action: {action}")
-    #     if action == xbmcgui.ACTION_PREVIOUS_MENU:
-    #         watchStatus.close()
-
-    #     if action == xbmcgui.ACTION_MOUSE_LEFT_CLICK:
-    #         control = watchStatus.getFocus()
-    #         if control.getId() == watchStatus.button.getId():
-    #             watchStatus.listThing.setVisible(not watchStatus.listThing.isVisible())
-    #         text = "visible" if watchStatus.listThing.isVisible() else "invisible"
-    #         xbmc.log("button was pressed, listThing is now " + text)
-
-    # def __init__(ratingList) -> None:
-    #     super().__init__()
-    #     ratingList.button = xbmcgui.ControlButton(300, 10, 200, 106, "    ")
-    #     ratingList.addControl(ratingList.button)
-
-    #     ratingList.listThing = xbmcgui.ControlList(260, 100, 300, 100)
-    #     ratingList.addControl(ratingList.listThing)
-    #     for item in dummy_list:
-    #         ratingList.listThing.addItem(str(item))
-
-    #     ratingList.listThing.setVisible(False)
-
-    # def __init__(genreList) -> None:
-    #     super().__init__()
-    #     genreList.button = xbmcgui.ControlButton(450, 10, 200, 106, "    ")
-    #     genreList.addControl(genreList.button)
-
-    #     genreList.listThing = xbmcgui.ControlList(410, 100, 300, 106)
-    #     genreList.addControl(genreList.listThing)
-    #     for item in dummy_list:
-    #         genreList.listThing.addItem(str(item))
-
-    #     genreList.listThing.setVisible(False)
-
-    # def __init__(lengthList) -> None:
-    #     super().__init__()
-    #     lengthList.button = xbmcgui.ControlButton(600, 10, 200, 106, "    ")
-    #     lengthList.addControl(lengthList.button)
-
-    #     lengthList.listThing = xbmcgui.ControlList(460, 100, 300, 100)
-    #     lengthList.addControl(lengthList.listThing)
-    #     for item in dummy_list:
-    #         lengthList.listThing.addItem(str(item))
-
-    #     lengthList.listThing.setVisible(False)
-
-    # def __init__(yearList) -> None:
-    #     super().__init__()
-    #     yearList.button = xbmcgui.ControlButton(750, 10, 200, 106, "    ")
-    #     yearList.addControl(yearList.button)
-
-    #     yearList.listThing = xbmcgui.ControlList(710, 100, 300, 100)
-    #     yearList.addControl(yearList.listThing)
-    #     for item in dummy_list:
-    #         yearList.listThing.addItem(str(item))
-
-    #     yearList.listThing.setVisible(False)
-
-    # def __init__(tagsList) -> None:
-    #     super().__init__()
-    #     tagsList.button = xbmcgui.ControlButton(900, 10, 200, 100, "    ")
-    #     tagsList.addControl(tagsList.button)
-
-    #     tagsList.listThing = xbmcgui.ControlList(860, 100, 300, 100)
-    #     tagsList.addControl(tagsList.listThing)
-    #     for item in dummy_list:
-    #         tagsList.listThing.addItem(str(item))
-
-    #     tagsList.listThing.setVisible(False)
-
-    # def __init__(studioList) -> None:
-    #     super().__init__()
-    #     studioList.button = xbmcgui.ControlButton(1050, 10, 200, 106, "    ")
-    #     studioList.addControl(studioList.button)
-
-    #     studioList.listThing = xbmcgui.ControlList(1010, 100, 300, 100)
-    #     studioList.addControl(studioList.listThing)
-    #     for item in dummy_list:
-    #         studioList.listThing.addItem(str(item))
-
-    #     studioList.listThing.setVisible(False)
-
-    # def __init__(mostwatched) -> None:
-    #     super().__init__()
-    #     mostwatched.button = xbmcgui.ControlButton(0, 160, 200, 106, "    ")
-    #     mostwatched.addControl(mostwatched.button)
-
-    #     mostwatched.listThing = xbmcgui.ControlList(0, 250, 300, 200)
-    #     mostwatched.addControl(mostwatched.listThing)
-    #     for item in dummy_list:
-    #         mostwatched.listThing.addItem(str(item))
-
-    #     mostwatched.listThing.setVisible(False)
-
-    def __init__(castsList) -> None:
+    def __init__(self) -> None:
         super().__init__()
-        castsList.button = xbmcgui.ControlButton(150, 160, 200, 106, "    ")
-        castsList.addControl(castsList.button)
+        
+        self.mediaType = xbmcgui.ControlButton(0, 10, 200, 106, "    ")
+        self.addControl(self.mediaType)
+        self.list1 = xbmcgui.ControlList(0, 100, 300, 200)
+        self.addControl(self.list1)
+        for item in dummy_list:
+            self.list1.addItem(str(item))
+        self.list1.setVisible(False)
 
-        castsList.listThing = xbmcgui.ControlList(110, 250, 300, 200)
-        castsList.addControl(castsList.listThing)
+        self.watchStatus = xbmcgui.ControlButton(150, 10, 200, 106, "    ")
+        self.addControl(self.watchStatus)
+        self.list2 = xbmcgui.ControlList(110, 100, 300, 200)
+        self.addControl(self.list2)
+        for item in dummy_list:
+            self.list2.addItem(str(item))
+        self.list2.setVisible(False)
+
+        self.ratingList = xbmcgui.ControlButton(300, 10, 200, 106, "    ")
+        self.addControl(self.ratingList)
+        self.list3 = xbmcgui.ControlList(260, 100, 300, 100)
+        self.addControl(self.list3)
+        for item in dummy_list:
+            self.list3.addItem(str(item))
+        self.list3.setVisible(False)
+
+        self.genreList = xbmcgui.ControlButton(450, 10, 200, 106, "    ")
+        self.addControl(self.genreList)
+        self.list4 = xbmcgui.ControlList(410, 100, 300, 106)
+        self.addControl(self.list4)
+        for item in metaData.getGenres():
+            self.list4.addItem(str(item))
+        self.list4.setVisible(False)
+
+        self.lengthList = xbmcgui.ControlButton(150, 10, 200, 106, "    ")
+        self.addControl(self.lengthList)
+        self.list5 = xbmcgui.ControlList(110, 100, 300, 200)
+        self.addControl(self.list5)
+        for item in dummy_list:
+            self.list5.addItem(str(item))
+        self.list5.setVisible(False)
+
+        self.yearList = xbmcgui.ControlButton(600, 10, 200, 106, "    ")
+        self.addControl(self.yearList)
+        self.list6 = xbmcgui.ControlList(460, 100, 300, 100)
+        self.addControl(self.list6)
+        for item in dummy_list:
+            self.list6.addItem(str(item))
+        self.list6.setVisible(False)
+
+        self.tagsList = xbmcgui.ControlButton(750, 10, 200, 106, "    ")
+        self.addControl(self.tagsList)
+        self.list7 = xbmcgui.ControlList(710, 100, 300, 100)
+        self.addControl(self.list7)
+        for item in metaData.getTags():
+            self.list7.addItem(str(item))
+        self.list7.setVisible(False)
+
+        self.studioList = xbmcgui.ControlButton(900, 10, 200, 100, "    ")
+        self.addControl(self.studioList)
+        self.list8 = xbmcgui.ControlList(860, 100, 300, 100)
+        self.addControl(self.list8)
+        for item in metaData.getStudios():
+            self.list8.addItem(str(item))
+        self.list8.setVisible(False)
+
+        self.mostWatched = xbmcgui.ControlButton(1050, 10, 200, 106, "    ")
+        self.addControl(self.mostWatched)
+        self.list9 = xbmcgui.ControlList(1010, 100, 300, 100)
+        self.addControl(self.list9)
+        for item in dummy_list:
+            self.list9.addItem(str(item))
+        self.list9.setVisible(False)
+
+        self.castsList = xbmcgui.ControlButton(0, 160, 200, 106, "    ")
+        self.addControl(self.castsList)
+        self.list10 = xbmcgui.ControlList(0, 250, 300, 200)
+        self.addControl(self.list10)
         for item in metaData.getActors():
-            castsList.listThing.addItem(str(item))
+            self.list10.addItem(str(item))
+        self.list10.setVisible(False)
 
-        castsList.listThing.setVisible(False)
+        self.directorList = xbmcgui.ControlButton(150, 160, 200, 106, "    ")
+        self.addControl(self.directorList)
+        self.list11 = xbmcgui.ControlList(110, 250, 300, 200)
+        self.addControl(self.list11)
+        for item in metaData.getDirectors():
+            self.list11.addItem(str(item))
+        self.list11.setVisible(False)
+
+
 
     
-
-    # def __init__(directList) -> None:
-    #     super().__init__()
-    #     directList.button = xbmcgui.ControlButton(300, 160, 200, 106, "    ")
-    #     directList.addControl(directList.button)
-
-    #     directList.listThing = xbmcgui.ControlList(260, 250, 300, 200)
-    #     directList.addControl(directList.listThing)
-    #     for item in metaData.getDirectors():
-    #         directList.listThing.addItem(str(item))
-
-    #     directList.listThing.setVisible(False)
-
 
     def onAction(self, action: xbmcgui.Action) -> None:
         print(f"action: {action}")
@@ -289,10 +230,92 @@ class MyWindow(xbmcgui.Window):
 
         if action == xbmcgui.ACTION_MOUSE_LEFT_CLICK:
             control = self.getFocus()
-            if control.getId() == self.button.getId():
-                self.listThing.setVisible(not self.listThing.isVisible())
-            text = "visible" if self.listThing.isVisible() else "invisible"
-            xbmc.log("button was pressed, listThing is now " + text)
+            if control.getId() == self.mediaType.getId():
+                self.list1.setVisible(not self.list1.isVisible())
+            text = "visible" if self.list1.isVisible() else "invisible"
+            xbmc.log("button was pressed, list1 is now " + text)
+
+        if action == xbmcgui.ACTION_MOUSE_LEFT_CLICK:
+            control = self.getFocus()
+            if control.getId() == self.watchStatus.getId():
+                self.list2.setVisible(not self.list2.isVisible())
+            text = "visible" if self.list2.isVisible() else "invisible"
+            xbmc.log("button was pressed, list2 is now " + text)
+
+        if action == xbmcgui.ACTION_MOUSE_LEFT_CLICK:
+            control = self.getFocus()
+            if control.getId() == self.ratingList.getId():
+                self.list3.setVisible(not self.list3.isVisible())
+            text = "visible" if self.list3.isVisible() else "invisible"
+            xbmc.log("button was pressed, list3 is now " + text)
+
+        if action == xbmcgui.ACTION_MOUSE_LEFT_CLICK:
+            control = self.getFocus()
+            if control.getId() == self.genreList.getId():
+                self.list4.setVisible(not self.list4.isVisible())
+            text = "visible" if self.list4.isVisible() else "invisible"
+            xbmc.log("button was pressed, list4 is now " + text)
+
+        if action == xbmcgui.ACTION_MOUSE_LEFT_CLICK:
+            control = self.getFocus()
+            if control.getId() == self.lengthList.getId():
+                self.list5.setVisible(not self.list5.isVisible())
+            text = "visible" if self.list5.isVisible() else "invisible"
+            xbmc.log("button was pressed, list5 is now " + text)
+
+        if action == xbmcgui.ACTION_MOUSE_LEFT_CLICK:
+            control = self.getFocus()
+            if control.getId() == self.yearList.getId():
+                self.list6.setVisible(not self.list6.isVisible())
+            text = "visible" if self.list6.isVisible() else "invisible"
+            xbmc.log("button was pressed, list6 is now " + text)
+
+        if action == xbmcgui.ACTION_MOUSE_LEFT_CLICK:
+            control = self.getFocus()
+            if control.getId() == self.tagsList.getId():
+                self.list7.setVisible(not self.list7.isVisible())
+            text = "visible" if self.list7.isVisible() else "invisible"
+            xbmc.log("button was pressed, list7 is now " + text)
+
+        if action == xbmcgui.ACTION_MOUSE_LEFT_CLICK:
+            control = self.getFocus()
+            if control.getId() == self.studioList.getId():
+                self.list8.setVisible(not self.list8.isVisible())
+            text = "visible" if self.list8.isVisible() else "invisible"
+            xbmc.log("button was pressed, list8 is now " + text)
+
+        if action == xbmcgui.ACTION_MOUSE_LEFT_CLICK:
+            control = self.getFocus()
+            if control.getId() == self.mostWatched.getId():
+                self.list9.setVisible(not self.list9.isVisible())
+            text = "visible" if self.list9.isVisible() else "invisible"
+            xbmc.log("button was pressed, list9 is now " + text)
+
+        if action == xbmcgui.ACTION_MOUSE_LEFT_CLICK:
+            control = self.getFocus()
+            if control.getId() == self.castsList.getId():
+                self.list10.setVisible(not self.list10.isVisible())
+            text = "visible" if self.list10.isVisible() else "invisible"
+            xbmc.log("button was pressed, list10 is now " + text)
+
+        if action == xbmcgui.ACTION_MOUSE_LEFT_CLICK:
+            control = self.getFocus()
+            if control.getId() == self.directorList.getId():
+                self.list11.setVisible(not self.list11.isVisible())
+            text = "visible" if self.list11.isVisible() else "invisible"
+            xbmc.log("button was pressed, list11 is now " + text)
+
+
+
+
+
+
+
+
+
+
+
+
 
         
 
@@ -300,10 +323,9 @@ class MyWindow(xbmcgui.Window):
 
 
      #Button displayed.
-    
 
   #The Window
-if __name__ == "__main__":
+def showGui():
     window = MyWindow()
 
     #Orange

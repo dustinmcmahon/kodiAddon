@@ -6,6 +6,7 @@ import jsongets
 import searchOptions
 import searchProfile
 import filter
+import gui
 #import kesGUI
 
 searchProfile.install()
@@ -67,7 +68,8 @@ def unitTest():
     print('** FILTER TESTING **')
     filter.unitTest(options)
 
-
 unitTest()
 
-xbmcgui.Dialog().ok("KES", "Complete!")
+gui.showGui()
+
+# xbmcgui.Dialog().ok("KES", "Complete!")
