@@ -8,6 +8,8 @@ install.install()
 
 addon = xbmcaddon.Addon()
 
+##
+
 
 class MyPlayer(xbmcgui.Window):
     def __init__(self):
@@ -25,6 +27,7 @@ class MyPlayer(xbmcgui.Window):
     # def onClick(self, controlID: int):
     #     if controlID == 10:
     #         play_random_movie()
+
 
 """
 if (__name__ == "__main__"):
