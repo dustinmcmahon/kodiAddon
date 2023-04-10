@@ -27,7 +27,7 @@ class MyWindow(xbmcgui.Window):
     #         dialog = xbmcgui.Dialog()
     #         dialog.ok("List", str(dummy_list))
 
-     #\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\The Identifying stuff
+     #\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\The Identifying
     def media_Type(self, text):
         label = xbmcgui.ControlLabel(50, 50, 200, 100, text)
         self.addControl(label)
@@ -70,6 +70,10 @@ class MyWindow(xbmcgui.Window):
 
     def director_List(self, text):
         label = xbmcgui.ControlLabel(360, 200, 300, 200, text)
+        self.addControl(label)
+
+    def include_List(self, text):
+        label = xbmcgui.ControlLabel(515, 200, 300, 200, text)
         self.addControl(label)
 
     def playOne(self, text):
@@ -128,103 +132,170 @@ class MyWindow(xbmcgui.Window):
     #     first_params.append(param[0])
     #//////////////////////////////////////Types of Buttons 
 
+
+
+
+
+
+
     def __init__(self) -> None:
         super().__init__()
-        
+
         self.mediaType = xbmcgui.ControlButton(0, 10, 200, 106, "    ")
         self.addControl(self.mediaType)
-        self.list1 = xbmcgui.ControlList(0, 100, 300, 200)
+
+        self.watchStatus = xbmcgui.ControlButton(150, 10, 200, 106, "    ")
+        self.addControl(self.watchStatus)
+
+        self.ratingList = xbmcgui.ControlButton(300, 10, 200, 106, "    ")
+        self.addControl(self.ratingList)
+
+        self.genreList = xbmcgui.ControlButton(450, 10, 200, 106, "    ")
+        self.addControl(self.genreList)
+
+        self.lengthList = xbmcgui.ControlButton(600, 10, 200, 106, "    ")
+        self.addControl(self.lengthList)
+
+        self.yearList = xbmcgui.ControlButton(750, 10, 200, 106, "    ")
+        self.addControl(self.yearList)
+
+        self.tagsList = xbmcgui.ControlButton(900, 10, 200, 106, "    ")
+        self.addControl(self.tagsList)
+
+        self.studioList = xbmcgui.ControlButton(1050, 10, 200, 106, "    ")
+        self.addControl(self.studioList)
+
+        self.mostWatched = xbmcgui.ControlButton(0, 160, 200, 106, "    ")
+        self.addControl(self.mostWatched)
+
+        self.castsList = xbmcgui.ControlButton(150, 160, 200, 106, "    ")
+        self.addControl(self.castsList)
+
+        self.directorList = xbmcgui.ControlButton(300, 160, 200, 106, "    ")
+        self.addControl(self.directorList)
+
+        self.includeList = xbmcgui.ControlButton(450, 160, 200, 106, "    ")
+        self.addControl(self.includeList)
+
+        #Orange
+        self.show_circle (30, 35, 150, 0xFF0000)
+        self.show_circle (180, 35, 150, 0xFF0000)
+        self.show_circle (330, 35, 150, 0xFF0000)
+        self.show_circle (480, 35, 150, 0xFF0000)
+        self.show_circle (630, 35, 150, 0xFF0000)
+        self.show_circle (780, 35, 150, 0xFF0000)
+        self.show_circle (930, 35, 150, 0xFF0000)
+        self.show_circle (1080, 35, 150, 0xFF0000)
+
+        self.show_circle (30, 185, 150, 0xFF0000)
+        self.show_circle (180, 185, 150, 0xFF0000)
+        self.show_circle (330, 185, 150, 0xFF0000)
+        self.show_circle (480, 185, 150, 0xFF0000)
+
+        self.show_circle (1080, 635, 200, 0xFF0000)
+        self.show_circle (880, 635, 200, 0xFF0000)
+        self.show_circle (680, 635, 200, 0xFF0000)
+        self.show_circle (480, 635, 200, 0xFF0000)
+
+        self.show_circle (35, 590, 300, 0xFF0000)
+
+        #Identifying
+        self.media_Type("MediaType")
+        self.watch_Status("WatchStatus")
+        self.rating_List("Rating")
+        self.genre_List("Genre")
+        self.length_List("Length")
+        self.year_List("Year")
+        self.tags_List("Tags")
+        self.studio_List("Studio")
+        self.most_Watched("MostWatched")
+        self.casts_List("Casts")
+        self.director_List("Director")
+        self.include_List("Include")
+
+        self.playOne("Play One")
+        self.loopPlay("Loop Play")
+        self.showList("Show List")
+        self.saveSearch("Save")
+        self.shutDown("ShutDown Time")
+        self.time("Hour          Min")
+
+
+        self.list1 = xbmcgui.ControlList(0, 100, 300, 200, _shadowColor=0xFF000000)
         self.addControl(self.list1)
         for item in dummy_list:
             self.list1.addItem(str(item))
         self.list1.setVisible(False)
 
-        self.watchStatus = xbmcgui.ControlButton(150, 10, 200, 106, "    ")
-        self.addControl(self.watchStatus)
         self.list2 = xbmcgui.ControlList(110, 100, 300, 200)
         self.addControl(self.list2)
         for item in dummy_list:
             self.list2.addItem(str(item))
         self.list2.setVisible(False)
 
-        self.ratingList = xbmcgui.ControlButton(300, 10, 200, 106, "    ")
-        self.addControl(self.ratingList)
-        self.list3 = xbmcgui.ControlList(260, 100, 300, 100)
+        self.list3 = xbmcgui.ControlList(260, 100, 300, 200)
         self.addControl(self.list3)
         for item in dummy_list:
             self.list3.addItem(str(item))
         self.list3.setVisible(False)
 
-        self.genreList = xbmcgui.ControlButton(450, 10, 200, 106, "    ")
-        self.addControl(self.genreList)
-        self.list4 = xbmcgui.ControlList(410, 100, 300, 106)
+        self.list4 = xbmcgui.ControlList(440, 100, 300, 200)
         self.addControl(self.list4)
         for item in metaData.getGenres():
-            self.list4.addItem(str(item))
+            self.list4.addItem(item[1])
         self.list4.setVisible(False)
 
-        self.lengthList = xbmcgui.ControlButton(150, 10, 200, 106, "    ")
-        self.addControl(self.lengthList)
-        self.list5 = xbmcgui.ControlList(110, 100, 300, 200)
+        self.list5 = xbmcgui.ControlList(520, 100, 300, 200)
         self.addControl(self.list5)
         for item in dummy_list:
             self.list5.addItem(str(item))
         self.list5.setVisible(False)
 
-        self.yearList = xbmcgui.ControlButton(600, 10, 200, 106, "    ")
-        self.addControl(self.yearList)
-        self.list6 = xbmcgui.ControlList(460, 100, 300, 100)
+        self.list6 = xbmcgui.ControlList(710, 100, 300, 200)
         self.addControl(self.list6)
         for item in dummy_list:
             self.list6.addItem(str(item))
         self.list6.setVisible(False)
 
-        self.tagsList = xbmcgui.ControlButton(750, 10, 200, 106, "    ")
-        self.addControl(self.tagsList)
-        self.list7 = xbmcgui.ControlList(710, 100, 300, 100)
+        self.list7 = xbmcgui.ControlList(890, 100, 300, 200)
         self.addControl(self.list7)
         for item in metaData.getTags():
-            self.list7.addItem(str(item))
+            self.list7.addItem(item[1])
         self.list7.setVisible(False)
 
-        self.studioList = xbmcgui.ControlButton(900, 10, 200, 100, "    ")
-        self.addControl(self.studioList)
-        self.list8 = xbmcgui.ControlList(860, 100, 300, 100)
+        self.list8 = xbmcgui.ControlList(1040, 100, 300, 200)
         self.addControl(self.list8)
         for item in metaData.getStudios():
-            self.list8.addItem(str(item))
+            self.list8.addItem(item[1])
         self.list8.setVisible(False)
 
-        self.mostWatched = xbmcgui.ControlButton(1050, 10, 200, 106, "    ")
-        self.addControl(self.mostWatched)
-        self.list9 = xbmcgui.ControlList(1010, 100, 300, 100)
+        self.list9 = xbmcgui.ControlList(0, 250, 300, 200)
         self.addControl(self.list9)
         for item in dummy_list:
             self.list9.addItem(str(item))
         self.list9.setVisible(False)
 
-        self.castsList = xbmcgui.ControlButton(0, 160, 200, 106, "    ")
-        self.addControl(self.castsList)
-        self.list10 = xbmcgui.ControlList(0, 250, 300, 200)
+        self.list10 = xbmcgui.ControlList(150, 250, 300, 200)
         self.addControl(self.list10)
         for item in metaData.getActors():
-            self.list10.addItem(str(item))
+            self.list10.addItem(item[1])
         self.list10.setVisible(False)
 
-        self.directorList = xbmcgui.ControlButton(150, 160, 200, 106, "    ")
-        self.addControl(self.directorList)
-        self.list11 = xbmcgui.ControlList(110, 250, 300, 200)
+        self.list11 = xbmcgui.ControlList(300, 250, 300, 200)
         self.addControl(self.list11)
         for item in metaData.getDirectors():
-            self.list11.addItem(str(item))
+            self.list11.addItem(item[1])
         self.list11.setVisible(False)
 
+        self.list12 = xbmcgui.ControlList(410, 250, 300, 200)
+        self.addControl(self.list12)
+        for item in dummy_list:
+            self.list12.addItem(str(item))
+        self.list12.setVisible(False)
 
-
-    
 
     def onAction(self, action: xbmcgui.Action) -> None:
-        print(f"action: {action}")
+        # print(f"action: {action}")
         if action == xbmcgui.ACTION_PREVIOUS_MENU:
             self.close()
 
@@ -232,94 +303,63 @@ class MyWindow(xbmcgui.Window):
             control = self.getFocus()
             if control.getId() == self.mediaType.getId():
                 self.list1.setVisible(not self.list1.isVisible())
-            text = "visible" if self.list1.isVisible() else "invisible"
-            xbmc.log("button was pressed, list1 is now " + text)
+                text = "visible" if self.list1.isVisible() else "invisible"
+                xbmc.log("button was pressed, list1 is now " + text)
 
-        if action == xbmcgui.ACTION_MOUSE_LEFT_CLICK:
-            control = self.getFocus()
             if control.getId() == self.watchStatus.getId():
                 self.list2.setVisible(not self.list2.isVisible())
-            text = "visible" if self.list2.isVisible() else "invisible"
-            xbmc.log("button was pressed, list2 is now " + text)
+                text = "visible" if self.list2.isVisible() else "invisible"
+                xbmc.log("button was pressed, list2 is now " + text)
 
-        if action == xbmcgui.ACTION_MOUSE_LEFT_CLICK:
-            control = self.getFocus()
             if control.getId() == self.ratingList.getId():
                 self.list3.setVisible(not self.list3.isVisible())
-            text = "visible" if self.list3.isVisible() else "invisible"
-            xbmc.log("button was pressed, list3 is now " + text)
+                text = "visible" if self.list3.isVisible() else "invisible"
+                xbmc.log("button was pressed, list3 is now " + text)
 
-        if action == xbmcgui.ACTION_MOUSE_LEFT_CLICK:
-            control = self.getFocus()
             if control.getId() == self.genreList.getId():
                 self.list4.setVisible(not self.list4.isVisible())
-            text = "visible" if self.list4.isVisible() else "invisible"
-            xbmc.log("button was pressed, list4 is now " + text)
+                text = "visible" if self.list4.isVisible() else "invisible"
+                xbmc.log("button was pressed, list4 is now " + text)
 
-        if action == xbmcgui.ACTION_MOUSE_LEFT_CLICK:
-            control = self.getFocus()
             if control.getId() == self.lengthList.getId():
                 self.list5.setVisible(not self.list5.isVisible())
-            text = "visible" if self.list5.isVisible() else "invisible"
-            xbmc.log("button was pressed, list5 is now " + text)
+                text = "visible" if self.list5.isVisible() else "invisible"
+                xbmc.log("button was pressed, list5 is now " + text)
 
-        if action == xbmcgui.ACTION_MOUSE_LEFT_CLICK:
-            control = self.getFocus()
             if control.getId() == self.yearList.getId():
                 self.list6.setVisible(not self.list6.isVisible())
-            text = "visible" if self.list6.isVisible() else "invisible"
-            xbmc.log("button was pressed, list6 is now " + text)
+                text = "visible" if self.list6.isVisible() else "invisible"
+                xbmc.log("button was pressed, list6 is now " + text)
 
-        if action == xbmcgui.ACTION_MOUSE_LEFT_CLICK:
-            control = self.getFocus()
             if control.getId() == self.tagsList.getId():
                 self.list7.setVisible(not self.list7.isVisible())
-            text = "visible" if self.list7.isVisible() else "invisible"
-            xbmc.log("button was pressed, list7 is now " + text)
+                text = "visible" if self.list7.isVisible() else "invisible"
+                xbmc.log("button was pressed, list7 is now " + text)
 
-        if action == xbmcgui.ACTION_MOUSE_LEFT_CLICK:
-            control = self.getFocus()
             if control.getId() == self.studioList.getId():
                 self.list8.setVisible(not self.list8.isVisible())
-            text = "visible" if self.list8.isVisible() else "invisible"
-            xbmc.log("button was pressed, list8 is now " + text)
+                text = "visible" if self.list8.isVisible() else "invisible"
+                xbmc.log("button was pressed, list8 is now " + text)
 
-        if action == xbmcgui.ACTION_MOUSE_LEFT_CLICK:
-            control = self.getFocus()
             if control.getId() == self.mostWatched.getId():
                 self.list9.setVisible(not self.list9.isVisible())
-            text = "visible" if self.list9.isVisible() else "invisible"
-            xbmc.log("button was pressed, list9 is now " + text)
+                text = "visible" if self.list9.isVisible() else "invisible"
+                xbmc.log("button was pressed, list9 is now " + text)
 
-        if action == xbmcgui.ACTION_MOUSE_LEFT_CLICK:
-            control = self.getFocus()
             if control.getId() == self.castsList.getId():
                 self.list10.setVisible(not self.list10.isVisible())
-            text = "visible" if self.list10.isVisible() else "invisible"
-            xbmc.log("button was pressed, list10 is now " + text)
+                text = "visible" if self.list10.isVisible() else "invisible"
+                xbmc.log("button was pressed, list10 is now " + text)
 
-        if action == xbmcgui.ACTION_MOUSE_LEFT_CLICK:
-            control = self.getFocus()
             if control.getId() == self.directorList.getId():
                 self.list11.setVisible(not self.list11.isVisible())
-            text = "visible" if self.list11.isVisible() else "invisible"
-            xbmc.log("button was pressed, list11 is now " + text)
+                text = "visible" if self.list11.isVisible() else "invisible"
+                xbmc.log("button was pressed, list11 is now " + text)
 
-
-
-
-
-
-
-
-
-
-
-
-
-        
-
-
+            if control.getId() == self.includeList.getId():
+                self.list12.setVisible(not self.list12.isVisible())
+                text = "visible" if self.list12.isVisible() else "invisible"
+                xbmc.log("button was pressed, list12 is now " + text)
 
 
      #Button displayed.
@@ -327,50 +367,6 @@ class MyWindow(xbmcgui.Window):
   #The Window
 def showGui():
     window = MyWindow()
-
-    #Orange
-    window.show_circle (30, 35, 150, 0xFF0000)
-    window.show_circle (180, 35, 150, 0xFF0000)
-    window.show_circle (330, 35, 150, 0xFF0000)
-    window.show_circle (480, 35, 150, 0xFF0000)
-    window.show_circle (630, 35, 150, 0xFF0000)
-    window.show_circle (780, 35, 150, 0xFF0000)
-    window.show_circle (930, 35, 150, 0xFF0000)
-    window.show_circle (1080, 35, 150, 0xFF0000)
-
-    window.show_circle (30, 185, 150, 0xFF0000)
-    window.show_circle (180, 185, 150, 0xFF0000)
-    window.show_circle (330, 185, 150, 0xFF0000)
-
-
-    window.show_circle (1080, 635, 200, 0xFF0000)
-    window.show_circle (880, 635, 200, 0xFF0000)
-    window.show_circle (680, 635, 200, 0xFF0000)
-    window.show_circle (480, 635, 200, 0xFF0000)
-
-    window.show_circle (35, 590, 300, 0xFF0000)
-
-    #Identifying
-    window.media_Type("MediaType")
-    window.watch_Status("WatchStatus")
-    window.rating_List("Rating")
-    window.genre_List("Genre")
-    window.length_List("Length")
-    window.year_List("Year")
-    window.tags_List("Tags")
-    window.studio_List("Studio")
-    window.most_Watched("MostWatched")
-    window.casts_List("Casts")
-    window.director_List("Director")
-
-    window.playOne("Play One")
-    window.loopPlay("Loop Play")
-    window.showList("Show List")
-    window.saveSearch("Save")
-    window.shutDown("ShutDown Time")
-    window.time("Hour          Min")
-
-
 
     # button.setNavigation( xbmcgui.ACTION_SELECT_ITEM, lambda: display_list() )
 
