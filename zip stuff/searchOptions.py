@@ -10,7 +10,7 @@ class SearchOptions:
         self.include = []
         self.exclude = []
         self.watchStatus = []
-        self.length = [0, 0] # time based in seconds
+        self.length = [0, 0]
         self.year = []
         self.rating = []
         self.mediaType = ['movie', 'episode']
@@ -197,28 +197,28 @@ def unitTest():
     # Genre Testing
     print('Genre')
     testCase.setGenre(['comedy', 'fantasy', 'crime'])
-    testCase.addGenre('adventure')
-    testCase.removeGenre('crime')
+    testCase.addGenre('action')
+    testCase.removeGenre('fantasy')
     print(testCase.getGenre())
 
     # Tag Testing
     print('Tag')
-    testCase.setTag(['frozen', 'princess', 'cartoon'])
-    testCase.addTag('winter')
-    testCase.removeTag('cartoon')
+    testCase.setTag(['disney', 'family-friendly', 'cartoon'])
+    testCase.addTag('magic')
+    testCase.removeTag('family-friendly')
     print(testCase.getTag())
 
     # Cast Testing
     print('Cast')
-    testCase.setCast(['Idina Mendzel', 'Kristen Bell', 'Tom Cruise'])
-    testCase.addCast('Josh Gad')
-    testCase.removeCast('Tom Cruise')
+    testCase.setCast(['Anne', 'Will Smith', 'Tom Cruise'])
+    testCase.addCast('Marilyn Monroe')
+    testCase.removeCast('Anne')
     print(testCase.getCast())
 
     # Director Testing
     print('Director')
-    testCase.setDirector(['Allison Schroeder', 'Jon Watts'])
-    testCase.addDirector('Jennifer Lee')
+    testCase.setDirector(['James Gunn', 'Kevin Feige', 'Jon Watts'])
+    testCase.addDirector('Joe Russo')
     testCase.removeDirector('Jon Watts')
     print(testCase.getDirector())
 
@@ -246,7 +246,6 @@ def unitTest():
     print('Remove Status: {}'.format(testCase.getWatchStatus()))
 
     # Length Testing
-    # Length of time in seconds
     print('Length')
     testCase.setMINLength(10)
     testCase.setMAXLength(1258)
@@ -254,16 +253,16 @@ def unitTest():
 
     # Year Testing
     print('Year')
-    testCase.setYear([2019, 2022, 1945])
-    testCase.addYear(1999)
-    testCase.removeYear(1945)
+    testCase.setYear([3, 5, 7])
+    testCase.addYear(1)
+    testCase.removeYear(3)
     print(testCase.getYear())
 
     # Rating Testing
     print('Rating')
-    testCase.setRating(["Rated R"])
-    testCase.addRating("Rated PG")
-    testCase.removeRating("Rated R")
+    testCase.setRating([3, 5, 7])
+    testCase.addRating(1)
+    testCase.removeRating(3)
     print(testCase.getRating())
 
     # Media Type Testing
@@ -274,9 +273,9 @@ def unitTest():
 
     # Studio Testing
     print('Studio')
-    testCase.setStudio(['Universal'])
-    testCase.addStudio('Walt Disney Pictures')
-    testCase.removeStudio('Universal')
+    testCase.setStudio(['Universal', 'Paramount Pictures', 'Disney'])
+    testCase.addStudio('Columbia')
+    testCase.removeStudio('Disney')
     print(testCase.getStudio())
 
     # Most Watched Testing

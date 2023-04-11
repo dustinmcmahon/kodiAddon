@@ -1,5 +1,14 @@
 # Change Log
 
+### 4/10/23
+- updated test cases in search options
+- updated search profile save rating function to use a string instead of an int
+- filter function working in that it pulls back a list of movies
+- added getMovies, getYears, and getRatings to the metaData class
+
+### 4/7/23
+- Uploaded gui.py
+
 ### 4/6/23
 - updated search option test cases to work with strings and not numbers
 - finished create/delete functions for profiles

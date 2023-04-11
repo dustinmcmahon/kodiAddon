@@ -67,6 +67,15 @@ def addProfile(name: str, options: searchOptions):
     connection.commit()
     connection.close()
 
+def getProfile(name: str):
+    connection = sqlite3.connect(kesDBPath)
+    cursor = connection.cursor()
+    profileID = _getProfileID(name, cursor)
+    profile = _getProfileOptions(profileID, cursor)
+    connection.commit()
+    connection.close()
+    return profile
+
 # ************************
 # ** Private Functions ***
 # ************************
@@ -103,7 +112,6 @@ def _addGenres(profileID: int, genres, cursor: sqlite3.Cursor):
         defaultID = cursor.execute("SELECT id FROM searchOptionType WHERE title = 'genre';").fetchall()[0][0]
         for x in genres:
             valueList = "('{}',{},{})".format(x,profileID,defaultID) if valueList == "" else "{},('{}',{},{})".format(valueList, x,profileID,defaultID)
-        print(valueList)
         cursor.execute("INSERT INTO profileOptions (value,r_profile,r_searchOptionType) VALUES {};".format(valueList))
 
 # Trigger CRUD Operations for tags
@@ -181,7 +189,7 @@ def _addRating(profileID: int, rating, cursor: sqlite3.Cursor):
         valueList = ""
         defaultID = cursor.execute("SELECT id FROM searchOptionType WHERE title = 'rating';").fetchall()[0][0]
         for x in rating:
-            valueList = "({},{},{})".format(x,profileID,defaultID) if valueList == "" else "{},({},{},{})".format(valueList, x,profileID,defaultID)
+            valueList = "('{}',{},{})".format(x,profileID,defaultID) if valueList == "" else "{},('{}',{},{})".format(valueList, x,profileID,defaultID)
         cursor.execute("INSERT INTO profileOptions (value,r_profile,r_searchOptionType) VALUES {};".format(valueList))
 
 # Trigger CRUD Operations for media type
@@ -213,6 +221,13 @@ def _deleteAllOptions(profileID: int, cursor: sqlite3.Cursor):
 def _deleteProfile(profileID: int, cursor: sqlite3.Cursor):
     cursor.execute("DELETE FROM profile WHERE id = {}".format(profileID))
 
+def _getProfileOptions(profileID: int, cursor: sqlite3.Cursor):
+    profile = searchOptions()
+
+    # this will call a bunch of _get* functions to get the array of values for each property
+
+    return profile
+
 # test cases
 def unitTest(options: searchOptions):
 
@@ -221,3 +236,4 @@ def unitTest(options: searchOptions):
 
     removeProfile('dustin')
     print('Profile Deleted')
+

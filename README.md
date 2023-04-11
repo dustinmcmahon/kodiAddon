@@ -7,6 +7,6 @@ CSC380 Kodi Addon
 3. Navigate to the desired directory
 4. Enter the command
     ```
-    git clone https://github.com/dustinmcmahon/kodiAddon.git
+    git clone git@github.com:dustinmcmahon/kodiAddon.git
     ```
 5. Begin editing code
