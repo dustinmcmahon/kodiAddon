@@ -1,5 +1,10 @@
 # Change Log
 
+### 4/11/23
+- merged into main the GUI updates
+- fixed issue with year being stored as an int when it should be a string
+- updated test cases for searchOptions
+
 ### 4/10/23
 - updated test cases in search options
 - updated search profile save rating function to use a string instead of an int

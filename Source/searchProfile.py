@@ -180,7 +180,7 @@ def _addYears(profileID: int, years, cursor: sqlite3.Cursor):
         valueList = ""
         defaultID = cursor.execute("SELECT id FROM searchOptionType WHERE title = 'year';").fetchall()[0][0]
         for x in years:
-            valueList = "({},{},{})".format(x,profileID,defaultID) if valueList == "" else "{},({},{},{})".format(valueList, x,profileID,defaultID)
+            valueList = "('{}',{},{})".format(x,profileID,defaultID) if valueList == "" else "{},('{}',{},{})".format(valueList, x,profileID,defaultID)
         cursor.execute("INSERT INTO profileOptions (value,r_profile,r_searchOptionType) VALUES {};".format(valueList))
 
 # Trigger CRUD Operations for rating

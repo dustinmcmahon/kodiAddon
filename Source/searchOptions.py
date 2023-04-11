@@ -254,9 +254,9 @@ def unitTest():
 
     # Year Testing
     print('Year')
-    testCase.setYear([2019, 2022, 1945])
-    testCase.addYear(1999)
-    testCase.removeYear(1945)
+    testCase.setYear(['2019', '2022', '1945'])
+    testCase.addYear('1999')
+    testCase.removeYear('1945')
     print(testCase.getYear())
 
     # Rating Testing
