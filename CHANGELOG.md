@@ -1,5 +1,10 @@
 # Change Log
 
+### 4/7/23
+- updated test cases in search options
+- updated search profile save rating function to use a string instead of an int
+- filter function working in that it pulls back a list of movies
+
 ### 4/6/23
 - updated search option test cases to work with strings and not numbers
 - finished create/delete functions for profiles

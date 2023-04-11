@@ -189,7 +189,7 @@ def _addRating(profileID: int, rating, cursor: sqlite3.Cursor):
         valueList = ""
         defaultID = cursor.execute("SELECT id FROM searchOptionType WHERE title = 'rating';").fetchall()[0][0]
         for x in rating:
-            valueList = "({},{},{})".format(x,profileID,defaultID) if valueList == "" else "{},({},{},{})".format(valueList, x,profileID,defaultID)
+            valueList = "('{}',{},{})".format(x,profileID,defaultID) if valueList == "" else "{},('{}',{},{})".format(valueList, x,profileID,defaultID)
         cursor.execute("INSERT INTO profileOptions (value,r_profile,r_searchOptionType) VALUES {};".format(valueList))
 
 # Trigger CRUD Operations for media type
