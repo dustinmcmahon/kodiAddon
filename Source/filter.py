@@ -68,7 +68,7 @@ def filter(options: searchOptions):
                 "jsonrpc": "2.0",
                 "method": "VideoLibrary.GetMovies",
                 "params": {
-                    "filter": { "or" : filterList }, # get_genre_filer() = {"field": "genre", "operator": "is", "value": genre}
+                    "filter": { "and" : filterList }, # get_genre_filer() = {"field": "genre", "operator": "is", "value": genre}
                     "properties": ["art", "thumbnail", "playcount", "file", "runtime", "genre", "tag", "cast", "director", "year", "studio", "mpaa", "rating", "userrating"],
                     "sort": {"order": "ascending", "method": "label"}
                 },

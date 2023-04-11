@@ -30,11 +30,15 @@ def getMetaData(dataType):
 
 
 def testMetaData():
+    print("Testing Meta Data Functions")
     print("Testing Actors: {}".format(getActors()))
     print("Testing Directors: {}".format(getDirectors()))
     print("Testing Genre: {}".format(getGenres()))
     print("Testing Studio: {}".format(getStudios()))
     print("Testing Tags: {}".format(getTags()))
+    print("Testing Ratings: {}".format(getRatings()))
+    print("Testing Years: {}".format(getYears()))
+    print("Testing Movies: {}".format(getMovies()))
 
 
 def getActors():
@@ -95,3 +99,28 @@ def getTags():
     connection.commit()
     connection.close()
     return tags
+
+def getRatings():
+    connection = sqlite3.connect(videoDB)
+    ratings = connection.cursor().execute('SELECT DISTINCT c12 FROM movie').fetchall()
+    connection.commit()
+    connection.close()
+    return ratings
+
+def getYears():
+    connection = sqlite3.connect(videoDB)
+    years = connection.cursor().execute('SELECT premiered FROM movie').fetchall()
+    connection.commit()
+    connection.close()
+    result = []
+    for x in years:
+        if (result.count(x) == 0):
+            result.append(x)
+    return result
+
+def getMovies():
+    connection = sqlite3.connect(videoDB)
+    movies = connection.cursor().execute('SELECT idMovie,c00 FROM movie').fetchall()
+    connection.commit()
+    connection.close()
+    return movies
