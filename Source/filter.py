@@ -12,6 +12,7 @@ import searchOptions
 
 # {"field": name, "operator": "contains", "value": ["", "", ""]}
 # {"field": name, "operator": "is", "value": ""}
+
 def _filterList_(name,valueList):
     defaultReturn = {}
     if len(valueList) == 1:
@@ -23,6 +24,45 @@ def _filterList_(name,valueList):
             defaultReturn.append(x)
         defaultReturn = {"operator": "contains", "field": name, "value": defaultReturn}
     return defaultReturn
+
+def _filterIncExc(videoList, inList, exList):
+    returnList = []
+    if (len(inList) < len(exList)):
+        for x in inList:
+            for y in videoList:
+                if (x == y['movieid']):
+                    returnList.append(y)
+    else:
+        for x in exList:
+            for y in videoList:
+                if(x == y['movieid']):
+                    videoList.remove(y)
+        returnList = videoList
+    return returnList
+    
+        
+
+def _filterLength(videos, lengths):
+    returnVideos = videos
+
+    for x in returnVideos:
+        if ((( lengths[0] != 0 ) & ( x['runtime'] < lengths[0] )) | (( lengths[1] != 0 ) & ( x['runtime'] > lengths[1] ))):
+            print('removed Movie {}'.format(x['movieid']))
+            returnVideos.remove(x)
+
+    '''if (lengths[0] != 0):
+        for x in returnVideos:
+            print("runTime: {} Min Length: {}".format(x['runtime'], lengths[0]))
+            if (x['runtime'] < lengths[0]):
+                print('removed Movie {}'.format(x['movieid']))
+                returnVideos.remove(x)
+    if (lengths[1] != 0):
+        for y in returnVideos:
+            print("runTime: {} Max Length: {}".format(y['runtime'], lengths[1]))
+            if (y['runtime'] > lengths[1]):
+                print('removed Movie {}'.format(y['movieid']))
+                returnVideos.remove(y)'''
+    return returnVideos
 
 # Filter function
 ## Pass in the Search Options
@@ -44,14 +84,12 @@ def filter(options: searchOptions):
         filterList.append(castFilter)
     if directorFilter != {}:
         filterList.append(directorFilter)
-    '''if yearFilter != {}:
-        filterList.append(yearFilter)'''
+    if yearFilter != {}:
+        filterList.append(yearFilter)
     if studioFilter != {}:
         filterList.append(studioFilter)
     if ratingFilter != {}:
         filterList.append(ratingFilter)
-
-    print (filterList)
 
     # if movie type
     # function call to get movie list
@@ -68,8 +106,8 @@ def filter(options: searchOptions):
                 "jsonrpc": "2.0",
                 "method": "VideoLibrary.GetMovies",
                 "params": {
-                    "filter": { "and" : filterList }, # get_genre_filer() = {"field": "genre", "operator": "is", "value": genre}
-                    "properties": ["art", "thumbnail", "playcount", "file", "runtime", "genre", "tag", "cast", "director", "year", "studio", "mpaa", "rating", "userrating"],
+                    "filter": { "or" : filterList }, # get_genre_filer() = {"field": "genre", "operator": "is", "value": genre}
+                    "properties": ["art", "thumbnail", "playcount", "file", "runtime", "rating"],
                     "sort": {"order": "ascending", "method": "label"}
                 },
                 "id": "library"}
@@ -88,19 +126,26 @@ def filter(options: searchOptions):
             print(command)
             episodeList = json.loads(xbmc.executeJSONRPC(json.dumps(command)))
 
-    #videoList = episodeList + movieList
-    print(episodeList)
-    print(movieList)
+    videoList = []
+    if (episodeList != []):
+        videoList += episodeList
+    if (movieList['result']['movies'] != []):
+        videoList += movieList['result']['movies']
 
-    '''videoList = filterIncExc(videoList, options.getInclude(), options.getExclude())
-    videoList = filterLength(videoList, options.getInclude(), options.getExclude())
+    videoList = _filterIncExc(videoList, options.getInclude(), options.getExclude())
+    videoList = _filterLength(videoList, options.getLength())
 
+    print("Video List:")
+    print(videoList)
+
+    '''
     if options.getPBFunction() == 1:
         playOne(videoList)
     elif options.getPBFunction() == 2:
         showList(videoList)
     elif options.getPBFunction() == 3:
-        loopPlay(videoList)'''
+        loopPlay(videoList)
+    '''
 
 
 def unitTest(options: searchOptions):

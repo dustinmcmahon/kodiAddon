@@ -190,8 +190,30 @@ class SearchOptions:
 
 # Unit Test Cases
 
+# create a set of search options to test episodes
+def unitTestEpisode():
+    
+    testCase = SearchOptions()
+    testCase.setCast([''])
+    testCase.setExclude()
+    testCase.setGenre(['comedy', 'action', 'adventure'])
+    testCase.setTag(['cartoon'])
+    testCase.setInclude([1, 2, 3, 4, 5])
+    testCase.setMAXLength()
+    testCase.setMINLength()
+    testCase.setStudio()
+    testCase.setRating()
+    testCase.setDirector()
+    testCase.setWatchStatus()
+    testCase.setYear([2022, 2023, 2020, 2021])
+    testCase.setMediaType(['episode'])
+    testCase.setPBFunction(1)
+    testCase.setMostWatched(False)
 
-def unitTest():
+    return testCase
+
+# full test with add and remove
+def unitTestMovie():
     testCase = SearchOptions()
 
     # Genre Testing
