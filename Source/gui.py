@@ -3,6 +3,10 @@ import xbmc
 import xbmcaddon
 import metaData
 
+class IncludeWindow(xbmcgui.Window):
+    # TODO: write the code
+    pass
+
 #Try again later
 dummy_list = [
         {'MediaType':'Movie', 'Name': 'Movie 1', 'Rating': '5', 'Genre': 'Horror', 'Length': '130', 'Year': '2019'},
@@ -10,6 +14,13 @@ dummy_list = [
         {'MediaType':'Movie', 'Name': 'Movie 2', 'Rating': '4', 'Genre': 'Comedy', 'Length': '90', 'Year': '2023'},
         {'MediaType':'Movie', 'Name': 'Movie 3', 'Rating': '3', 'Genre': 'Action', 'Length': '120', 'Year': '2022'},
         {'MediaType':'Episode', 'Name': 'Epsode 2', 'Rating': '1', 'Genre': 'Romance', 'Length': '20', 'Year': '2021'}
+]
+media_Length_List = [
+    "0 to 30 minutes", "0 to 60 minutes", "0 to 90 minutes",
+    "0 to 120 minutes", "30 to 60 minutes", "30 to 90 minutes",
+    "30 to 120 minutes", "60 to 90 minutes", "60 to 120 minutes",
+    "90 to 120 minutes", "30 minutes and more ", "60 minutes and more ",
+    "90 minutes and more ","120 minutes and more "
 ]
 
 
@@ -22,6 +33,17 @@ if xbmc.getCondVisibility('system.platform.osx') or xbmc.getCondVisibility('syst
 
 imagesFolder = addon.getAddonInfo('path') + "/images/"
 
+
+def show_options_window():
+    # Create a window from the XML file
+    optionspath = addon.getAddonInfo('path') + "optionsWindow.xml"
+    dialog = xbmcgui.WindowXMLDialog(optionspath)
+
+    # Display the window
+    dialog.doModal()
+
+def options():
+    show_options_window()
 class MyWindow(xbmcgui.Window):
     # def display_list(self):
     #         dialog = xbmcgui.Dialog()
@@ -101,11 +123,22 @@ class MyWindow(xbmcgui.Window):
         self.addControl(label)
     
 
-       #The Orange
+       #The images
     def show_circle(self, x, y, radius, color):
         circlePath = imagesFolder + "circle.png"
         circle = xbmcgui.ControlImage(x, y, radius, radius, circlePath, color)
         self.addControl(circle)
+
+    def show_backList(self, x, y, radius, color):
+        backPath = imagesFolder + "ListBackground.png"
+        backgroundList = xbmcgui.ControlImage(x, y, radius, radius, backPath, color)
+        self.addControl(backgroundList)
+
+    def show_timerSquare(self, x, y, radius, color):
+        timerPath = imagesFolder + "TimeBackground.png"
+        timeGroundList = xbmcgui.ControlImage(x, y, radius, radius, timerPath, color)
+        self.addControl(timeGroundList)
+        return timeGroundList
 
     # def onClick(self, controlId: int):
     #     xbmc.log(f"something was clicked! {controlId}")
@@ -198,6 +231,9 @@ class MyWindow(xbmcgui.Window):
         self.show_circle (480, 635, 200, 0xFF0000)
 
         self.show_circle (35, 590, 300, 0xFF0000)
+        # self.show_timerSquare(120, 630, 100, 0xFF0000)
+        # self.show_timerSquare(205, 630, 100, 0xFF0000)
+
 
         #Identifying
         self.media_Type("MediaType")
@@ -221,19 +257,21 @@ class MyWindow(xbmcgui.Window):
         self.time("Hour          Min")
 
 
-        self.list1 = xbmcgui.ControlList(0, 100, 300, 200, _shadowColor=0xFF000000)
+        self.list1 = xbmcgui.ControlList(0, 100, 300, 200)
         self.addControl(self.list1)
-        for item in dummy_list:
-            self.list1.addItem(str(item))
+        self.list1.addItem(str("Movies"))
+        self.list1.addItem(str("Episodes"))
         self.list1.setVisible(False)
 
-        self.list2 = xbmcgui.ControlList(110, 100, 300, 200)
+        self.list2 = xbmcgui.ControlList(150, 100, 300, 200)
         self.addControl(self.list2)
-        for item in dummy_list:
-            self.list2.addItem(str(item))
+        self.list2.addItem(str("Watched"))
+        self.list2.addItem(str("Unwatched"))
         self.list2.setVisible(False)
 
         self.list3 = xbmcgui.ControlList(260, 100, 300, 200)
+        self.listBack3 = self.show_timerSquare(200, 100, 900, 0xFF0000)
+        self.listBack3.setVisible(False)
         self.addControl(self.list3)
         for item in dummy_list:
             self.list3.addItem(str(item))
@@ -245,15 +283,15 @@ class MyWindow(xbmcgui.Window):
             self.list4.addItem(item[1])
         self.list4.setVisible(False)
 
-        self.list5 = xbmcgui.ControlList(520, 100, 300, 200)
+        self.list5 = xbmcgui.ControlList(600, 100, 300, 200)
         self.addControl(self.list5)
-        for item in dummy_list:
+        for item in media_Length_List:
             self.list5.addItem(str(item))
         self.list5.setVisible(False)
 
         self.list6 = xbmcgui.ControlList(710, 100, 300, 200)
         self.addControl(self.list6)
-        for item in dummy_list:
+        for item in dummy_list: 
             self.list6.addItem(str(item))
         self.list6.setVisible(False)
 
@@ -296,7 +334,7 @@ class MyWindow(xbmcgui.Window):
 
     def onAction(self, action: xbmcgui.Action) -> None:
         # print(f"action: {action}")
-        if action == xbmcgui.ACTION_PREVIOUS_MENU:
+        if action == xbmcgui.ACTION_PREVIOUS_MENU or action == xbmcgui.ACTION_NAV_BACK:
             self.close()
 
         if action == xbmcgui.ACTION_MOUSE_LEFT_CLICK:
@@ -312,8 +350,11 @@ class MyWindow(xbmcgui.Window):
                 xbmc.log("button was pressed, list2 is now " + text)
 
             if control.getId() == self.ratingList.getId():
+                self.listBack3.setVisible(not self.listBack3.isVisible())
                 self.list3.setVisible(not self.list3.isVisible())
                 text = "visible" if self.list3.isVisible() else "invisible"
+                text2 = "visible" if self.listBack3.isVisible() else "invisible"
+                xbmc.log("button was pressed, List Background is now " + text2)
                 xbmc.log("button was pressed, list3 is now " + text)
 
             if control.getId() == self.genreList.getId():
@@ -336,6 +377,17 @@ class MyWindow(xbmcgui.Window):
                 text = "visible" if self.list7.isVisible() else "invisible"
                 xbmc.log("button was pressed, list7 is now " + text)
 
+            #The getting options thing
+            if control.getId() == self.list7.getId():
+                global TagsItem
+                SelectedTagItem = self.list7.getSelectedItem()
+                self.This = SelectedTagItem.getlabel()
+                xbmc.log( SelectedTagItem.getLabel() + " was clicked from Tags option")
+                TagsItem = SelectedTagItem
+
+                
+            
+
             if control.getId() == self.studioList.getId():
                 self.list8.setVisible(not self.list8.isVisible())
                 text = "visible" if self.list8.isVisible() else "invisible"
@@ -357,9 +409,21 @@ class MyWindow(xbmcgui.Window):
                 xbmc.log("button was pressed, list11 is now " + text)
 
             if control.getId() == self.includeList.getId():
+                blankWindow = xbmcgui.Window()
+                blankWindow.doModal()
+                del blankWindow
+
                 self.list12.setVisible(not self.list12.isVisible())
                 text = "visible" if self.list12.isVisible() else "invisible"
                 xbmc.log("button was pressed, list12 is now " + text)
+
+
+
+
+TagsItem = None
+def getTagsItem() -> str:
+    return TagsItem
+
 
 
      #Button displayed.

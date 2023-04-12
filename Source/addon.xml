@@ -6,7 +6,19 @@
 	<extension point="xbmc.python.script" library="default.py">
 		<provides>videos</provides>
 	</extension>
+	
 	<extension point="xbmc.addon.metadata">
+		<contextmenu>
+        	<item label="Options" oncontextmenu="RunPlugin(plugin://addon.id/?action=options)"/>
+    	</contextmenu>
+
+		<menu id="kodi.core.main">
+			<item library="contextitem.py">
+				<label>30000</label>
+				<visible>true</visible>
+			</item>
+		</menu>
+
 		<platform>all</platform>
 		<summary lang="en">An Addon that will help you choose what to what to watch</summary>
 		<description lang="en">KES arranges all of your collection's movies and TV episodes, making it simple to find what you want to watch on your device.</description>
