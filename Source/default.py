@@ -7,13 +7,18 @@ import searchOptions
 import searchProfile
 import filter
 import gui
-#import kesGUI
+# import kesGUI
 
 searchProfile.install()
 
 addon = xbmcaddon.Addon()
 
-#interface = kesGUI.build()
+##
+
+##
+
+# interface = kesGUI.build()
+
 
 class MyPlayer(xbmcgui.Window):
     def __init__(self):
@@ -32,6 +37,7 @@ class MyPlayer(xbmcgui.Window):
     #     if controlID == 10:
     #         play_random_movie()
 
+
 """
 if (__name__ == "__main__"):
     w = MyPlayer()
@@ -39,12 +45,14 @@ if (__name__ == "__main__"):
     del w
 """
 
-#**********************
+# **********************
 '''
 This is a function where we can compile all of our unit tests
 Each Python file should have a single unit test function to test all other functions
 '''
-#**********************
+# **********************
+
+
 def unitTest():
     # JSON RPC Testing
     print('** JSON GETS TESTING **')
@@ -67,6 +75,7 @@ def unitTest():
     # Filter Unit Tests
     print('** FILTER TESTING **')
     filter.unitTest(options)
+
 
 unitTest()
 
