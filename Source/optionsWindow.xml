@@ -1,0 +1,7 @@
+<window>
+    <controls>
+        <button id="button1" label="Button 1"/>
+        <button id="button2" label="Button 2"/>
+        <button id="button3" label="Button 3"/>
+    </controls>
+</window>
