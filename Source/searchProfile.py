@@ -147,7 +147,7 @@ def _addIncludes(profileID: int, includes, cursor: sqlite3.Cursor):
         valueList = ""
         defaultID = cursor.execute("SELECT id FROM searchOptionType WHERE title = 'include';").fetchall()[0][0]
         for x in includes:
-            valueList = "({},{},{})".format(x,profileID,defaultID) if valueList == "" else "{},({},{},{})".format(valueList, x,profileID,defaultID)
+            valueList = "('{}',{},{})".format(x,profileID,defaultID) if valueList == "" else "{},('{}',{},{})".format(valueList, x,profileID,defaultID)
         cursor.execute("INSERT INTO profileOptions (value,r_profile,r_searchOptionType) VALUES {};".format(valueList))
 
 # Trigger CRUD Operations for exclude list
@@ -156,7 +156,7 @@ def _addExcludes(profileID: int, excludes, cursor: sqlite3.Cursor):
         valueList = ""
         defaultID = cursor.execute("SELECT id FROM searchOptionType WHERE title = 'exclude';").fetchall()[0][0]
         for x in excludes:
-            valueList = "({},{},{})".format(x,profileID,defaultID) if valueList == "" else "{},({},{},{})".format(valueList, x,profileID,defaultID)
+            valueList = "('{}',{},{})".format(x,profileID,defaultID) if valueList == "" else "{},('{}',{},{})".format(valueList, x,profileID,defaultID)
         cursor.execute("INSERT INTO profileOptions (value,r_profile,r_searchOptionType) VALUES {};".format(valueList))
 
 # Trigger CRUD Operations for Watch Status

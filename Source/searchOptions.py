@@ -194,18 +194,18 @@ class SearchOptions:
 def unitTestEpisode():
     
     testCase = SearchOptions()
-    testCase.setCast([''])
-    testCase.setExclude()
-    testCase.setGenre(['comedy', 'action', 'adventure'])
-    testCase.setTag(['cartoon'])
-    testCase.setInclude([1, 2, 3, 4, 5])
-    testCase.setMAXLength()
-    testCase.setMINLength()
-    testCase.setStudio()
-    testCase.setRating()
-    testCase.setDirector()
-    testCase.setWatchStatus()
-    testCase.setYear([2022, 2023, 2020, 2021])
+    testCase.setCast(['Atsushi Tamaru','Tadashi Miyazawa','Kousuke Toriumi'])
+    testCase.setExclude(["The Apocalypse","The Battle of Loka","The Depths of Palm","Escape"])
+    testCase.setGenre(['Science Fiction', 'Fantasy', 'Drama'])
+    testCase.setTag(['fighting'])
+    testCase.setInclude(["The Chou Family's Secret?", "Master and Servant", "Lie", "Chaos", "Welcome to Express Delivery"])
+    testCase.setMINLength(1300)
+    testCase.setMAXLength(1600)
+    testCase.setStudio(['Tencent Video'])
+    testCase.setRating([])
+    testCase.setDirector([])
+    testCase.setWatchStatus([0,1])
+    testCase.setYear(['2016', '2017', '2018', '2019', '2020', '2021', '2022'])
     testCase.setMediaType(['episode'])
     testCase.setPBFunction(1)
     testCase.setMostWatched(False)
@@ -246,16 +246,16 @@ def unitTestMovie():
 
     # Include Testing
     print('Include')
-    testCase.setInclude([3, 5, 7])
-    testCase.addInclude(1)
-    testCase.removeInclude(3)
+    testCase.setInclude(["Long Shot", "Frozen II"])
+    testCase.addInclude("Frozen")
+    testCase.removeInclude("Long Shot")
     print(testCase.getInclude())
 
     # Exclude Testing
     print('Exclude')
-    testCase.setExclude([3, 5, 7])
-    testCase.addExclude(1)
-    testCase.removeExclude(3)
+    testCase.setExclude(["Rise of the Guardians", "Fantastic Beasts: The Crimes of Grindelwald", "Fantastic Beasts: The Secrets of Dumbledore", "Fantastic Beasts and Where to Find Them", "Frozen"])
+    testCase.addExclude("Long Shot")
+    testCase.removeExclude("Frozen")
     print(testCase.getExclude())
 
     # Watch Status Testing
@@ -270,8 +270,8 @@ def unitTestMovie():
     # Length Testing
     # Length of time in seconds
     print('Length')
-    testCase.setMINLength(10)
-    testCase.setMAXLength(1258)
+    testCase.setMINLength(6100)
+    testCase.setMAXLength(6200)
     print(testCase.getLength())
 
     # Year Testing

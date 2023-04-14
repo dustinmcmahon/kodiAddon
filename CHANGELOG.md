@@ -1,5 +1,11 @@
 # Change Log
 
+### 4/13/23
+- searchOptions for episodes working
+- filter for episodes working
+- include/exclude filer working for movie & episode
+- length filter working for movie & episode
+
 ### 4/11/23
 - merged into main the GUI updates
 - fixed issue with year being stored as an int when it should be a string
