@@ -10,9 +10,9 @@ import xbmc
 import json
 import searchOptions
 
-# {"field": name, "operator": "contains", "value": ["", "", ""]}
-# {"field": name, "operator": "is", "value": ""}
+# *** filter helper functions ***
 
+# builds the filter strings for each field
 def _filterList_(name,valueList):
     defaultReturn = {}
     if len(valueList) == 1:
@@ -25,6 +25,7 @@ def _filterList_(name,valueList):
         defaultReturn = {"operator": "contains", "field": name, "value": defaultReturn}
     return defaultReturn
 
+# applies the include or exclude list to the pre filtered list
 def _filterIncExc(videoList, inList, exList):
     returnList = []
     if (len(inList) < len(exList)):
@@ -39,9 +40,8 @@ def _filterIncExc(videoList, inList, exList):
                     videoList.remove(y)
         returnList = videoList
     return returnList
-    
-        
 
+# applies the length filter to the pre filtered list
 def _filterLength(videos, lengths):
     removeVideos = []
     min = lengths[0]
@@ -55,6 +55,35 @@ def _filterLength(videos, lengths):
         videos.remove(y)
 
     return videos
+
+# applies the watch status filter to the pre filtered list
+def _filterWatchStatus(videos, status):
+    returnList = []
+    if(len(status) > 1):
+        return videos
+    elif(status[0] == 0):
+        for x in videos:
+            if(x['playcount'] == 0):
+                returnList.append(x)
+    else:
+        for x in videos:
+            if(x['playcount'] > 0):
+                returnList.append(x)
+    return returnList
+
+
+# *** playback functions ***
+#Dustin's assignment
+def _playOne(videoList):
+    print("Play One")
+
+#Hsu's Assignment
+def _showList(videoList):
+    print("Show List")
+
+#Hsu's Assignment
+def _loopPlay(videoList):
+    print("Loop Play")
 
 # Filter function
 ## Pass in the Search Options
@@ -123,20 +152,19 @@ def filter(options: searchOptions):
         videoList += episodeList
     if (movieList != []):
         videoList += movieList
-    
+
     videoList = _filterIncExc(videoList, options.getInclude(), options.getExclude())
     videoList = _filterLength(videoList, options.getLength())
-    #videoList = _filterWatchStatus(videoList, options.getWatchStatus())
+    videoList = _filterWatchStatus(videoList, options.getWatchStatus())
 
-    '''
-    # These functions will handle the most watched filtering
+
+    
     if options.getPBFunction() == 1:
         _playOne(videoList)
     elif options.getPBFunction() == 2:
         _showList(videoList)
     elif options.getPBFunction() == 3:
         _loopPlay(videoList)
-    '''
 
 
 def unitTest(options: searchOptions):

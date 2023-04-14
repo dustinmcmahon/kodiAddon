@@ -1,5 +1,10 @@
 # Change Log
 
+### 4/14/23
+- filter function complete
+- added watch status function
+- setup playback functions
+
 ### 4/13/23
 - searchOptions for episodes working
 - filter for episodes working
