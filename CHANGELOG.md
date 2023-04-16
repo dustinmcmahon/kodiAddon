@@ -5,6 +5,7 @@
 - created get functions for search profiles
 - created unit test for get functionality
 - created update function for search profiles
+- created the play one filter function
 
 ### 4/14/23
 - filter function complete
