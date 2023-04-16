@@ -10,13 +10,16 @@ class SearchOptions:
         self.include = []
         self.exclude = []
         self.watchStatus = []
-        self.length = [0, 0] # time based in seconds
+        self.length = [0, 0] # time based in seconds    
         self.year = []
         self.rating = []
         self.mediaType = ['movie', 'episode']
         self.studio = []
         self.mostWatched = False
         self.function = 0  # possible options: 1 = playOne, 2 = showList, 3 = loopPlay
+
+    def __str__(self) -> str:
+        return f"genre: {self.genre}\ntag: {self.tag}\ncast: {self.cast}\ndirector: {self.director}\ninclude: {self.include}\nexclude: {self.exclude}\nwatchStatus: {self.watchStatus}\nlength: {self.length}\nyear: {self.year}\nrating: {self.rating}\nmediaType: {self.mediaType}\nstudio: {self.studio}\nmostWatched: {self.mostWatched}\nPB Func: {self.function}\n"
 
     # genre functions
     def getGenre(self):

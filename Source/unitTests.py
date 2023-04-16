@@ -1,6 +1,3 @@
-import xbmc
-import xbmcgui
-import xbmcaddon
 import metaData
 import jsongets
 import searchOptions

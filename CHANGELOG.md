@@ -1,6 +1,12 @@
 # Change Log
 
 ### 4/14/23
+- created a string function for search options
+- created get functions for search profiles
+- created unit test for get functionality
+- created update function for search profiles
+
+### 4/14/23
 - filter function complete
 - added watch status function
 - setup playback functions

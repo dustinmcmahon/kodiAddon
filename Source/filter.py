@@ -107,6 +107,8 @@ def filter(options: searchOptions):
         filterList.append(directorFilter)
     if yearFilter != {}:
         filterList.append(yearFilter)
+    if yearFilter != {}:
+        filterList.append(yearFilter)
     if studioFilter != {}:
         filterList.append(studioFilter)
     if ratingFilter != {}:
