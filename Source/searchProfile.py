@@ -349,7 +349,7 @@ def _getProfileOptions(profileID: int, cursor: sqlite3.Cursor) -> searchOptions.
     return profile
 
 # test cases
-def unitTest(options: searchOptions):
+def unitTest(options: searchOptions.SearchOptions):
 
     addProfile('dustin', options)
     print('Profile Added')

@@ -76,10 +76,10 @@ def _filterWatchStatus(videos, status):
 # *** playback functions ***
 #Dustin's assignment
 def _playOne(videoList, mostWatched):
+    result = []
     if (not mostWatched):
-        result = random.choice(videoList)
+        result.append(random.choice(videoList))
     else:
-        result = {}
         for x in videoList:
             if (result != {} | x['playcount'] > result['playcount']):
                 result = x

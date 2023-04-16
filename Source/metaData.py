@@ -71,7 +71,7 @@ def getActorRole(actorID, mediaID):
 def getDirectors():
     connection = sqlite3.connect(videoDB)
     directors = connection.cursor().execute(
-        'SELECT actor.actor_id,actor.name FROM director_link LEFT JOIN actor ON director_link.actor_id = actor.actor_id').fetchall()
+        'SELECT DISTINCT actor.actor_id,actor.name FROM director_link LEFT JOIN actor ON director_link.actor_id = actor.actor_id').fetchall()
     connection.commit()
     connection.close()
     return directors

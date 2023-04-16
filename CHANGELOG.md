@@ -1,5 +1,8 @@
 # Change Log
 
+### 4/16/23
+- updated to not have duplicate directors
+
 ### 4/14/23
 - created a string function for search options
 - created get functions for search profiles
