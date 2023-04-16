@@ -9,6 +9,7 @@
 import xbmc
 import json
 import searchOptions
+import random
 
 # *** filter helper functions ***
 
@@ -74,8 +75,15 @@ def _filterWatchStatus(videos, status):
 
 # *** playback functions ***
 #Dustin's assignment
-def _playOne(videoList):
-    print("Play One")
+def _playOne(videoList, mostWatched):
+    if (not mostWatched):
+        result = random.choice(videoList)
+    else:
+        result = {}
+        for x in videoList:
+            if (result != {} | x['playcount'] > result['playcount']):
+                result = x
+    return result
 
 #Hsu's Assignment
 def _showList(videoList):
@@ -87,7 +95,7 @@ def _loopPlay(videoList):
 
 # Filter function
 ## Pass in the Search Options
-def filter(options: searchOptions):
+def filter(options: searchOptions.SearchOptions):
     genreFilter = _filterList_('genre', options.getGenre())
     tagFilter = _filterList_('tag', options.getTag())
     castFilter = _filterList_('actor', options.getCast())
@@ -105,6 +113,8 @@ def filter(options: searchOptions):
         filterList.append(castFilter)
     if directorFilter != {}:
         filterList.append(directorFilter)
+    if yearFilter != {}:
+        filterList.append(yearFilter)
     if yearFilter != {}:
         filterList.append(yearFilter)
     if studioFilter != {}:
@@ -158,14 +168,15 @@ def filter(options: searchOptions):
     videoList = _filterWatchStatus(videoList, options.getWatchStatus())
 
 
-    
+    result = []
     if options.getPBFunction() == 1:
-        _playOne(videoList)
+        result = _playOne(videoList, options.getMostWatched())
     elif options.getPBFunction() == 2:
         _showList(videoList)
     elif options.getPBFunction() == 3:
         _loopPlay(videoList)
 
+    return result
 
 def unitTest(options: searchOptions):
     '''
