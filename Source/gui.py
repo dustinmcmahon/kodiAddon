@@ -305,15 +305,18 @@ class MyWindow(xbmcgui.Window):
 
         # self.list5 = xbmcgui.ControlList(600, 100, 300, 200)
         self.listBack5 = self.show_backList(625, 100, 300, 300, 0xFF0000)
-        self.minInput = xbmcgui.ControlEdit(630, 100, 200, 30, "Minimum = ")
-        # self.MaxInput = xbmcgui.ControlEdit(700, 130, 100, 100, "Min ")
+        self.minInput = xbmcgui.ControlEdit(630, 100, 150, 30, "Minimum = ")
+        self.maxInput = xbmcgui.ControlEdit(630, 150, 150, 30, "Maximum =  ")
         self.addControl(self.minInput)
+        self.addControl(self.maxInput)
         xbmc.log(f"minInput is at {self.minInput.getX()} {self.minInput.getY()}")
+        xbmc.log(f"maxInput is at {self.maxInput.getX()} {self.maxInput.getY()}")
         # self.minInput.setPosition(700, 130)
         self.listBack5.setVisible(False)
         # self.addControl(self.list5)
         # self.list5.setVisible(False)
         self.minInput.setVisible(False)
+        self.maxInput.setVisible(False)
 
         self.list6 = xbmcgui.ControlList(710, 100, 300, 200)
         self.listBack6 = self.show_backList(740, 100, 480, 300, 0xFF0000)
@@ -446,10 +449,14 @@ class MyWindow(xbmcgui.Window):
                 xbmc.log("button was pressed, List Background is now " + text2)
                 # xbmc.log("button was pressed, list5 is now " + text)
                 self.minInput.setVisible(not self.minInput.isVisible())
+                self.maxInput.setVisible(not self.maxInput.isVisible())
                 text3 = "visible" if self.minInput.isVisible() else "invisible"
+                text3 = "visible" if self.maxInput.isVisible() else "invisible"
                 xbmc.log("button was pressed, min Button is now " + text3)
                 minValue = self.minInput.getText()
+                maxValue = self.maxInput.getText()
                 xbmc.log(minValue + " is the input for minimum length")
+                xbmc.log(maxValue + " is the input for maximum length")
 
             
 
