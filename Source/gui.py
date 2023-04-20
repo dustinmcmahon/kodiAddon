@@ -1,4 +1,4 @@
-import xbmcgui
+"""import xbmcgui
 import xbmc
 import xbmcaddon
 import metaData
@@ -635,3 +635,4 @@ def showGui():
     
     window.doModal()
     del window
+"""
