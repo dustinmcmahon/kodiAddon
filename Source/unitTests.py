@@ -5,6 +5,7 @@ import searchProfile
 import filter
 import gui
 
+
 def run():
     # JSON RPC Testing
     print('** JSON GETS TESTING **')
@@ -27,7 +28,7 @@ def run():
 
     # Filter Unit Tests
     print('** FILTER TESTING **')
-    filter.unitTest(movieOptions)
-    filter.unitTest(episodeOptions)
+    print(filter.unitTest(movieOptions))
+    print(filter.unitTest(episodeOptions))
 
     return True
