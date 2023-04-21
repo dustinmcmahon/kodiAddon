@@ -210,7 +210,7 @@ def unitTestEpisode():
     testCase.setWatchStatus([0,1])
     testCase.setYear(['2016', '2017', '2018', '2019', '2020', '2021', '2022'])
     testCase.setMediaType(['episode'])
-    testCase.setPBFunction(1)
+    testCase.setPBFunction(3)
     testCase.setMostWatched(False)
 
     return testCase
@@ -312,7 +312,7 @@ def unitTestMovie():
 
     # Function Testing
     print('Playback Functions')
-    testCase.setPBFunction(2)
+    testCase.setPBFunction(3)
     print(testCase.getPBFunction())
 
     return testCase
