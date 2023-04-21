@@ -104,7 +104,6 @@ def _getTitle(video):
     return video['title']
 
 def _getfirstAired(video):
-    print(video['title'])
     firstaired_str = video['firstaired']
     if (firstaired_str):
        ''' date_obj = datetime.strptime(firstaired_str, "%Y-%m-%d")
@@ -208,8 +207,6 @@ def filter(options: searchOptions.SearchOptions):
     videoList = _filterLength(videoList, options.getLength())
     videoList = _filterWatchStatus(videoList, options.getWatchStatus())
 
-    print('videoList pre filter')
-    print(videoList)
     result = []
     if options.getPBFunction() == 1:
         result = _playOne(videoList, options.getMostWatched())
@@ -217,19 +214,8 @@ def filter(options: searchOptions.SearchOptions):
         result = _showList(videoList, options.getMostWatched())
     elif options.getPBFunction() == 3:
         result = _loopPlay(videoList, options.getMostWatched(), options.getMediaType())
-    print('videoList post filter')
-    print(result)
+
     return result
 
 def unitTest(options: searchOptions):
-    '''
-    print(_filterList_('genre', options.getGenre()))
-    print(_filterList_('tag', options.getTag()))
-    print(_filterList_('cast', options.getCast()))
-    print(_filterList_('director', options.getDirector()))
-    print(_filterList_('year', options.getYear()))
-    print(_filterList_('studio', options.getStudio()))
-    print(_filterList_('rating', options.getRating()))
-    '''
-
-    filter(options)
+    return filter(options)

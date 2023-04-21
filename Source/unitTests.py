@@ -27,7 +27,7 @@ def run():
 
     # Filter Unit Tests
     print('** FILTER TESTING **')
-    filter.unitTest(movieOptions)
-    filter.unitTest(episodeOptions)
+    print(filter.unitTest(movieOptions))
+    print(filter.unitTest(episodeOptions))
 
     return True
