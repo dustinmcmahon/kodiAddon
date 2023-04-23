@@ -12,7 +12,10 @@ import searchOptions
 import random
 import xbmcgui
 import re
+import time
 from datetime import datetime
+from datetime import datetime
+import shut
 
 # *** filter helper functions ***
 
@@ -94,29 +97,15 @@ def _playOne(videoList, mostWatched):
         result.append(random.choice(videoList))
     else:
         for x in videoList:
-            if (result != {} | x['playcount'] > result['playcount']):
+            if (result != {} or x['playcount'] > result['playcount']):
                 result = x
     return result
 
-
 # Hsu's Assignment
-# incomplete yet
-
-def _getfirstAired(video):
-    firstaired_str = video['firstaired']
-    if firstaired_str:
-        date_obj = datetime.strptime(firstaired_str, "%Y-%m-%d")
-        print(date_obj)
-        return date_obj
-    else:
-        return datetime.min
-
-
-def _getTitle(video):
-    return video['title']
 
 
 def _getPC(video):
+    print(video['title'])
     return video['playcount']
 
 
@@ -127,6 +116,22 @@ def _showList(videoList, mostWatched):
     else:
         returnList = videoList
     return returnList
+
+# Hsu's Assignment
+
+
+def _getTitle(video):
+    return video['title']
+
+
+def _getfirstAired(video):
+    firstaired_str = video['firstaired']
+    if (firstaired_str):
+        ''' date_obj = datetime.strptime(firstaired_str, "%Y-%m-%d")
+         return date_obj'''
+        return firstaired_str
+    else:
+        return datetime.min
 
 
 def _loopPlay(videoList, mostWatched, mediaTypes):
@@ -233,7 +238,7 @@ def filter(options: searchOptions.SearchOptions):
                 "params": {
                     # get_genre_filer() = {"field": "genre", "operator": "is", "value": genre}
                     "filter": {"or": filterList},
-                    "properties": ["uniqueid", "art", "thumbnail", "rating", "file", "playcount", 'title', 'runtime', "firstaired"],
+                    "properties": ["uniqueid", "art", "thumbnail", "rating", "file", "playcount", 'title', 'runtime', 'firstaired', 'showtitle'],
                     "sort": {"order": "ascending", "method": "label"}
                 },
                 "id": "library"}
@@ -255,6 +260,8 @@ def filter(options: searchOptions.SearchOptions):
     result = []
     if options.getPBFunction() == 1:
         result = _playOne(videoList, options.getMostWatched())
+    elif options.getPBFunction() == 2:
+        result = _showList(videoList, options.getMostWatched())
     if options.getPBFunction() == 2:
         result = _showList(videoList, options.getMostWatched())
     elif options.getPBFunction() == 3:
@@ -264,7 +271,7 @@ def filter(options: searchOptions.SearchOptions):
     return result
 
 
-def unitTest(options: searchOptions):
+def unitTest(options: searchOptions.SearchOptions):
     '''
     print(_filterList_('genre', options.getGenre()))
     print(_filterList_('tag', options.getTag()))
@@ -276,3 +283,4 @@ def unitTest(options: searchOptions):
     '''
 
     print(filter(options))
+    print(shut.shutdownTime(options.getShutTime()))

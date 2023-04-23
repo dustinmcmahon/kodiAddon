@@ -17,6 +17,7 @@ class SearchOptions:
         self.studio = []
         self.mostWatched = False
         self.function = 0  # possible options: 1 = playOne, 2 = showList, 3 = loopPlay
+        self.shutTime = [0, 0]  # time in hour and min
 
     def __str__(self) -> str:
         return f"genre: {self.genre}\ntag: {self.tag}\ncast: {self.cast}\ndirector: {self.director}\ninclude: {self.include}\nexclude: {self.exclude}\nwatchStatus: {self.watchStatus}\nlength: {self.length}\nyear: {self.year}\nrating: {self.rating}\nmediaType: {self.mediaType}\nstudio: {self.studio}\nmostWatched: {self.mostWatched}\nPB Func: {self.function}\n"
@@ -191,6 +192,16 @@ class SearchOptions:
     def getPBFunction(self):
         return self.function
 
+    # Shutdowm time
+    def getShutTime(self):
+        return self.shutTime
+
+    def setHours(self, hoursVal):
+        self.shutTime[0] = hoursVal
+
+    def setMins(self, minsVal):
+        self.shutTime[1] = minsVal
+
 # Unit Test Cases
 
 # create a set of search options to test episodes
@@ -214,8 +225,10 @@ def unitTestEpisode():
     testCase.setWatchStatus([0, 1])
     testCase.setYear(['2016', '2017', '2018', '2019', '2020', '2021', '2022'])
     testCase.setMediaType(['episode'])
-    testCase.setPBFunction(1)
+    testCase.setPBFunction(3)
     testCase.setMostWatched(False)
+    testCase.setHours(13)
+    testCase.setMins(56)
 
     return testCase
 
@@ -319,7 +332,13 @@ def unitTestMovie():
 
     # Function Testing
     print('Playback Functions')
-    testCase.setPBFunction(2)
+    testCase.setPBFunction(3)
     print(testCase.getPBFunction())
 
-    print(filter(testCase))
+    # Function Testing
+    print('shutTime')
+    testCase.setHours(13)
+    testCase.setMins(56)
+    print(testCase.getShutTime())
+
+    return testCase

@@ -4,6 +4,7 @@ import searchOptions
 import searchProfile
 import filter
 import gui
+import shut
 
 
 def run():
@@ -31,4 +32,5 @@ def run():
     print(filter.unitTest(movieOptions))
     print(filter.unitTest(episodeOptions))
 
+    
     return True

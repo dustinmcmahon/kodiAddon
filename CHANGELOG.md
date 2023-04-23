@@ -1,5 +1,9 @@
 # Change Log
 
+### 4/20/23
+- loopplay and showlist functions
+- helper functions for these two
+
 ### 4/16/23
 - updated to not have duplicate directors
 
