@@ -227,8 +227,8 @@ def unitTestEpisode():
     testCase.setMediaType(['episode'])
     testCase.setPBFunction(3)
     testCase.setMostWatched(False)
-    testCase.setHours(13)
-    testCase.setMins(56)
+    testCase.setHours(0)
+    testCase.setMins(0)
 
     return testCase
 
@@ -337,8 +337,8 @@ def unitTestMovie():
 
     # Function Testing
     print('shutTime')
-    testCase.setHours(13)
-    testCase.setMins(56)
+    testCase.setHours(0)
+    testCase.setMins(0)
     print(testCase.getShutTime())
 
     return testCase
