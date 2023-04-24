@@ -173,28 +173,46 @@ def filter(options: searchOptions.SearchOptions):
     episodeList = []
     for x in mediaTypes:
         if(x == 'movie'):
-            command = {
-                "jsonrpc": "2.0",
-                "method": "VideoLibrary.GetMovies",
-                "params": {
-                    "filter": { "or" : filterList }, # get_genre_filer() = {"field": "genre", "operator": "is", "value": genre}
-                    "properties": ["uniqueid", "art", "thumbnail", "playcount", "file", "runtime", "rating", "title"],
-                    "sort": {"order": "ascending", "method": "label"}
-                },
-                "id": "library"}
-            print(command)
+            if filterList == []:
+                command = {
+                    "jsonrpc": "2.0",
+                    "method": "VideoLibrary.GetMovies",
+                    "params": {
+                        "properties": ["uniqueid", "art", "thumbnail", "playcount", "file", "runtime", "rating", "title"],
+                        "sort": {"order": "ascending", "method": "label"}
+                    },
+                    "id": "library"}
+            else:
+                command = {
+                    "jsonrpc": "2.0",
+                    "method": "VideoLibrary.GetMovies",
+                    "params": {
+                        "filter": { "or" : filterList },
+                        "properties": ["uniqueid", "art", "thumbnail", "playcount", "file", "runtime", "rating", "title"],
+                        "sort": {"order": "ascending", "method": "label"}
+                    },
+                    "id": "library"}
             movieList = json.loads(xbmc.executeJSONRPC(json.dumps(command)))['result']['movies']
         elif(x == 'episode'):
-            command = {
-                "jsonrpc": "2.0",
-                "method": "VideoLibrary.GetEpisodes",
-                "params": {
-                    "filter": { "or" : filterList }, # get_genre_filer() = {"field": "genre", "operator": "is", "value": genre}
-                    "properties": ["uniqueid", "art", "thumbnail", "rating", "file", "playcount", 'title', 'runtime', 'firstaired', 'showtitle'],
-                    "sort": {"order": "ascending", "method": "label"}
-                },
-                "id": "library"}
-            print(command)
+            if filterList == []:
+                command = {
+                    "jsonrpc": "2.0",
+                    "method": "VideoLibrary.GetEpisodes",
+                    "params": {
+                        "properties": ["uniqueid", "art", "thumbnail", "rating", "file", "playcount", 'title', 'runtime', 'firstaired', 'showtitle'],
+                        "sort": {"order": "ascending", "method": "label"}
+                    },
+                    "id": "library"}
+            else:
+                command = {
+                    "jsonrpc": "2.0",
+                    "method": "VideoLibrary.GetEpisodes",
+                    "params": {
+                        "filter": { "or" : filterList }, # get_genre_filer() = {"field": "genre", "operator": "is", "value": genre}
+                        "properties": ["uniqueid", "art", "thumbnail", "rating", "file", "playcount", 'title', 'runtime', 'firstaired', 'showtitle'],
+                        "sort": {"order": "ascending", "method": "label"}
+                    },
+                    "id": "library"}
             episodeList = json.loads(xbmc.executeJSONRPC(json.dumps(command)))['result']['episodes']
 
     videoList = []
