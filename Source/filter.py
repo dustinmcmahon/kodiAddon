@@ -103,8 +103,8 @@ def _showList(videoList, mostWatched):
 def _getTitle(video):
     return video['title']
 
-def _getfirstAired(video):
-    firstaired_str = video['firstaired']
+def _getfirstAired(video: dict):
+    firstaired_str = video['firstaired']#M I put this
     if (firstaired_str):
        ''' date_obj = datetime.strptime(firstaired_str, "%Y-%m-%d")
         return date_obj'''
@@ -171,6 +171,8 @@ def filter(options: searchOptions.SearchOptions):
     mediaTypes = options.getMediaType()
     movieList = []
     episodeList = []
+
+    xbmc.log(f"filters: {filterList}")
     for x in mediaTypes:
         if(x == 'movie'):
             command = {
@@ -182,7 +184,7 @@ def filter(options: searchOptions.SearchOptions):
                     "sort": {"order": "ascending", "method": "label"}
                 },
                 "id": "library"}
-            print(command)
+            # print(command)
             movieList = json.loads(xbmc.executeJSONRPC(json.dumps(command)))['result']['movies']
         elif(x == 'episode'):
             command = {
@@ -194,7 +196,7 @@ def filter(options: searchOptions.SearchOptions):
                     "sort": {"order": "ascending", "method": "label"}
                 },
                 "id": "library"}
-            print(command)
+            # print(command)
             episodeList = json.loads(xbmc.executeJSONRPC(json.dumps(command)))['result']['episodes']
 
     videoList = []
@@ -203,9 +205,11 @@ def filter(options: searchOptions.SearchOptions):
     if (movieList != []):
         videoList += movieList
 
-    videoList = _filterIncExc(videoList, options.getInclude(), options.getExclude())
-    videoList = _filterLength(videoList, options.getLength())
-    videoList = _filterWatchStatus(videoList, options.getWatchStatus())
+    # videoList = _filterIncExc(videoList, options.getInclude(), options.getExclude())
+    # videoList = _filterLength(videoList, options.getLength())
+    # videoList = _filterWatchStatus(videoList, options.getWatchStatus())
+
+    xbmc.log(f"videoList: {videoList}")
 
     result = []
     if options.getPBFunction() == 1:
