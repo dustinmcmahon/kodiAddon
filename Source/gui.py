@@ -5,6 +5,8 @@ import metaData
 import searchOptions
 import filter as OurFilter
 
+import guiPlayWindows
+
 class IncludeWindow(xbmcgui.Window):
     # TODO: write the code
     def include_List(self, text):
@@ -21,46 +23,6 @@ class IncludeWindow(xbmcgui.Window):
         self.exclude_List("Exclude")
 
     pass
-
-class PlayOneWindow(xbmcgui.Window):
-    def setResults(self, so) -> None:
-        so.setPBFunction(1)
-        results = OurFilter.filter(so)
-        ListShown = xbmcgui.ControlList(400, 400, 200, 400)
-        self.addControl(ListShown)
-        for something in results:
-            item = xbmcgui.ListItem(something["title"])
-            ListShown.addItem(item)
-
-
-class ShowListWindow(xbmcgui.Window):
-    def setResults(self, so: searchOptions.SearchOptions) -> None:
-        so.setPBFunction(2)
-        results = OurFilter.filter(so)
-        ListShown = xbmcgui.ControlList(400, 400, 200, 400)
-        self.addControl(ListShown)
-        for something in results:
-            item = xbmcgui.ListItem(something["title"])
-            ListShown.addItem(item)
-
-
-class LoopPlayWindow(xbmcgui.Window):
-    def setResults(self, so) -> None:
-        so.setPBFunction(3)
-        results = OurFilter.filter(so)
-        ListShown = xbmcgui.ControlList(400, 400, 200, 400)
-        self.addControl(ListShown)
-        for something in results:
-            item = xbmcgui.ListItem(something["title"])
-            ListShown.addItem(item)
-
-        self.page = 0
-
-        self.ForwardPageButton = xbmcgui.ControlButton(1080, 400, 200, 106, "    ")
-        self.addControl(self.ForwardPageButton)
-
-        self.BackwardPageButton = xbmcgui.ControlButton(0, 400, 200, 106, "    ")
-        self.addControl(self.BackwardPageButton)
 
     #     for i in range(0, 8):
     #         cookie = page * 8  # index into list based on page
@@ -81,36 +43,6 @@ class LoopPlayWindow(xbmcgui.Window):
     #         else:
     #             bottomLabels[i]
 
-
-        
-
-
-
-
-        Cherry1 = ListShown.getListItem(0)
-        Cherry2 = ListShown.getListItem(1)
-        Cherry3 = ListShown.getListItem(3)
-        Cherry4 = ListShown.getListItem(4)
-        self.Example1(Cherry1.getLabel())
-        self.Example2(Cherry2.getLabel())
-        self.Example3(Cherry3.getLabel())
-        self.Example4(Cherry4.getLabel())
-
-    def Example1(self, text):
-        label = xbmcgui.ControlLabel(200, 100, 200, 100, text)
-        self.addControl(label)
-
-    def Example2(self, text):
-        label = xbmcgui.ControlLabel(400, 100, 200, 100, text)
-        self.addControl(label)
-
-    def Example3(self, text):
-        label = xbmcgui.ControlLabel(200, 300, 200, 100, text)
-        self.addControl(label)
-
-    def Example4(self, text):
-        label = xbmcgui.ControlLabel(400, 300, 200, 100, text)
-        self.addControl(label)
 
 
     
@@ -390,6 +322,22 @@ class MyWindow(xbmcgui.Window):
         self.time("Hour          Min")
 
 
+
+        self.hourInput = xbmcgui.ControlEdit(75, 700, 100, 30, " ")
+        self.minuteInput = xbmcgui.ControlEdit(200, 600, 150, 30, " ")
+        self.addControl(self.hourInput)
+        self.addControl(self.minuteInput)
+        hourValue = self.hourInput.getText()
+        minuteValue = self.minuteInput.getText()
+        xbmc.log(" This is the number of hours" + hourValue)
+        xbmc.log(" This is the number of minutes" + minuteValue)
+
+        #Use controlImage to get the filename with the URL
+
+
+
+
+
         self.mediaTypeList = xbmcgui.ControlList(0, 100, 300, 200, selectedColor = SELECTED_COLOR)
         self.mediaTypeListBack = self.show_backList(30, 100, 200, 100, 0xFF0000)
         self.mediaTypeListBack.setVisible(False)
@@ -397,6 +345,7 @@ class MyWindow(xbmcgui.Window):
         self.mediaTypeList.addItem(str("Movie"))
         self.mediaTypeList.addItem(str("Episode"))
         self.mediaTypeList.setVisible(False)
+        self.mediaTypeList.getListItem(0).select(True)
 
         self.watchStatusList = xbmcgui.ControlList(150, 100, 300, 200, selectedColor = SELECTED_COLOR)
         self.listBack2 = self.show_backList(180, 100, 220, 100, 0xFF0000)
@@ -730,16 +679,16 @@ class MyWindow(xbmcgui.Window):
                     if item.isSelected():
                         mediaTypes.append(item.getLabel().lower())
                 so.setMediaType(mediaTypes)
+                if not so.getMediaType():
+                    so.setMediaType(["movie"])
 
                 watchStatuses = []
                 for i in range(self.watchStatusList.size()):
                     item = self.watchStatusList.getListItem(i)
-                    if item.isSelected():
-                        match item.getLabel().lower():
-                            case "unwatched":
-                                watchStatuses.append(0)
-                            case "watched":
-                                watchStatuses.append(1)
+                    if item.isSelected() and item.getLabel().lower() == "unwatched":
+                        watchStatuses.append(0)
+                    elif item.isSelected() and item.getLabel().lower() == "watched":
+                        watchStatuses.append(1)
 
                 if watchStatuses:
                     so.setWatchStatus(watchStatuses)
@@ -815,7 +764,7 @@ class MyWindow(xbmcgui.Window):
                 so.setDirector(directores)
 
 
-                playOneWindow = PlayOneWindow()
+                playOneWindow = guiPlayWindows.PlayOneWindow()
                 playOneWindow.setResults(so)
                 playOneWindow.doModal()
                 del playOneWindow
@@ -833,16 +782,16 @@ class MyWindow(xbmcgui.Window):
                     if item.isSelected():
                         mediaTypes.append(item.getLabel().lower())
                 so.setMediaType(mediaTypes)
+                if not so.getMediaType():
+                    so.setMediaType(["movie"])
 
                 watchStatuses = []
                 for i in range(self.watchStatusList.size()):
                     item = self.watchStatusList.getListItem(i)
-                    if item.isSelected():
-                        match item.getLabel().lower():
-                            case "unwatched":
-                                watchStatuses.append(0)
-                            case "watched":
-                                watchStatuses.append(1)
+                    if item.isSelected() and item.getLabel().lower() == "unwatched":
+                        watchStatuses.append(0)
+                    elif item.isSelected() and item.getLabel().lower() == "watched":
+                        watchStatuses.append(1)
 
                 if watchStatuses:
                     so.setWatchStatus(watchStatuses)
@@ -917,7 +866,7 @@ class MyWindow(xbmcgui.Window):
                         directores.append(item.getLabel().lower())
                 so.setDirector(directores)
 
-                loopPlayWindow = LoopPlayWindow()
+                loopPlayWindow = guiPlayWindows.LoopPlayWindow()
                 loopPlayWindow.setResults(so)
                 loopPlayWindow.doModal()
                 del loopPlayWindow
@@ -937,21 +886,22 @@ class MyWindow(xbmcgui.Window):
                     if item.isSelected():
                         mediaTypes.append(item.getLabel().lower())
                 so.setMediaType(mediaTypes)
+                if not so.getMediaType():
+                    so.setMediaType(["movie"])
 
                 watchStatuses = []
                 for i in range(self.watchStatusList.size()):
                     item = self.watchStatusList.getListItem(i)
-                    if item.isSelected():
-                        match item.getLabel().lower():
-                            case "unwatched":
-                                watchStatuses.append(0)
-                            case "watched":
-                                watchStatuses.append(1)
+
+                    if item.isSelected() and item.getLabel().lower() == "unwatched":
+                        watchStatuses.append(0)
+                    elif item.isSelected() and item.getLabel().lower() == "watched":
+                        watchStatuses.append(1)
 
                 if watchStatuses:
                     so.setWatchStatus(watchStatuses)
                 else:
-                    so.setWatchStatus([0])
+                    so.setWatchStatus([0, 0])
 
                 ratings = []
                 for i in range(self.ratingList.size()):
@@ -1023,7 +973,7 @@ class MyWindow(xbmcgui.Window):
 
                 # TODO take into account watch status later- True or false. 0 ones that have been. 1 have not. 0 and 1 get passed is both.
 
-                showListWindow = ShowListWindow()
+                showListWindow = guiPlayWindows.ShowListWindow()
                 showListWindow.setResults(so)
                 showListWindow.doModal()
                 del showListWindow
