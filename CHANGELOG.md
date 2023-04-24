@@ -1,5 +1,9 @@
 # Change Log
 
+### 4/23/23
+- updated filter function to work with only media type
+- Merged Hsu branch and Dustin Branch
+
 ### 4/20/23
 - loopplay and showlist functions
 - helper functions for these two

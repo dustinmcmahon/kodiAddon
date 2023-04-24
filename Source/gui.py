@@ -1,7 +1,9 @@
-import xbmcgui
+"""import xbmcgui
 import xbmc
 import xbmcaddon
 import metaData
+import searchOptions
+import filter as OurFilter
 
 class IncludeWindow(xbmcgui.Window):
     # TODO: write the code
@@ -19,6 +21,111 @@ class IncludeWindow(xbmcgui.Window):
         self.exclude_List("Exclude")
 
     pass
+
+class PlayOneWindow(xbmcgui.Window):
+    def setResults(self, so) -> None:
+        so.setPBFunction(1)
+        results = OurFilter.filter(so)
+        ListShown = xbmcgui.ControlList(400, 400, 200, 400)
+        self.addControl(ListShown)
+        for something in results:
+            item = xbmcgui.ListItem(something["title"])
+            ListShown.addItem(item)
+
+
+class ShowListWindow(xbmcgui.Window):
+    def setResults(self, so: searchOptions.SearchOptions) -> None:
+        so.setPBFunction(2)
+        results = OurFilter.filter(so)
+        ListShown = xbmcgui.ControlList(400, 400, 200, 400)
+        self.addControl(ListShown)
+        for something in results:
+            item = xbmcgui.ListItem(something["title"])
+            ListShown.addItem(item)
+
+
+class LoopPlayWindow(xbmcgui.Window):
+    def setResults(self, so) -> None:
+        so.setPBFunction(3)
+        results = OurFilter.filter(so)
+        ListShown = xbmcgui.ControlList(400, 400, 200, 400)
+        self.addControl(ListShown)
+        for something in results:
+            item = xbmcgui.ListItem(something["title"])
+            ListShown.addItem(item)
+
+        self.page = 0
+
+        self.ForwardPageButton = xbmcgui.ControlButton(1080, 400, 200, 106, "    ")
+        self.addControl(self.ForwardPageButton)
+
+        self.BackwardPageButton = xbmcgui.ControlButton(0, 400, 200, 106, "    ")
+        self.addControl(self.BackwardPageButton)
+
+    #     for i in range(0, 8):
+    #         cookie = page * 8  # index into list based on page
+            
+    #         if i < 4:
+    #             topLabels[i].
+    #             xbmc.PlayList(xbmc.PLAYLIST_VIDEO).clear()
+
+    # for video in sort_videoList:
+    #     listitem = xbmcgui.ListItem(label=video['title'], path=video['url'])
+    #     listitem.addThumbnailImage(video['thumbnail'])
+    #     listitem.setInfo('video', video)
+    #     xbmc.PlayList(xbmc.PLAYLIST_VIDEO).add(
+    #         url=video['url'], listitem=listitem)
+    # print(xbmc.PlayList(xbmc.PLAYLIST_VIDEO))
+    # xbmc.Player().play(xbmc.PlayList(xbmc.PLAYLIST_VIDEO))
+
+    #         else:
+    #             bottomLabels[i]
+
+
+        
+
+
+
+
+        Cherry1 = ListShown.getListItem(0)
+        Cherry2 = ListShown.getListItem(1)
+        Cherry3 = ListShown.getListItem(3)
+        Cherry4 = ListShown.getListItem(4)
+        self.Example1(Cherry1.getLabel())
+        self.Example2(Cherry2.getLabel())
+        self.Example3(Cherry3.getLabel())
+        self.Example4(Cherry4.getLabel())
+
+    def Example1(self, text):
+        label = xbmcgui.ControlLabel(200, 100, 200, 100, text)
+        self.addControl(label)
+
+    def Example2(self, text):
+        label = xbmcgui.ControlLabel(400, 100, 200, 100, text)
+        self.addControl(label)
+
+    def Example3(self, text):
+        label = xbmcgui.ControlLabel(200, 300, 200, 100, text)
+        self.addControl(label)
+
+    def Example4(self, text):
+        label = xbmcgui.ControlLabel(400, 300, 200, 100, text)
+        self.addControl(label)
+
+
+    
+# xbmc.PlayList(xbmc.PLAYLIST_VIDEO).clear()
+#     for video in sort_videoList:
+#         listitem = xbmcgui.ListItem(label=video['title'], path=video['url'])
+#         listitem.addThumbnailImage(video['thumbnail'])
+#         listitem.setInfo('video', video)
+#         xbmc.PlayList(xbmc.PLAYLIST_VIDEO).add(
+#             url=video['url'], listitem=listitem)
+#     print(xbmc.PlayList(xbmc.PLAYLIST_VIDEO))
+#     xbmc.Player().play(xbmc.PlayList(xbmc.PLAYLIST_VIDEO))
+
+
+    
 
 #Try again later
 dummy_list = [
@@ -194,35 +301,47 @@ class MyWindow(xbmcgui.Window):
         self.watchStatus = xbmcgui.ControlButton(150, 10, 200, 106, "    ")
         self.addControl(self.watchStatus)
 
-        self.ratingList = xbmcgui.ControlButton(300, 10, 200, 106, "    ")
-        self.addControl(self.ratingList)
+        self.ratingButton = xbmcgui.ControlButton(300, 10, 200, 106, "    ")
+        self.addControl(self.ratingButton)
 
-        self.genreList = xbmcgui.ControlButton(450, 10, 200, 106, "    ")
-        self.addControl(self.genreList)
+        self.genreButton = xbmcgui.ControlButton(450, 10, 200, 106, "    ")
+        self.addControl(self.genreButton)
 
         self.lengthList = xbmcgui.ControlButton(600, 10, 200, 106, "    ")
         self.addControl(self.lengthList)
 
-        self.yearList = xbmcgui.ControlButton(750, 10, 200, 106, "    ")
-        self.addControl(self.yearList)
+        self.yearButton = xbmcgui.ControlButton(750, 10, 200, 106, "    ")
+        self.addControl(self.yearButton)
 
-        self.tagsList = xbmcgui.ControlButton(900, 10, 200, 106, "    ")
-        self.addControl(self.tagsList)
+        self.tagsButton = xbmcgui.ControlButton(900, 10, 200, 106, "    ")
+        self.addControl(self.tagsButton)
 
-        self.studioList = xbmcgui.ControlButton(1050, 10, 200, 106, "    ")
-        self.addControl(self.studioList)
+        self.studioButton = xbmcgui.ControlButton(1050, 10, 200, 106, "    ")
+        self.addControl(self.studioButton)
 
         self.mostWatched = xbmcgui.ControlButton(0, 160, 200, 106, "    ")
         self.addControl(self.mostWatched)
 
-        self.castsList = xbmcgui.ControlButton(150, 160, 200, 106, "    ")
-        self.addControl(self.castsList)
+        self.castsButton = xbmcgui.ControlButton(150, 160, 200, 106, "    ")
+        self.addControl(self.castsButton)
 
-        self.directorList = xbmcgui.ControlButton(300, 160, 200, 106, "    ")
-        self.addControl(self.directorList)
+        self.directorButton = xbmcgui.ControlButton(300, 160, 200, 106, "    ")
+        self.addControl(self.directorButton)
 
         self.includeList = xbmcgui.ControlButton(450, 160, 200, 106, "    ")
         self.addControl(self.includeList)
+
+        self.showListButton = xbmcgui.ControlButton(880, 610, 180, 110, "    ")
+        self.addControl(self.showListButton)
+
+        self.playOneButton = xbmcgui.ControlButton(1080, 610, 180, 110, "    ")
+        self.addControl(self.playOneButton)
+
+        self.loopPlayButton = xbmcgui.ControlButton(680, 610, 180, 110, "    ")
+        self.addControl(self.loopPlayButton)
+
+        self.saveButton = xbmcgui.ControlButton(480, 610, 180, 110, "    ")
+        self.addControl(self.saveButton)
 
         #Orange
         self.show_circle (30, 35, 150, 0xFF0000)
@@ -271,100 +390,104 @@ class MyWindow(xbmcgui.Window):
         self.time("Hour          Min")
 
 
-        self.list1 = xbmcgui.ControlList(0, 100, 300, 200)
-        self.listBack1 = self.show_backList(30, 100, 200, 100, 0xFF0000)
-        self.listBack1.setVisible(False)
-        self.addControl(self.list1)
-        self.list1.addItem(str("Movies"))
-        self.list1.addItem(str("Episodes"))
-        self.list1.setVisible(False)
+        self.mediaTypeList = xbmcgui.ControlList(0, 100, 300, 200, selectedColor = SELECTED_COLOR)
+        self.mediaTypeListBack = self.show_backList(30, 100, 200, 100, 0xFF0000)
+        self.mediaTypeListBack.setVisible(False)
+        self.addControl(self.mediaTypeList)
+        self.mediaTypeList.addItem(str("Movie"))
+        self.mediaTypeList.addItem(str("Episode"))
+        self.mediaTypeList.setVisible(False)
 
-        self.list2 = xbmcgui.ControlList(150, 100, 300, 200)
+        self.watchStatusList = xbmcgui.ControlList(150, 100, 300, 200, selectedColor = SELECTED_COLOR)
         self.listBack2 = self.show_backList(180, 100, 220, 100, 0xFF0000)
         self.listBack2.setVisible(False)
-        self.addControl(self.list2)
-        self.list2.addItem(str("Watched"))
-        self.list2.addItem(str("Unwatched"))
-        self.list2.setVisible(False)
+        self.addControl(self.watchStatusList)
+        self.watchStatusList.addItem(str("Watched"))
+        self.watchStatusList.addItem(str("Unwatched"))
+        self.watchStatusList.setVisible(False)
 
-        self.list3 = xbmcgui.ControlList(260, 100, 300, 200)
+        self.ratingList = xbmcgui.ControlList(260, 100, 300, 200, selectedColor = SELECTED_COLOR)
         self.listBack3 = self.show_backList(280, 100, 480, 300, 0xFF0000)
         self.listBack3.setVisible(False)
-        self.addControl(self.list3)
+        self.addControl(self.ratingList)
         for item in metaData.getRatings():
-            self.list3.addItem(item[0])
-        self.list3.setVisible(False)
+            self.ratingList.addItem(item[0])
+        self.ratingList.setVisible(False)
 
-        self.list4 = xbmcgui.ControlList(440, 100, 300, 200)
+        self.genreList = xbmcgui.ControlList(440, 100, 300, 200, selectedColor = SELECTED_COLOR)
         self.listBack4 = self.show_backList(470, 100, 220, 300, 0xFF0000)
         self.listBack4.setVisible(False)
-        self.addControl(self.list4)
+        self.addControl(self.genreList)
         for item in metaData.getGenres():
-            self.list4.addItem(item[1])
-        self.list4.setVisible(False)
+            self.genreList.addItem(item[1])
+        self.genreList.setVisible(False)
 
-        # self.list5 = xbmcgui.ControlList(600, 100, 300, 200)
+        # self.lengthList = xbmcgui.ControlList(600, 100, 300, 200)
         self.listBack5 = self.show_backList(625, 100, 300, 300, 0xFF0000)
         self.minInput = xbmcgui.ControlEdit(630, 100, 150, 30, "Minimum = ")
         self.maxInput = xbmcgui.ControlEdit(630, 150, 150, 30, "Maximum =  ")
         self.addControl(self.minInput)
         self.addControl(self.maxInput)
+        self.minInput.setText("0")
+        self.maxInput.setText("300")
+
         xbmc.log(f"minInput is at {self.minInput.getX()} {self.minInput.getY()}")
         xbmc.log(f"maxInput is at {self.maxInput.getX()} {self.maxInput.getY()}")
         # self.minInput.setPosition(700, 130)
         self.listBack5.setVisible(False)
-        # self.addControl(self.list5)
-        # self.list5.setVisible(False)
+        # self.addControl(self.lengthList)
+        # self.lengthList.setVisible(False)
         self.minInput.setVisible(False)
         self.maxInput.setVisible(False)
 
-        self.list6 = xbmcgui.ControlList(710, 100, 300, 200)
+        self.yearList = xbmcgui.ControlList(710, 100, 300, 200, selectedColor = SELECTED_COLOR)
         self.listBack6 = self.show_backList(740, 100, 480, 300, 0xFF0000)
         self.listBack6.setVisible(False)
-        self.addControl(self.list6)
-        for item in metaData.getYears(): 
-            self.list6.addItem(item[0])
-        self.list6.setVisible(False)
+        self.addControl(self.yearList)
+        years = metaData.getYears()
+        for item in sorted(years):
+            self.yearList.addItem(item[0][:4])
+        self.yearList.setVisible(False)
 
-        self.list7 = xbmcgui.ControlList(890, 100, 300, 200)
+        self.tagsList = xbmcgui.ControlList(890, 100, 300, 200, selectedColor = SELECTED_COLOR)
         self.listBack7 = self.show_backList(920, 100, 400, 300, 0xFF0000)
         self.listBack7.setVisible(False)
-        self.addControl(self.list7)
-        for item in metaData.getTags():
-            self.list7.addItem(item[1])
-        self.list7.setVisible(False)
+        self.addControl(self.tagsList)
+        for item in sorted(metaData.getTags()):
+            self.tagsList.addItem(item[1])
+        self.tagsList.setVisible(False)
 
-        self.list8 = xbmcgui.ControlList(1040, 100, 260, 200)
+        self.studioList = xbmcgui.ControlList(1040, 100, 260, 200, selectedColor = SELECTED_COLOR)
         self.listBack8 = self.show_backList(1070, 100, 480, 200, 0xFF0000)
         self.listBack8.setVisible(False)
-        self.addControl(self.list8)
+        self.addControl(self.studioList)
         for item in metaData.getStudios():
-            self.list8.addItem(item[1])
-        self.list8.setVisible(False)
+            self.studioList.addItem(item[1])
+        self.studioList.setVisible(False)
 
-        self.list9 = xbmcgui.ControlList(0, 250, 300, 200)
+        self.mostWatchedList = xbmcgui.ControlList(0, 250, 300, 200, selectedColor = SELECTED_COLOR)
         self.listBack9 = self.show_backList(30, 250, 480, 300, 0xFF0000)
         self.listBack9.setVisible(False)
-        self.addControl(self.list9)
-        self.list9.addItem(str("On"))
-        self.list9.addItem(str("Off"))
-        self.list9.setVisible(False)
+        self.addControl(self.mostWatchedList)
+        self.mostWatchedList.addItem(str("On"))
+        self.mostWatchedList.addItem(str("Off"))
+        self.mostWatchedList.setVisible(False)
 
-        self.list10 = xbmcgui.ControlList(150, 250, 300, 200)
+        self.castsList = xbmcgui.ControlList(150, 250, 300, 200, selectedColor = SELECTED_COLOR)
         self.listBack10 = self.show_backList(180, 250, 400, 300, 0xFF0000)
         self.listBack10.setVisible(False)
-        self.addControl(self.list10)
+        self.addControl(self.castsList)
         for item in metaData.getActors():
-            self.list10.addItem(item[1])
-        self.list10.setVisible(False)
+            self.castsList.addItem(item[1])
+        self.castsList.setVisible(False)
 
-        self.list11 = xbmcgui.ControlList(300, 250, 300, 200)
+        self.directorList = xbmcgui.ControlList(300, 250, 300, 200, selectedColor = SELECTED_COLOR)
         self.listBack11 = self.show_backList(330, 250, 220, 300, 0xFF0000)
         self.listBack11.setVisible(False)
-        self.addControl(self.list11)
+        self.addControl(self.directorList)
         for item in metaData.getDirectors():
-            self.list11.addItem(item[1])
-        self.list11.setVisible(False)
+            self.directorList.addItem(item[1])
+        self.directorList.setVisible(False)
 
         self.list12 = xbmcgui.ControlList(410, 250, 300, 200)
         self.addControl(self.list12)
@@ -381,73 +504,89 @@ class MyWindow(xbmcgui.Window):
         if action == xbmcgui.ACTION_MOUSE_LEFT_CLICK:
             control = self.getFocus()
             if control.getId() == self.mediaType.getId():
-                self.listBack1.setVisible(not self.listBack1.isVisible())
-                self.list1.setVisible(not self.list1.isVisible())
-                text = "visible" if self.list1.isVisible() else "invisible"
-                text2 = "visible" if self.listBack1.isVisible() else "invisible"
+                self.mediaTypeListBack.setVisible(not self.mediaTypeListBack.isVisible())
+                self.mediaTypeList.setVisible(not self.mediaTypeList.isVisible())
+                text = "visible" if self.mediaTypeList.isVisible() else "invisible"
+                text2 = "visible" if self.mediaTypeListBack.isVisible() else "invisible"
                 xbmc.log("button was pressed, List Background is now " + text2)
                 xbmc.log("button was pressed, list1 is now " + text)
 
             #The getting options thing
-            if control.getId() == self.list1.getId():
+            if control.getId() == self.mediaTypeList.getId():
                 global MediaTypeItem
-                SelectedMediaTypeItem = self.list1.getSelectedItem()
-                #self.This = SelectedMediaTypeItem.getlabel()
-                xbmc.log( SelectedMediaTypeItem.getLabel() + " was clicked from MediaType option")
-                MediaTypeItem = SelectedMediaTypeItem
+                selectedMediaTypeItem = self.mediaTypeList.getSelectedItem()
+
+                # xbmc.log(selectedMediaTypeItem.getLabel() + " was clicked from MediaType option")
+                MediaTypeItem = selectedMediaTypeItem
+
+                selectedMediaTypeItem.select(not selectedMediaTypeItem.isSelected())
+                xbmc.log(f"{selectedMediaTypeItem.getLabel()} selected status: {selectedMediaTypeItem.isSelected()}")
 
             if control.getId() == self.watchStatus.getId():
                 self.listBack2.setVisible(not self.listBack2.isVisible())
-                self.list2.setVisible(not self.list2.isVisible())
-                text = "visible" if self.list2.isVisible() else "invisible"
+                self.watchStatusList.setVisible(not self.watchStatusList.isVisible())
+                text = "visible" if self.watchStatusList.isVisible() else "invisible"
                 text2 = "visible" if self.listBack2.isVisible() else "invisible"
                 xbmc.log("button was pressed, List Background is now " + text2)
-                xbmc.log("button was pressed, list2 is now " + text)
+                xbmc.log("button was pressed, watchStatusList is now " + text)
 
             #The getting options thing
-            if control.getId() == self.list2.getId():
+            if control.getId() == self.watchStatusList.getId():
                 global WatchStatusItem
-                SelectedWatchStatusItem = self.list2.getSelectedItem()
-                xbmc.log( SelectedWatchStatusItem.getLabel() + " was clicked from WatchStatus option")
-                WatchStatusItem = SelectedWatchStatusItem
+                selectedWatchStatusItem = self.watchStatusList.getSelectedItem()
+                xbmc.log( selectedWatchStatusItem.getLabel() + " was clicked from WatchStatus option")
+                WatchStatusItem = selectedWatchStatusItem
 
-            if control.getId() == self.ratingList.getId():
+                selectedWatchStatusItem.select(not selectedWatchStatusItem.isSelected())
+                xbmc.log(f"{selectedWatchStatusItem.getLabel()} selected status: {selectedWatchStatusItem.isSelected()}")
+
+
+
+            if control.getId() == self.ratingButton.getId():
                 self.listBack3.setVisible(not self.listBack3.isVisible())
-                self.list3.setVisible(not self.list3.isVisible())
-                text = "visible" if self.list3.isVisible() else "invisible"
+                self.ratingList.setVisible(not self.ratingList.isVisible())
+                text = "visible" if self.ratingList.isVisible() else "invisible"
                 text2 = "visible" if self.listBack3.isVisible() else "invisible"
                 xbmc.log("button was pressed, List Background is now " + text2)
-                xbmc.log("button was pressed, list3 is now " + text)
+                xbmc.log("button was pressed, ratingList is now " + text)
 
             #The getting options thing
-            if control.getId() == self.list3.getId():
+            if control.getId() == self.ratingList.getId():
                 global RatingItem
-                SelectedRating = self.list3.getSelectedItem()
-                xbmc.log( SelectedRating.getLabel() + " was clicked from Rating option")
-                RatingItem = SelectedRating
+                selectedRatingItem = self.ratingList.getSelectedItem()
+                xbmc.log( selectedRatingItem.getLabel() + " was clicked from Rating option")
+                RatingItem = selectedRatingItem
 
-            if control.getId() == self.genreList.getId():
+                selectedRatingItem.select(not selectedRatingItem.isSelected())
+                xbmc.log(f"{selectedRatingItem.getLabel()} selected status: {selectedRatingItem.isSelected()}")
+
+
+            if control.getId() == self.genreButton.getId():
                 self.listBack4.setVisible(not self.listBack4.isVisible())
-                self.list4.setVisible(not self.list4.isVisible())
-                text = "visible" if self.list4.isVisible() else "invisible"
+                self.genreList.setVisible(not self.genreList.isVisible())
+                text = "visible" if self.genreList.isVisible() else "invisible"
                 text2 = "visible" if self.listBack4.isVisible() else "invisible"
                 xbmc.log("button was pressed, List Background is now " + text2)
-                xbmc.log("button was pressed, list4 is now " + text)
+                xbmc.log("button was pressed, genreList is now " + text)
 
             #The getting options thing
-            if control.getId() == self.list4.getId():
+            if control.getId() == self.genreList.getId():
                 global GenreItem
-                SelectedGenreItem = self.list4.getSelectedItem()
-                xbmc.log( SelectedGenreItem.getLabel() + " was clicked from Genre option")
-                GenreItem = SelectedGenreItem
+                selectedGenreItem = self.genreList.getSelectedItem()
+                xbmc.log( selectedGenreItem.getLabel() + " was clicked from Genre option")
+                GenreItem = selectedGenreItem
 
+                selectedGenreItem.select(not selectedGenreItem.isSelected())
+                xbmc.log(f"{selectedGenreItem.getLabel()} selected status: {selectedGenreItem.isSelected()}")
+
+            #For length
             if control.getId() == self.lengthList.getId():
                 self.listBack5.setVisible(not self.listBack5.isVisible())
-                # self.list5.setVisible(not self.list5.isVisible())
-                # text = "visible" if self.list5.isVisible() else "invisible"
+                # self.lengthList.setVisible(not self.lengthList.isVisible())
+                # text = "visible" if self.lengthList.isVisible() else "invisible"
                 text2 = "visible" if self.listBack5.isVisible() else "invisible"
                 xbmc.log("button was pressed, List Background is now " + text2)
-                # xbmc.log("button was pressed, list5 is now " + text)
+                # xbmc.log("button was pressed, lengthList is now " + text)
                 self.minInput.setVisible(not self.minInput.isVisible())
                 self.maxInput.setVisible(not self.maxInput.isVisible())
                 text3 = "visible" if self.minInput.isVisible() else "invisible"
@@ -458,119 +597,448 @@ class MyWindow(xbmcgui.Window):
                 xbmc.log(minValue + " is the input for minimum length")
                 xbmc.log(maxValue + " is the input for maximum length")
 
-            
 
-
-            #The getting options thing
-            # if control.getId() == self.list5.getId():
-            #     global LengthItem
-            #     SelectedLengthItem = self.list5.getSelectedItem()
-            #     xbmc.log( SelectedLengthItem.getLabel() + " was clicked from Length option")
-            #     LengthItem = SelectedLengthItem
-
-            if control.getId() == self.yearList.getId():
+            if control.getId() == self.yearButton.getId():
                 self.listBack6.setVisible(not self.listBack6.isVisible())
-                self.list6.setVisible(not self.list6.isVisible())
-                text = "visible" if self.list6.isVisible() else "invisible"
+                self.yearList.setVisible(not self.yearList.isVisible())
+                text = "visible" if self.yearList.isVisible() else "invisible"
                 text2 = "visible" if self.listBack6.isVisible() else "invisible"
                 xbmc.log("button was pressed, List Background is now " + text2)
-                xbmc.log("button was pressed, list6 is now " + text)
+                xbmc.log("button was pressed, yearList is now " + text)
 
             #The getting options thing
-            if control.getId() == self.list6.getId():
+            if control.getId() == self.yearList.getId():
                 global YearItem
-                SelectedYearItem = self.list6.getSelectedItem()
-                xbmc.log( SelectedYearItem.getLabel() + " was clicked from Year option")
-                YearItem = SelectedYearItem
+                selectedYearItem = self.yearList.getSelectedItem()
+                xbmc.log( selectedYearItem.getLabel() + " was clicked from Year option")
+                YearItem = selectedYearItem
 
-            if control.getId() == self.tagsList.getId():
+                selectedYearItem.select(not selectedYearItem.isSelected())
+                xbmc.log(f"{selectedYearItem.getLabel()} selected status: {selectedYearItem.isSelected()}")
+
+
+            if control.getId() == self.tagsButton.getId():
                 self.listBack7.setVisible(not self.listBack7.isVisible())
-                self.list7.setVisible(not self.list7.isVisible())
-                text = "visible" if self.list7.isVisible() else "invisible"
+                self.tagsList.setVisible(not self.tagsList.isVisible())
+                text = "visible" if self.tagsList.isVisible() else "invisible"
                 text2 = "visible" if self.listBack7.isVisible() else "invisible"
                 xbmc.log("button was pressed, List Background is now " + text2)
-                xbmc.log("button was pressed, list7 is now " + text)
+                xbmc.log("button was pressed, tagsList is now " + text)
 
             #The getting options thing
-            if control.getId() == self.list7.getId():
+            if control.getId() == self.tagsList.getId():
                 global TagsItem
-                SelectedTagItem = self.list7.getSelectedItem()
-                xbmc.log( SelectedTagItem.getLabel() + " was clicked from Tags option")
-                TagsItem = SelectedTagItem
+                selectedTagItem = self.tagsList.getSelectedItem()
+                xbmc.log( selectedTagItem.getLabel() + " was clicked from Tags option")
+                TagsItem = selectedTagItem
 
-            if control.getId() == self.studioList.getId():
+                selectedTagItem.select(not selectedTagItem.isSelected())
+                xbmc.log(f"{selectedTagItem.getLabel()} selected status: {selectedTagItem.isSelected()}")
+
+
+            if control.getId() == self.studioButton.getId():
                 self.listBack8.setVisible(not self.listBack8.isVisible())
-                self.list8.setVisible(not self.list8.isVisible())
-                text = "visible" if self.list8.isVisible() else "invisible"
+                self.studioList.setVisible(not self.studioList.isVisible())
+                text = "visible" if self.studioList.isVisible() else "invisible"
                 text2 = "visible" if self.listBack8.isVisible() else "invisible"
                 xbmc.log("button was pressed, List Background is now " + text2)
-                xbmc.log("button was pressed, list8 is now " + text)
+                xbmc.log("button was pressed, studioList is now " + text)
 
             #The getting options thing
-            if control.getId() == self.list8.getId():
+            if control.getId() == self.studioList.getId():
                 global StudioItem
-                SelectedStudioItem = self.list8.getSelectedItem()
-                xbmc.log( SelectedStudioItem.getLabel() + " was clicked from Studio option")
-                StudioItem = SelectedStudioItem
+                selectedStudioItem = self.studioList.getSelectedItem()
+                xbmc.log( selectedStudioItem.getLabel() + " was clicked from Studio option")
+                StudioItem = selectedStudioItem
+
+                selectedStudioItem.select(not selectedStudioItem.isSelected())
+                xbmc.log(f"{selectedStudioItem.getLabel()} selected status: {selectedStudioItem.isSelected()}")
+
 
             if control.getId() == self.mostWatched.getId():
                 self.listBack9.setVisible(not self.listBack9.isVisible())
-                self.list9.setVisible(not self.list9.isVisible())
-                text = "visible" if self.list9.isVisible() else "invisible"
+                self.mostWatchedList.setVisible(not self.mostWatchedList.isVisible())
+                text = "visible" if self.mostWatchedList.isVisible() else "invisible"
                 text2 = "visible" if self.listBack9.isVisible() else "invisible"
                 xbmc.log("button was pressed, List Background is now " + text2)
-                xbmc.log("button was pressed, list9 is now " + text)
+                xbmc.log("button was pressed, mostWatchedList is now " + text)
 
             #The getting options thing
-            if control.getId() == self.list9.getId():
+            if control.getId() == self.mostWatchedList.getId():
                 global MostWatchedItem
-                SelectedMostWatchedItem = self.list9.getSelectedItem()
-                xbmc.log( SelectedMostWatchedItem.getLabel() + " was clicked from MostWatched option")
-                MostWatchedItem = SelectedMostWatchedItem
+                selectedMostWatchedItem = self.mostWatchedList.getSelectedItem()
+                xbmc.log( selectedMostWatchedItem.getLabel() + " was clicked from MostWatched option")
+                MostWatchedItem = selectedMostWatchedItem
 
-            if control.getId() == self.castsList.getId():
+                selectedMostWatchedItem.select(not selectedMostWatchedItem.isSelected())
+                xbmc.log(f"{selectedMostWatchedItem.getLabel()} selected status: {selectedMostWatchedItem.isSelected()}")
+
+
+            if control.getId() == self.castsButton.getId():
                 self.listBack10.setVisible(not self.listBack10.isVisible())
-                self.list10.setVisible(not self.list10.isVisible())
-                text = "visible" if self.list10.isVisible() else "invisible"
+                self.castsList.setVisible(not self.castsList.isVisible())
+                text = "visible" if self.castsList.isVisible() else "invisible"
                 text2 = "visible" if self.listBack10.isVisible() else "invisible"
                 xbmc.log("button was pressed, List Background is now " + text2)
-                xbmc.log("button was pressed, list10 is now " + text)
+                xbmc.log("button was pressed, castsList is now " + text)
             
             #The getting options thing
-            if control.getId() == self.list10.getId():
+            if control.getId() == self.castsList.getId():
                 global CastsItem
-                SelectedCastsItem = self.list10.getSelectedItem()
-                xbmc.log( SelectedCastsItem.getLabel() + " was clicked from Casts option")
-                CastsItem = SelectedCastsItem
+                selectedCastsItem = self.castsList.getSelectedItem()
+                xbmc.log( selectedCastsItem.getLabel() + " was clicked from Casts option")
+                CastsItem = selectedCastsItem
 
-            if control.getId() == self.directorList.getId():
+                selectedCastsItem.select(not selectedCastsItem.isSelected())
+                xbmc.log(f"{selectedCastsItem.getLabel()} selected status: {selectedCastsItem.isSelected()}")
+
+
+            if control.getId() == self.directorButton.getId():
                 self.listBack11.setVisible(not self.listBack11.isVisible())
-                self.list11.setVisible(not self.list11.isVisible())
-                text = "visible" if self.list11.isVisible() else "invisible"
+                self.directorList.setVisible(not self.directorList.isVisible())
+                text = "visible" if self.directorList.isVisible() else "invisible"
                 text2 = "visible" if self.listBack11.isVisible() else "invisible"
                 xbmc.log("button was pressed, List Background is now " + text2)
-                xbmc.log("button was pressed, list11 is now " + text)
+                xbmc.log("button was pressed, directorList is now " + text)
 
                 #The getting options thing
-            if control.getId() == self.list11.getId():
+            if control.getId() == self.directorList.getId():
                 global DirectorItem
-                SelectedDirectorItem = self.list11.getSelectedItem()
-                xbmc.log( SelectedDirectorItem.getLabel() + " was clicked from Director option")
-                DirectorItem = SelectedDirectorItem
+                selectedDirectorItem = self.directorList.getSelectedItem()
+                xbmc.log( selectedDirectorItem.getLabel() + " was clicked from Director option")
+                DirectorItem = selectedDirectorItem
+
+                selectedDirectorItem.select(not selectedDirectorItem.isSelected())
+                xbmc.log(f"{selectedDirectorItem.getLabel()} selected status: {selectedDirectorItem.isSelected()}")
+
 
             if control.getId() == self.includeList.getId():
                 includeWindow = IncludeWindow()
                 includeWindow.doModal()
                 del includeWindow
 
-                # self.list12.setVisible(not self.list12.isVisible())
-                # text = "visible" if self.list12.isVisible() else "invisible"
-                # xbmc.log("button was pressed, list12 is now " + text)
+            if control.getId() == self.playOneButton.getId():
+                so = searchOptions.SearchOptions()
+
+                # each thing is a list of stuff so we build a regular python list from kodi's lists
+                # and put that into the search options object with set<option>(options)
+                # where <option> is stuff like mediaType, genre, etc.
+                # repeat for each search option that the gui can work with
+                mediaTypes = []
+                for i in range(self.mediaTypeList.size()):
+                    item = self.mediaTypeList.getListItem(i)
+                    if item.isSelected():
+                        mediaTypes.append(item.getLabel().lower())
+                so.setMediaType(mediaTypes)
+
+                watchStatuses = []
+                for i in range(self.watchStatusList.size()):
+                    item = self.watchStatusList.getListItem(i)
+                    if item.isSelected():
+                        match item.getLabel().lower():
+                            case "unwatched":
+                                watchStatuses.append(0)
+                            case "watched":
+                                watchStatuses.append(1)
+
+                if watchStatuses:
+                    so.setWatchStatus(watchStatuses)
+                else:
+                    so.setWatchStatus([0])
+
+                ratings = []
+                for i in range(self.ratingList.size()):
+                    item = self.ratingList.getListItem(i)
+                    if item.isSelected():
+                        ratings.append(item.getLabel())
+                so.setRating(ratings)
+                
+                genres = []
+                for i in range(self.genreList.size()):
+                    item = self.genreList.getListItem(i)
+                    if item.isSelected():
+                        genres.append(item.getLabel().lower())
+                so.setGenre(genres)
+
+                #Length Stuff
+                minValue = self.minInput.getText()
+                maxValue = self.maxInput.getText()
+
+                # check if min and max value are numbers
+                if not minValue.isdigit() or not maxValue.isdigit():
+                    xbmcgui.Dialog().ok("Silly Human!", "Length min and max must be numbers! (specified in minutes)")
+                    return
+                
+                so.setMINLength(int(maxValue) * 60)
+                so.setMAXLength(int(maxValue) * 60)
+
+                years = []
+                for i in range(self.yearList.size()):
+                    item = self.yearList.getListItem(i)
+                    if item.isSelected():
+                        years.append(item.getLabel().lower())
+                so.setYear(years)
+
+                tagses = []
+                for i in range(self.tagsList.size()):
+                    item = self.tagsList.getListItem(i)
+                    if item.isSelected():
+                        tagses.append(item.getLabel().lower())
+                so.setTag(tagses)
+
+                studios = []
+                for i in range(self.studioList.size()):
+                    item = self.studioList.getListItem(i)
+                    if item.isSelected():
+                        studios.append(item.getLabel().lower())
+                so.setStudio(studios)
+
+                mostWatchedes = []
+                for i in range(self.mostWatchedList.size()):
+                    item = self.mostWatchedList.getListItem(i)
+                    if item.isSelected():
+                        mostWatchedes.append(item.getLabel().lower())
+                so.setMostWatched(mostWatchedes)
+
+                castes = []
+                for i in range(self.castsList.size()):
+                    item = self.castsList.getListItem(i)
+                    if item.isSelected():
+                        castes.append(item.getLabel().lower())
+                so.setCast(castes)
+
+                directores = []
+                for i in range(self.directorList.size()):
+                    item = self.directorList.getListItem(i)
+                    if item.isSelected():
+                        directores.append(item.getLabel().lower())
+                so.setDirector(directores)
+
+
+                playOneWindow = PlayOneWindow()
+                playOneWindow.setResults(so)
+                playOneWindow.doModal()
+                del playOneWindow
+
+            if control.getId() == self.loopPlayButton.getId():
+                so = searchOptions.SearchOptions()
+
+                # each thing is a list of stuff so we build a regular python list from kodi's lists
+                # and put that into the search options object with set<option>(options)
+                # where <option> is stuff like mediaType, genre, etc.
+                # repeat for each search option that the gui can work with
+                mediaTypes = []
+                for i in range(self.mediaTypeList.size()):
+                    item = self.mediaTypeList.getListItem(i)
+                    if item.isSelected():
+                        mediaTypes.append(item.getLabel().lower())
+                so.setMediaType(mediaTypes)
+
+                watchStatuses = []
+                for i in range(self.watchStatusList.size()):
+                    item = self.watchStatusList.getListItem(i)
+                    if item.isSelected():
+                        match item.getLabel().lower():
+                            case "unwatched":
+                                watchStatuses.append(0)
+                            case "watched":
+                                watchStatuses.append(1)
+
+                if watchStatuses:
+                    so.setWatchStatus(watchStatuses)
+                else:
+                    so.setWatchStatus([0])
+
+                ratings = []
+                for i in range(self.ratingList.size()):
+                    item = self.ratingList.getListItem(i)
+                    if item.isSelected():
+                        ratings.append(item.getLabel())
+                so.setRating(ratings)
+                
+                genres = []
+                for i in range(self.genreList.size()):
+                    item = self.genreList.getListItem(i)
+                    if item.isSelected():
+                        genres.append(item.getLabel().lower())
+                so.setGenre(genres)
+
+                #Length Stuff
+                minValue = self.minInput.getText()
+                maxValue = self.maxInput.getText()
+
+                # check if min and max value are numbers
+                if not minValue.isdigit() or not maxValue.isdigit():
+                    xbmcgui.Dialog().ok("Silly Human!", "Length min and max must be numbers! (specified in minutes)")
+                    return
+                
+                so.setMINLength(int(maxValue) * 60)
+                so.setMAXLength(int(maxValue) * 60)
+
+                years = []
+                for i in range(self.yearList.size()):
+                    item = self.yearList.getListItem(i)
+                    if item.isSelected():
+                        years.append(item.getLabel().lower())
+                so.setYear(years)
+
+                tagses = []
+                for i in range(self.tagsList.size()):
+                    item = self.tagsList.getListItem(i)
+                    if item.isSelected():
+                        tagses.append(item.getLabel().lower())
+                so.setTag(tagses)
+
+                studios = []
+                for i in range(self.studioList.size()):
+                    item = self.studioList.getListItem(i)
+                    if item.isSelected():
+                        studios.append(item.getLabel().lower())
+                so.setStudio(studios)
+
+                mostWatchedes = []
+                for i in range(self.mostWatchedList.size()):
+                    item = self.mostWatchedList.getListItem(i)
+                    if item.isSelected():
+                        mostWatchedes.append(item.getLabel().lower())
+                so.setMostWatched(mostWatchedes)
+
+                castes = []
+                for i in range(self.castsList.size()):
+                    item = self.castsList.getListItem(i)
+                    if item.isSelected():
+                        castes.append(item.getLabel().lower())
+                so.setCast(castes)
+
+                directores = []
+                for i in range(self.directorList.size()):
+                    item = self.directorList.getListItem(i)
+                    if item.isSelected():
+                        directores.append(item.getLabel().lower())
+                so.setDirector(directores)
+
+                loopPlayWindow = LoopPlayWindow()
+                loopPlayWindow.setResults(so)
+                loopPlayWindow.doModal()
+                del loopPlayWindow
+
+            # start of filter stuff
+            if control.getId() == self.showListButton.getId():
+                # show list button clicked, generate search options from gui
+                so = searchOptions.SearchOptions()
+
+                # each thing is a list of stuff so we build a regular python list from kodi's lists
+                # and put that into the search options object with set<option>(options)
+                # where <option> is stuff like mediaType, genre, etc.
+                # repeat for each search option that the gui can work with
+                mediaTypes = []
+                for i in range(self.mediaTypeList.size()):
+                    item = self.mediaTypeList.getListItem(i)
+                    if item.isSelected():
+                        mediaTypes.append(item.getLabel().lower())
+                so.setMediaType(mediaTypes)
+
+                watchStatuses = []
+                for i in range(self.watchStatusList.size()):
+                    item = self.watchStatusList.getListItem(i)
+                    if item.isSelected():
+                        match item.getLabel().lower():
+                            case "unwatched":
+                                watchStatuses.append(0)
+                            case "watched":
+                                watchStatuses.append(1)
+
+                if watchStatuses:
+                    so.setWatchStatus(watchStatuses)
+                else:
+                    so.setWatchStatus([0])
+
+                ratings = []
+                for i in range(self.ratingList.size()):
+                    item = self.ratingList.getListItem(i)
+                    if item.isSelected():
+                        ratings.append(item.getLabel())
+                so.setRating(ratings)
+                
+                genres = []
+                for i in range(self.genreList.size()):
+                    item = self.genreList.getListItem(i)
+                    if item.isSelected():
+                        genres.append(item.getLabel().lower())
+                so.setGenre(genres)
+
+                #Length Stuff
+                minValue = self.minInput.getText()
+                maxValue = self.maxInput.getText()
+
+                # check if min and max value are numbers
+                if not minValue.isdigit() or not maxValue.isdigit():
+                    xbmcgui.Dialog().ok("Silly Human!", "Length min and max must be numbers! (specified in minutes)")
+                    return
+                
+                so.setMINLength(int(maxValue) * 60)
+                so.setMAXLength(int(maxValue) * 60)
+
+                years = []
+                for i in range(self.yearList.size()):
+                    item = self.yearList.getListItem(i)
+                    if item.isSelected():
+                        years.append(item.getLabel().lower())
+                so.setYear(years)
+
+                tagses = []
+                for i in range(self.tagsList.size()):
+                    item = self.tagsList.getListItem(i)
+                    if item.isSelected():
+                        tagses.append(item.getLabel().lower())
+                so.setTag(tagses)
+
+                studios = []
+                for i in range(self.studioList.size()):
+                    item = self.studioList.getListItem(i)
+                    if item.isSelected():
+                        studios.append(item.getLabel().lower())
+                so.setStudio(studios)
+
+                mostWatchedes = []
+                for i in range(self.mostWatchedList.size()):
+                    item = self.mostWatchedList.getListItem(i)
+                    if item.isSelected():
+                        mostWatchedes.append(item.getLabel().lower())
+                so.setMostWatched(mostWatchedes)
+
+                castes = []
+                for i in range(self.castsList.size()):
+                    item = self.castsList.getListItem(i)
+                    if item.isSelected():
+                        castes.append(item.getLabel().lower())
+                so.setCast(castes)
+
+                directores = []
+                for i in range(self.directorList.size()):
+                    item = self.directorList.getListItem(i)
+                    if item.isSelected():
+                        directores.append(item.getLabel().lower())
+                so.setDirector(directores)
+
+                # TODO take into account watch status later- True or false. 0 ones that have been. 1 have not. 0 and 1 get passed is both.
+
+                showListWindow = ShowListWindow()
+                showListWindow.setResults(so)
+                showListWindow.doModal()
+                del showListWindow
+
+                # print("Filter results:")
+                # for result in results:
+                #     xbmc.log(f"{result}")
+                # xbmc.log(f"backup print: {results}")
+            # end of the code I tried testing
 
 
 
 
 #Global Variables for options
+SELECTED_COLOR = "0xFF000000" #For the highlightedness of the selected list item
 
 MediaTypeItem = None
 def getMediaTypeItem() -> str:
@@ -635,3 +1103,4 @@ def showGui():
     
     window.doModal()
     del window
+"""

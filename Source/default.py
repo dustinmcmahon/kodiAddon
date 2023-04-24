@@ -8,6 +8,7 @@ import searchProfile
 import filter
 import gui
 import unitTests
+import time
 
 searchProfile.install()
 
