@@ -10,24 +10,35 @@ import xbmc
 import json
 import searchOptions
 import random
+import xbmcgui
+import re
+import time
 from datetime import datetime
+from datetime import datetime
+import shut
 
 # *** filter helper functions ***
 
 # builds the filter strings for each field
-def _filterList_(name,valueList):
+
+
+def _filterList_(name, valueList):
     defaultReturn = {}
     if len(valueList) == 1:
-        defaultReturn = {"operator": "is", "field": name, "value": valueList[0]}
+        defaultReturn = {"operator": "is",
+                         "field": name, "value": valueList[0]}
     elif len(valueList) > 1:
         for x in valueList:
             if defaultReturn == {}:
                 defaultReturn = []
             defaultReturn.append(x)
-        defaultReturn = {"operator": "contains", "field": name, "value": defaultReturn}
+        defaultReturn = {"operator": "contains",
+                         "field": name, "value": defaultReturn}
     return defaultReturn
 
 # applies the include or exclude list to the pre filtered list
+
+
 def _filterIncExc(videoList, inList, exList):
     returnList = []
     if (len(inList) < len(exList)):
@@ -38,44 +49,48 @@ def _filterIncExc(videoList, inList, exList):
     else:
         for x in exList:
             for y in videoList:
-                if(x == y['title']):
+                if (x == y['title']):
                     videoList.remove(y)
         returnList = videoList
     return returnList
 
 # applies the length filter to the pre filtered list
+
+
 def _filterLength(videos, lengths):
     removeVideos = []
     min = lengths[0]
     max = lengths[1]
 
     for x in videos:
-        if ((( min != 0 ) & ( x['runtime'] < min )) | (( max != 0 ) & ( x['runtime'] > max ))):
+        if (((min != 0) & (x['runtime'] < min)) | ((max != 0) & (x['runtime'] > max))):
             removeVideos.append(x)
-    
+
     for y in removeVideos:
         videos.remove(y)
 
     return videos
 
 # applies the watch status filter to the pre filtered list
+
+
 def _filterWatchStatus(videos, status):
     returnList = []
-    if(len(status) > 1):
+    if (len(status) > 1):
         return videos
-    elif(status[0] == 0):
+    elif (status[0] == 0):
         for x in videos:
-            if(x['playcount'] == 0):
+            if (x['playcount'] == 0):
                 returnList.append(x)
     else:
         for x in videos:
-            if(x['playcount'] > 0):
+            if (x['playcount'] > 0):
                 returnList.append(x)
     return returnList
 
 
 # *** playback functions ***
-#Dustin's assignment
+# Dustin's assignment
 def _playOne(videoList, mostWatched):
     result = []
     if (not mostWatched):
@@ -83,13 +98,17 @@ def _playOne(videoList, mostWatched):
     else:
         for x in videoList:
             if (result != {} or x['playcount'] > result['playcount']):
+            if (result != {} or x['playcount'] > result['playcount']):
                 result = x
     return result
 
-#Hsu's Assignment
+# Hsu's Assignment
+
+
 def _getPC(video):
     print(video['title'])
     return video['playcount']
+
 
 def _showList(videoList, mostWatched):
     if (mostWatched):
@@ -99,18 +118,22 @@ def _showList(videoList, mostWatched):
         returnList = videoList
     return returnList
 
-#Hsu's Assignment
+# Hsu's Assignment
+
+
 def _getTitle(video):
     return video['title']
+
 
 def _getfirstAired(video):
     firstaired_str = video['firstaired']
     if (firstaired_str):
-       ''' date_obj = datetime.strptime(firstaired_str, "%Y-%m-%d")
-        return date_obj'''
-       return firstaired_str
+        ''' date_obj = datetime.strptime(firstaired_str, "%Y-%m-%d")
+         return date_obj'''
+        return firstaired_str
     else:
         return datetime.min
+
 
 def _loopPlay(videoList, mostWatched, mediaTypes):
     movieList = []
@@ -133,8 +156,31 @@ def _loopPlay(videoList, mostWatched, mediaTypes):
                 episodeList = videoList
             return episodeList
 
-# Filter function
-## Pass in the Search Options
+
+# Take this gui
+"""    xbmc.PlayList(xbmc.PLAYLIST_VIDEO).clear()
+    for video in sort_videoList:
+        listitem = xbmcgui.ListItem(label=video['title'], path=video['url'])
+        listitem.addThumbnailImage(video['thumbnail'])
+        listitem.setInfo('video', video)
+        xbmc.PlayList(xbmc.PLAYLIST_VIDEO).add(
+            url=video['url'], listitem=listitem)
+    print(xbmc.PlayList(xbmc.PLAYLIST_VIDEO))
+    xbmc.Player().play(xbmc.PlayList(xbmc.PLAYLIST_VIDEO))
+"""
+"""playList = xbmc.Playlist(1)
+    videos = videoList
+    for video in videos:
+        picture = video.pop('pic')
+        url = video.pop('url')
+        listitem = xbmcgui.ListItem(video['title'])
+        listitem.setInfo('video', video)
+        listitem.setThumbnailImage(picture)
+        playList.add(url, listitem)
+        '''play=xbmc.PlayList(xbmc.xbmc.PLAYLIST_VIDEO)'''
+    xbmc.Player().play(playList)"""
+
+
 def filter(options: searchOptions.SearchOptions):
     genreFilter = _filterList_('genre', options.getGenre())
     tagFilter = _filterList_('tag', options.getTag())
@@ -214,6 +260,34 @@ def filter(options: searchOptions.SearchOptions):
                     },
                     "id": "library"}
             episodeList = json.loads(xbmc.executeJSONRPC(json.dumps(command)))['result']['episodes']
+        if (x == 'movie'):
+            command = {
+                "jsonrpc": "2.0",
+                "method": "VideoLibrary.GetMovies",
+                "params": {
+                    # get_genre_filer() = {"field": "genre", "operator": "is", "value": genre}
+                    "filter": {"or": filterList},
+                    "properties": ["uniqueid", "art", "thumbnail", "playcount", "file", "runtime", "rating", "title"],
+                    "sort": {"order": "ascending", "method": "label"}
+                },
+                "id": "library"}
+            print(command)
+            movieList = json.loads(xbmc.executeJSONRPC(
+                json.dumps(command)))['result']['movies']
+        elif (x == 'episode'):
+            command = {
+                "jsonrpc": "2.0",
+                "method": "VideoLibrary.GetEpisodes",
+                "params": {
+                    # get_genre_filer() = {"field": "genre", "operator": "is", "value": genre}
+                    "filter": {"or": filterList},
+                    "properties": ["uniqueid", "art", "thumbnail", "rating", "file", "playcount", 'title', 'runtime', 'firstaired', 'showtitle'],
+                    "sort": {"order": "ascending", "method": "label"}
+                },
+                "id": "library"}
+            print(command)
+            episodeList = json.loads(xbmc.executeJSONRPC(json.dumps(command)))[
+                'result']['episodes']
 
     videoList = []
     if (episodeList != []):
@@ -221,7 +295,8 @@ def filter(options: searchOptions.SearchOptions):
     if (movieList != []):
         videoList += movieList
 
-    videoList = _filterIncExc(videoList, options.getInclude(), options.getExclude())
+    videoList = _filterIncExc(
+        videoList, options.getInclude(), options.getExclude())
     videoList = _filterLength(videoList, options.getLength())
     videoList = _filterWatchStatus(videoList, options.getWatchStatus())
 
@@ -230,10 +305,25 @@ def filter(options: searchOptions.SearchOptions):
         result = _playOne(videoList, options.getMostWatched())
     elif options.getPBFunction() == 2:
         result = _showList(videoList, options.getMostWatched())
+    if options.getPBFunction() == 2:
+        result = _showList(videoList, options.getMostWatched())
+        result = _showList(videoList, options.getMostWatched())
     elif options.getPBFunction() == 3:
         result = _loopPlay(videoList, options.getMostWatched(), options.getMediaType())
 
     return result
 
-def unitTest(options: searchOptions):
-    return filter(options)
+
+def unitTest(options: searchOptions.SearchOptions):
+    '''
+    print(_filterList_('genre', options.getGenre()))
+    print(_filterList_('tag', options.getTag()))
+    print(_filterList_('cast', options.getCast()))
+    print(_filterList_('director', options.getDirector()))
+    print(_filterList_('year', options.getYear()))
+    print(_filterList_('studio', options.getStudio()))
+    print(_filterList_('rating', options.getRating()))
+    '''
+
+    print(filter(options))
+    print(shut.shutdownTime(options.getShutTime()))

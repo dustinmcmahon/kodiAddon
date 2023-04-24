@@ -10,13 +10,14 @@ class SearchOptions:
         self.include = []
         self.exclude = []
         self.watchStatus = []
-        self.length = [0, 0] # time based in seconds    
+        self.length = [0, 0]  # time based in seconds
         self.year = []
         self.rating = []
         self.mediaType = ['movie', 'episode']
         self.studio = []
         self.mostWatched = False
         self.function = 0  # possible options: 1 = playOne, 2 = showList, 3 = loopPlay
+        self.shutTime = [0, 0]  # time in hour and min
 
     def __str__(self) -> str:
         return f"genre: {self.genre}\ntag: {self.tag}\ncast: {self.cast}\ndirector: {self.director}\ninclude: {self.include}\nexclude: {self.exclude}\nwatchStatus: {self.watchStatus}\nlength: {self.length}\nyear: {self.year}\nrating: {self.rating}\nmediaType: {self.mediaType}\nstudio: {self.studio}\nmostWatched: {self.mostWatched}\nPB Func: {self.function}\n"
@@ -191,31 +192,49 @@ class SearchOptions:
     def getPBFunction(self):
         return self.function
 
+    # Shutdowm time
+    def getShutTime(self):
+        return self.shutTime
+
+    def setHours(self, hoursVal):
+        self.shutTime[0] = hoursVal
+
+    def setMins(self, minsVal):
+        self.shutTime[1] = minsVal
+
 # Unit Test Cases
 
 # create a set of search options to test episodes
+
+
 def unitTestEpisode():
-    
+
     testCase = SearchOptions()
-    testCase.setCast(['Atsushi Tamaru','Tadashi Miyazawa','Kousuke Toriumi'])
-    testCase.setExclude(["The Apocalypse","The Battle of Loka","The Depths of Palm","Escape"])
+    testCase.setCast(['Atsushi Tamaru', 'Tadashi Miyazawa', 'Kousuke Toriumi'])
+    testCase.setExclude(
+        ["The Apocalypse", "The Battle of Loka", "The Depths of Palm", "Escape"])
     testCase.setGenre(['Science Fiction', 'Fantasy', 'Drama'])
     testCase.setTag(['fighting'])
-    testCase.setInclude(["The Chou Family's Secret?", "Master and Servant", "Lie", "Chaos", "Welcome to Express Delivery"])
+    testCase.setInclude(["The Chou Family's Secret?", "Master and Servant",
+                        "Lie", "Chaos", "Welcome to Express Delivery"])
     testCase.setMINLength(1300)
     testCase.setMAXLength(1600)
     testCase.setStudio(['Tencent Video'])
     testCase.setRating([])
     testCase.setDirector([])
-    testCase.setWatchStatus([0,1])
+    testCase.setWatchStatus([0, 1])
     testCase.setYear(['2016', '2017', '2018', '2019', '2020', '2021', '2022'])
     testCase.setMediaType(['episode'])
     testCase.setPBFunction(3)
     testCase.setMostWatched(False)
+    testCase.setHours(0)
+    testCase.setMins(0)
 
     return testCase
 
 # full test with add and remove
+
+
 def unitTestMovie():
     testCase = SearchOptions()
 
@@ -256,7 +275,8 @@ def unitTestMovie():
 
     # Exclude Testing
     print('Exclude')
-    testCase.setExclude(["Rise of the Guardians", "Fantastic Beasts: The Crimes of Grindelwald", "Fantastic Beasts: The Secrets of Dumbledore", "Fantastic Beasts and Where to Find Them", "Frozen"])
+    testCase.setExclude(["Rise of the Guardians", "Fantastic Beasts: The Crimes of Grindelwald",
+                        "Fantastic Beasts: The Secrets of Dumbledore", "Fantastic Beasts and Where to Find Them", "Frozen"])
     testCase.addExclude("Long Shot")
     testCase.removeExclude("Frozen")
     print(testCase.getExclude())
@@ -314,5 +334,11 @@ def unitTestMovie():
     print('Playback Functions')
     testCase.setPBFunction(3)
     print(testCase.getPBFunction())
+
+    # Function Testing
+    print('shutTime')
+    testCase.setHours(0)
+    testCase.setMins(0)
+    print(testCase.getShutTime())
 
     return testCase

@@ -4,6 +4,8 @@ import searchOptions
 import searchProfile
 import filter
 import gui
+import shut
+
 
 def run():
     # JSON RPC Testing
@@ -30,4 +32,5 @@ def run():
     print(filter.unitTest(movieOptions))
     print(filter.unitTest(episodeOptions))
 
+    
     return True
