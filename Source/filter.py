@@ -98,7 +98,6 @@ def _playOne(videoList, mostWatched):
     else:
         for x in videoList:
             if (result != {} or x['playcount'] > result['playcount']):
-            if (result != {} or x['playcount'] > result['playcount']):
                 result = x
     return result
 
