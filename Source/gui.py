@@ -99,7 +99,7 @@ def options():
 class MyWindow(xbmcgui.Window):
     # def display_list(self):
     #         dialog = xbmcgui.Dialog()
-    #         dialog.ok("List", str(dummy_list))
+    #         dialog.ok("List", str(dummy_list)) blah
 
      #\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\The Identifying
     def media_Type(self, text):

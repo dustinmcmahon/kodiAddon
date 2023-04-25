@@ -5,6 +5,7 @@ import metaData
 import searchOptions
 import filter as OurFilter
 import gui
+import urllib.parse
 
 
 class PlayOneWindow(xbmcgui.Window):
@@ -42,31 +43,34 @@ class LoopPlayWindow(xbmcgui.Window):
     HALF_PAGE = ITEMS_PER_PAGE // 2
     LOOPY_WIDTH = 500 #Space from bottom of screen to bottom list
     LOOPY_HEIGHT = 10
+    loopyimages = []
 
     
 
     loopyGrid: list[xbmcgui.ControlLabel]
-    LoopyGridImages:  list[xbmcgui.ControlImage]
+    loopyGridImages:  list[xbmcgui.ControlImage]
     def show_circle(self, x, y, radius, color):
         circlePath = gui.imagesFolder + "circle.png"
         circle = xbmcgui.ControlImage(x, y, radius, radius, circlePath, color)
         self.addControl(circle)
 
+
+
     def __init__(self) -> None:
         self.page = 0
         self.loopyGrid = []
-        self.LoopyGridImages = []
+        self.loopyGridImages = []
         for i in range(self.ITEMS_PER_PAGE):
             x = 300 * ((i % self.HALF_PAGE) + 1) # Space from left screen 
             if i < self.HALF_PAGE:
                 self.loopyGrid.append(xbmcgui.ControlLabel(x, 150, self.LOOPY_WIDTH, self.LOOPY_HEIGHT, f"loopy do {i}")) #Space from the top of the screen to the top of the list
-                self.LoopyGridImages.append(xbmcgui.ControlImage(x, 250, self.LOOPY_WIDTH, self.LOOPY_HEIGHT, self.loopyImages[i]))
+                self.loopyGridImages.append(xbmcgui.ControlImage(x, 250, self.LOOPY_WIDTH, self.LOOPY_HEIGHT, urllib.parse.unquote(v["art"]["banner"] ))
                 #Display the taken image
                 self.show_circle (30, 35, 150, 0xFF0000)
                 #Put in the button
             else:
                 self.loopyGrid.append(xbmcgui.ControlLabel(x, 400, self.LOOPY_WIDTH, self.LOOPY_HEIGHT, f"loopy do {i}")) #Space in height between top and bottom lists
-                self.LoopyGridImages.append(xbmcgui.ControlImage(x, 500, self.LOOPY_WIDTH, self.LOOPY_HEIGHT, self.loopyImages[i] ))
+                self.loopyGridImages.append(xbmcgui.ControlImage(x, 500, self.LOOPY_WIDTH, self.LOOPY_HEIGHT, urllib.parse.unquote(v["art"]["banner"]))
                 #Display image
                 self.show_circle (30, 335, 150, 0xFF0000)
                 #Put in the button
@@ -92,8 +96,9 @@ class LoopPlayWindow(xbmcgui.Window):
         for i, v in enumerate(chunk):
             label = self.loopyGrid[i]
             label.setLabel(v["title"])
-            image = self.loopyImages[i]
-            image.setImage(v["thumbnail"])
+            image = self.loopyGridImages[i]
+            image.setImage(urllib.parse.unquote(v["art"]["banner"]))
+            xbmc.log(urllib.parse.unquote(v["art"]["banner"]))
 
         
 
