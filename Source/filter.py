@@ -123,9 +123,8 @@ def _showList(videoList, mostWatched):
 def _getTitle(video):
     return video['title']
 
-
-def _getfirstAired(video):
-    firstaired_str = video['firstaired']
+def _getfirstAired(video: dict):
+    firstaired_str = video['firstaired']#M I put this
     if (firstaired_str):
         ''' date_obj = datetime.strptime(firstaired_str, "%Y-%m-%d")
          return date_obj'''
@@ -216,6 +215,8 @@ def filter(options: searchOptions.SearchOptions):
     mediaTypes = options.getMediaType()
     movieList = []
     episodeList = []
+
+    xbmc.log(f"filters: {filterList}")
     for x in mediaTypes:
         if(x == 'movie'):
             if filterList == []:
@@ -270,10 +271,9 @@ def filter(options: searchOptions.SearchOptions):
                     "sort": {"order": "ascending", "method": "label"}
                 },
                 "id": "library"}
-            print(command)
-            movieList = json.loads(xbmc.executeJSONRPC(
-                json.dumps(command)))['result']['movies']
-        elif (x == 'episode'):
+            # print(command)
+            movieList = json.loads(xbmc.executeJSONRPC(json.dumps(command)))['result']['movies']
+        elif(x == 'episode'):
             command = {
                 "jsonrpc": "2.0",
                 "method": "VideoLibrary.GetEpisodes",
@@ -284,9 +284,8 @@ def filter(options: searchOptions.SearchOptions):
                     "sort": {"order": "ascending", "method": "label"}
                 },
                 "id": "library"}
-            print(command)
-            episodeList = json.loads(xbmc.executeJSONRPC(json.dumps(command)))[
-                'result']['episodes']
+            # print(command)
+            episodeList = json.loads(xbmc.executeJSONRPC(json.dumps(command)))['result']['episodes']
 
     videoList = []
     if (episodeList != []):

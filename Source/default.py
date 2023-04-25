@@ -26,4 +26,4 @@ if (unitTests.run()):
 else:
     xbmc.log("Unit Testing Failed!", 0)
 
-# gui.showGui()
+gui.showGui()
