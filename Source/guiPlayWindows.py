@@ -34,7 +34,7 @@ class ShowListWindow(xbmcgui.Window):
             item = xbmcgui.ListItem(something["title"])
             ListShown.addItem(item)
 
-        self.show_Setting (30, 35, 150, 0xFF0000)
+        self.show_Setting (10, 10, 300, 0xFF0000)
 #Conrol image with control button underneath it.
 
 class LoopPlayWindow(xbmcgui.Window):

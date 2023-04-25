@@ -196,7 +196,8 @@ def filter(options: searchOptions.SearchOptions):
                     "sort": {"order": "ascending", "method": "label"}
                 },
                 "id": "library"}
-            # print(command)
+            #print(command)
+            print(command)
             episodeList = json.loads(xbmc.executeJSONRPC(json.dumps(command)))['result']['episodes']
 
     videoList = []
