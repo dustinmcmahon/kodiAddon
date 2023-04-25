@@ -5,7 +5,7 @@ import metaData
 import searchOptions
 import filter as OurFilter
 import gui
-
+from typing import List
 
 class PlayOneWindow(xbmcgui.Window):
     def setResults(self, so) -> None:
@@ -45,8 +45,8 @@ class LoopPlayWindow(xbmcgui.Window):
 
     
 
-    loopyGrid: list[xbmcgui.ControlLabel]
-    LoopyGridImages:  list[xbmcgui.ControlImage]
+    loopyGrid: List[xbmcgui.ControlLabel]
+    LoopyGridImages:  List[xbmcgui.ControlImage]
     def show_circle(self, x, y, radius, color):
         circlePath = gui.imagesFolder + "circle.png"
         circle = xbmcgui.ControlImage(x, y, radius, radius, circlePath, color)

@@ -1,4 +1,4 @@
-"""import xbmcgui
+import xbmcgui
 import xbmc
 import xbmcaddon
 import metaData
@@ -984,9 +984,6 @@ class MyWindow(xbmcgui.Window):
                 # xbmc.log(f"backup print: {results}")
             # end of the code I tried testing
 
-
-
-
 #Global Variables for options
 SELECTED_COLOR = "0xFF000000" #For the highlightedness of the selected list item
 
@@ -1037,10 +1034,6 @@ def getDirectorItem() -> str:
 IncludeItem = None
 def getIncludeItem() -> str:
     return IncludeItem
-
-
-
-
     
   #The Window
 def showGui():
@@ -1053,4 +1046,3 @@ def showGui():
     
     window.doModal()
     del window
-"""
