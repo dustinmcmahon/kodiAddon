@@ -1,4 +1,4 @@
-"""import xbmcgui
+import xbmcgui
 import xbmc
 import xbmcaddon
 import metaData
@@ -1013,6 +1013,7 @@ class MyWindow(xbmcgui.Window):
 # Global Variables for options
 SELECTED_COLOR = "0xFF000000"  # For the highlightedness of the selected list item
 
+
 MediaTypeItem = None
 
 
@@ -1109,5 +1110,3 @@ def showGui():
 
     window.doModal()
     del window
-
-"""

@@ -21,9 +21,12 @@ Each Python file should have a single unit test function to test all other funct
 '''
 # **********************
 
+'''
+if (unitTests.run()):
 """if (unitTests.run()):
     xbmc.log("Unit Testing Complete!", 0)
 else:
-    xbmc.log("Unit Testing Failed!", 0)"""
+    xbmc.log("Unit Testing Failed!", 0)
+'''
 
-# gui.showGui()
+gui.showGui()
