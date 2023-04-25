@@ -260,32 +260,6 @@ def filter(options: searchOptions.SearchOptions):
                     },
                     "id": "library"}
             episodeList = json.loads(xbmc.executeJSONRPC(json.dumps(command)))['result']['episodes']
-        if (x == 'movie'):
-            command = {
-                "jsonrpc": "2.0",
-                "method": "VideoLibrary.GetMovies",
-                "params": {
-                    # get_genre_filer() = {"field": "genre", "operator": "is", "value": genre}
-                    "filter": {"or": filterList},
-                    "properties": ["uniqueid", "art", "thumbnail", "playcount", "file", "runtime", "rating", "title"],
-                    "sort": {"order": "ascending", "method": "label"}
-                },
-                "id": "library"}
-            # print(command)
-            movieList = json.loads(xbmc.executeJSONRPC(json.dumps(command)))['result']['movies']
-        elif(x == 'episode'):
-            command = {
-                "jsonrpc": "2.0",
-                "method": "VideoLibrary.GetEpisodes",
-                "params": {
-                    # get_genre_filer() = {"field": "genre", "operator": "is", "value": genre}
-                    "filter": {"or": filterList},
-                    "properties": ["uniqueid", "art", "thumbnail", "rating", "file", "playcount", 'title', 'runtime', 'firstaired', 'showtitle'],
-                    "sort": {"order": "ascending", "method": "label"}
-                },
-                "id": "library"}
-            # print(command)
-            episodeList = json.loads(xbmc.executeJSONRPC(json.dumps(command)))['result']['episodes']
 
     videoList = []
     if (episodeList != []):
@@ -304,7 +278,6 @@ def filter(options: searchOptions.SearchOptions):
     elif options.getPBFunction() == 2:
         result = _showList(videoList, options.getMostWatched())
     if options.getPBFunction() == 2:
-        result = _showList(videoList, options.getMostWatched())
         result = _showList(videoList, options.getMostWatched())
     elif options.getPBFunction() == 3:
         result = _loopPlay(videoList, options.getMostWatched(), options.getMediaType())

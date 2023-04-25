@@ -15,6 +15,10 @@ kesDBPath = "{}kesProfile.db".format(addonDataFolder)
 # *** Public Functions ***
 # ************************
 
+# ************************
+# *** Setup Functions ****
+# ************************
+
 def install():
     if not os.path.exists(addonDataFolder):
         #create folder for addon data
@@ -50,6 +54,12 @@ def uninstall():
     if not os.path.exists("{}\kesProfile.db".format(addonDataFolder)):
         os.remove("{}\kesProfile.db".format(addonDataFolder))
 
+# ************************
+# *** Usable Functions ***
+# ************************
+
+# delete a profile from the system
+## name should be the string of the save profile you would like to remove
 def removeProfile(name: str):
     connection = sqlite3.connect(kesDBPath)
     cursor = connection.cursor()
@@ -59,6 +69,9 @@ def removeProfile(name: str):
     connection.commit()
     connection.close()
 
+# add a profile to the system
+## name should be the string you would like to use to name the profile
+## options is the set of search options you would like to save
 def addProfile(name: str, options: searchOptions.SearchOptions):
     connection = sqlite3.connect(kesDBPath)
     cursor = connection.cursor()
@@ -67,6 +80,9 @@ def addProfile(name: str, options: searchOptions.SearchOptions):
     connection.commit()
     connection.close()
 
+# update an existing profile
+## name should be the string of the current profile
+## options should be the search options you would like to update to
 def updateProfile(name: str, options: searchOptions.SearchOptions):
     connection = sqlite3.connect(kesDBPath)
     cursor = connection.cursor()
@@ -76,6 +92,8 @@ def updateProfile(name: str, options: searchOptions.SearchOptions):
     connection.commit()
     connection.close()
 
+# get profile
+## this will get a profile given a name
 def getProfile(name: str) -> searchOptions.SearchOptions:
     connection = sqlite3.connect(kesDBPath)
     cursor = connection.cursor()
@@ -84,6 +102,17 @@ def getProfile(name: str) -> searchOptions.SearchOptions:
     connection.commit()
     connection.close()
     return profile
+
+# get a list of all profiles
+## this will give a list of all profile names
+def getAllProfiles():
+    connection = sqlite3.connect(kesDBPath)
+    cursor = connection.cursor()
+    profiles = cursor.execute('SELECT name FROM profile;').fetchall()
+    connection.commit()
+    connection.close()
+    return profiles
+
 
 # ************************
 # ** Private Functions ***

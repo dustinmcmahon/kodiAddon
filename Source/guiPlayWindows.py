@@ -43,10 +43,9 @@ class LoopPlayWindow(xbmcgui.Window):
     LOOPY_WIDTH = 500 #Space from bottom of screen to bottom list
     LOOPY_HEIGHT = 10
 
-    
-
     loopyGrid: List[xbmcgui.ControlLabel]
     LoopyGridImages:  List[xbmcgui.ControlImage]
+
     def show_circle(self, x, y, radius, color):
         circlePath = gui.imagesFolder + "circle.png"
         circle = xbmcgui.ControlImage(x, y, radius, radius, circlePath, color)
