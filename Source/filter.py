@@ -172,7 +172,7 @@ def filter(options: searchOptions.SearchOptions):
     movieList = []
     episodeList = []
 
-    xbmc.log(f"filters: {filterList}")
+    # xbmc.log(f"filters: {filterList}")
     for x in mediaTypes:
         if(x == 'movie'):
             command = {
@@ -197,7 +197,6 @@ def filter(options: searchOptions.SearchOptions):
                 },
                 "id": "library"}
             #print(command)
-            print(command)
             episodeList = json.loads(xbmc.executeJSONRPC(json.dumps(command)))['result']['episodes']
 
     videoList = []
@@ -210,7 +209,7 @@ def filter(options: searchOptions.SearchOptions):
     # videoList = _filterLength(videoList, options.getLength())
     # videoList = _filterWatchStatus(videoList, options.getWatchStatus())
 
-    xbmc.log(f"videoList: {videoList}")
+    # xbmc.log(f"videoList: {videoList}")
 
     result = []
     if options.getPBFunction() == 1:
