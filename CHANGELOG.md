@@ -1,5 +1,8 @@
 # Change Log
 
+### 4/26/23
+- fixed profile gui call
+
 ### 4/25/23
 - Merged branches again
 - cleaned up conflicts in guiPlayWindows
