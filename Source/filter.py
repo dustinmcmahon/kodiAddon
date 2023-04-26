@@ -216,7 +216,7 @@ def filter(options: searchOptions.SearchOptions):
     movieList = []
     episodeList = []
 
-    xbmc.log(f"filters: {filterList}")
+    # xbmc.log(f"filters: {filterList}")
     for x in mediaTypes:
         if(x == 'movie'):
             if filterList == []:
