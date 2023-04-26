@@ -3,6 +3,8 @@
 ### 4/25/23
 - Merged branches again
 - cleaned up conflicts in guiPlayWindows
+- created profileGUI
+- added a dialog to launch saved or new searches
 
 ### 4/24/23
 - Merged all branches together
