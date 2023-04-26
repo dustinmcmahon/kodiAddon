@@ -319,16 +319,16 @@ class MyWindow(xbmcgui.Window):
         self.showList("Show List")
         self.saveSearch("Save")
         self.shutDown("ShutDown Time")
-        self.time("Hour          Min")
 
 
 
-        self.hourInput = xbmcgui.ControlEdit(75, 700, 100, 30, " ")
-        self.minuteInput = xbmcgui.ControlEdit(200, 600, 150, 30, " ")
+        self.hourInput = xbmcgui.ControlEdit(120, 660, 50, 30, " ")
+        self.minuteInput = xbmcgui.ControlEdit(200, 660, 50, 30, " ")
         self.addControl(self.hourInput)
         self.addControl(self.minuteInput)
         hourValue = self.hourInput.getText()
         minuteValue = self.minuteInput.getText()
+        self.time("Hour          Min")
         xbmc.log(" This is the number of hours" + hourValue)
         xbmc.log(" This is the number of minutes" + minuteValue)
 
