@@ -41,6 +41,8 @@ def testMetaData():
     print("Testing Movies: {}".format(getMovies()))
 
 
+# get all of the actors in the system
+# [(id, name)...]
 def getActors():
     connection = sqlite3.connect(videoDB)
     actors = connection.cursor().execute(
@@ -48,6 +50,9 @@ def getActors():
     connection.commit()
     connection.close()
     return actors
+
+# get into about a single actor by using their ID
+# [(name)...]
 
 
 def getActor(actorID):
@@ -58,6 +63,8 @@ def getActor(actorID):
     connection.close()
     return name
 
+# get the role of an actor give an actor id and media id
+
 
 def getActorRole(actorID, mediaID):
     connection = sqlite3.connect(videoDB)
@@ -66,6 +73,9 @@ def getActorRole(actorID, mediaID):
     connection.commit()
     connection.close()
     return role
+
+# get a list of directors
+# [(id,name)...]
 
 
 def getDirectors():
@@ -76,6 +86,9 @@ def getDirectors():
     connection.close()
     return directors
 
+# get a list of genres
+# [(id,title)...]
+
 
 def getGenres():
     connection = sqlite3.connect(videoDB)
@@ -83,6 +96,9 @@ def getGenres():
     connection.commit()
     connection.close()
     return genres
+
+# get a list of studios
+# [(id, name)...]
 
 
 def getStudios():
@@ -92,6 +108,9 @@ def getStudios():
     connection.close()
     return studios
 
+# get a list of tags
+# [(id, name)...]
+
 
 def getTags():
     connection = sqlite3.connect(videoDB)
@@ -100,12 +119,21 @@ def getTags():
     connection.close()
     return tags
 
+# get a list of ratings from the movies
+# [(rating)]
+
+
 def getRatings():
     connection = sqlite3.connect(videoDB)
-    ratings = connection.cursor().execute('SELECT DISTINCT c12 FROM movie').fetchall()
+    ratings = connection.cursor().execute(
+        'SELECT DISTINCT c12 FROM movie').fetchall()
     connection.commit()
     connection.close()
     return ratings
+
+# get a list of years from the movies
+# [(year)]
+
 
 def getYears():
     connection = sqlite3.connect(videoDB)
@@ -117,6 +145,10 @@ def getYears():
         if (result.count(x) == 0):
             result.append(x)
     return result
+
+# geta list of movies
+# [(id, title)...]
+
 
 def getMovies():
     connection = sqlite3.connect(videoDB)

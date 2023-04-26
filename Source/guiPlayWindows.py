@@ -1,13 +1,15 @@
-"""import xbmcgui
+import xbmcgui
 import xbmc
-import xbmcaddon
-import metaData
 import searchOptions
 import filter as OurFilter
 import gui
-from typing import List
+import urllib.parse
+import xbmcvfs
+import urllib.parse
+
 
 class PlayOneWindow(xbmcgui.Window):
+
     def setResults(self, so) -> None:
         so.setPBFunction(1)
         results = OurFilter.filter(so)
@@ -17,42 +19,103 @@ class PlayOneWindow(xbmcgui.Window):
             item = xbmcgui.ListItem(something["title"])
             ListShown.addItem(item)
 
+        self.image = xbmcgui.ControlImage(400, 450, 200, 400, "")
+        self.addControl(self.image)
+
+        if len(results) > 0:
+            imageUrl = urllib.parse.unquote(results[0]["art"]["poster"])
+            imageUrl = imageUrl[len("image://"):][:-1]
+            self.image.setImage(imageUrl)
+
 
 class ShowListWindow(xbmcgui.Window):
-    def show_Setting(self, x, y, radius, color):
-        settingPath = gui.imagesFolder + "Settings.png"
-        setting = xbmcgui.ControlImage(x, y, radius, radius, settingPath, color)
-        self.addControl(setting)
+    ITEMS_PER_PAGE = 8
+    HALF_PAGE = ITEMS_PER_PAGE // 2
+    LOOPY_WIDTH = 150  # Space from bottom of screen to bottom list
+    LOOPY_HEIGHT = 10
+    LOOPY_IMAGE_HEIGHT = 200  # thumbnail
+    loopyimages = []
+    movieButton = []
 
-    
+    loopyGrid: list[xbmcgui.ControlLabel]
+    loopyGridImages:  list[xbmcgui.ControlImage]
+
     def show_Setting(self, x, y, radius, color):
         settingPath = gui.imagesFolder + "Settings.png"
         setting = xbmcgui.ControlImage(
             x, y, radius, radius, settingPath, color)
         self.addControl(setting)
 
+    def __init__(self) -> None:
+        self.page = 0
+        self.loopyGrid = []
+        self.loopyGridImages = []
+        for i in range(self.ITEMS_PER_PAGE):
+            x = 200 * ((i % self.HALF_PAGE) + 1)  # Space from left screen
+            if i < self.HALF_PAGE:
+                # Space from the top of the screen to the top of the list
+                self.loopyGrid.append(xbmcgui.ControlLabel(
+                    x, 150, self.LOOPY_WIDTH, self.LOOPY_HEIGHT, f"loopy do {i}"))
+                self.loopyGridImages.append(xbmcgui.ControlImage(
+                    x, 200, self.LOOPY_WIDTH, self.LOOPY_IMAGE_HEIGHT, ""))
+                # self.movieButton.append(xbmcgui.ControlButton( x , 200, self.LOOPY_WIDTH, self.LOOPY_IMAGE_HEIGHT, " "))
+
+            else:
+                # Space in height between top and bottom lists
+                self.loopyGrid.append(xbmcgui.ControlLabel(
+                    x, 400, self.LOOPY_WIDTH, self.LOOPY_HEIGHT, f"loopy do {i}"))
+                self.loopyGridImages.append(xbmcgui.ControlImage(
+                    x, 450, self.LOOPY_WIDTH, self.LOOPY_IMAGE_HEIGHT, ""))
+                # self.movieButton.append(xbmcgui.ControlButton( x , 200, self.LOOPY_WIDTH, self.LOOPY_IMAGE_HEIGHT, " "))
+
+        self.addControls(self.loopyGrid)
+        self.addControls(self.loopyGridImages)
+
+        self.forwardPageButton = xbmcgui.ControlButton(
+            1080, 350, 150, 100, "    ")
+        self.addControl(self.forwardPageButton)
+
+        self.backwardPageButton = xbmcgui.ControlButton(
+            0, 350, 150, 100, "    ")
+        self.addControl(self.backwardPageButton)
+
+        self.results = None
+
     def setResults(self, so: searchOptions.SearchOptions) -> None:
         so.setPBFunction(2)
         results = OurFilter.filter(so)
-        ListShown = xbmcgui.ControlList(400, 400, 200, 400)
-        self.addControl(ListShown)
-        for something in results:
-            item = xbmcgui.ListItem(something["title"])
-            ListShown.addItem(item)
 
-        self.show_Setting (30, 35, 150, 0xFF0000)
-#Conrol image with control button underneath it.
+        start = self.page * self.ITEMS_PER_PAGE
+        end = min(len(results), self.page * self.ITEMS_PER_PAGE + 4)
+        chunk = results[start:end]
+
+        for i, v in enumerate(chunk):
+            label = self.loopyGrid[i]
+            label.setLabel(v["title"])
+            image = self.loopyGridImages[i]
+            imageUrl = urllib.parse.unquote(v["art"]["poster"])
+            imageUrl = imageUrl[len("image://"):][:-1]
+            image.setImage(imageUrl)
+
+        for i in range(len(chunk), self.ITEMS_PER_PAGE):
+            self.loopyGrid[i].setVisible(False)
+            self.loopyGridImages[i].setVisible(False)
+
+        self.show_Setting(10, 10, 300, 0xFF0000)
+
 
 class LoopPlayWindow(xbmcgui.Window):
     ITEMS_PER_PAGE = 8
     HALF_PAGE = ITEMS_PER_PAGE // 2
-    LOOPY_WIDTH = 500  # Space from bottom of screen to bottom list
+    LOOPY_WIDTH = 150  # Space from bottom of screen to bottom list
     LOOPY_HEIGHT = 10
+    LOOPY_IMAGE_HEIGHT = 200  # thumbnail
+    loopyimages = []
+    movieButton = []
 
-    
+    loopyGrid: list[xbmcgui.ControlLabel]
+    loopyGridImages:  list[xbmcgui.ControlImage]
 
-    loopyGrid: List[xbmcgui.ControlLabel]
-    LoopyGridImages:  List[xbmcgui.ControlImage]
     def show_circle(self, x, y, radius, color):
         circlePath = gui.imagesFolder + "circle.png"
         circle = xbmcgui.ControlImage(x, y, radius, radius, circlePath, color)
@@ -61,28 +124,34 @@ class LoopPlayWindow(xbmcgui.Window):
     def __init__(self) -> None:
         self.page = 0
         self.loopyGrid = []
-        self.LoopyGridImages = []
+        self.loopyGridImages = []
         for i in range(self.ITEMS_PER_PAGE):
-            x = 300 * ((i % self.HALF_PAGE) + 1) # Space from left screen 
+            x = 200 * ((i % self.HALF_PAGE) + 1)  # Space from left screen
             if i < self.HALF_PAGE:
-                self.loopyGrid.append(xbmcgui.ControlLabel(x, 150, self.LOOPY_WIDTH, self.LOOPY_HEIGHT, f"loopy do {i}")) #Space from the top of the screen to the top of the list
-                self.LoopyGridImages.append(xbmcgui.ControlImage(x, 250, self.LOOPY_WIDTH, self.LOOPY_HEIGHT, self.loopyImages[i]))
-                #Display the taken image
-                self.show_circle (30, 35, 150, 0xFF0000)
-                #Put in the button
-            else:
-                self.loopyGrid.append(xbmcgui.ControlLabel(x, 400, self.LOOPY_WIDTH, self.LOOPY_HEIGHT, f"loopy do {i}")) #Space in height between top and bottom lists
-                self.LoopyGridImages.append(xbmcgui.ControlImage(x, 500, self.LOOPY_WIDTH, self.LOOPY_HEIGHT, self.loopyImages[i] ))
-                #Display image
-                self.show_circle (30, 335, 150, 0xFF0000)
-                #Put in the button
-        
-        self.addControls(self.loopyGrid)
+                # Space from the top of the screen to the top of the list
+                self.loopyGrid.append(xbmcgui.ControlLabel(
+                    x, 150, self.LOOPY_WIDTH, self.LOOPY_HEIGHT, f"loopy do {i}"))
+                self.loopyGridImages.append(xbmcgui.ControlImage(
+                    x, 200, self.LOOPY_WIDTH, self.LOOPY_IMAGE_HEIGHT, ""))
+                # self.movieButton.append(xbmcgui.ControlButton( x , 200, self.LOOPY_WIDTH, self.LOOPY_IMAGE_HEIGHT, " "))
 
-        self.forwardPageButton = xbmcgui.ControlButton(1080, 350, 150, 100, "    ")
+            else:
+                # Space in height between top and bottom lists
+                self.loopyGrid.append(xbmcgui.ControlLabel(
+                    x, 400, self.LOOPY_WIDTH, self.LOOPY_HEIGHT, f"loopy do {i}"))
+                self.loopyGridImages.append(xbmcgui.ControlImage(
+                    x, 450, self.LOOPY_WIDTH, self.LOOPY_IMAGE_HEIGHT, ""))
+                # self.movieButton.append(xbmcgui.ControlButton( x , 200, self.LOOPY_WIDTH, self.LOOPY_IMAGE_HEIGHT, " "))
+
+        self.addControls(self.loopyGrid)
+        self.addControls(self.loopyGridImages)
+
+        self.forwardPageButton = xbmcgui.ControlButton(
+            1080, 350, 150, 100, "    ")
         self.addControl(self.forwardPageButton)
 
-        self.backwardPageButton = xbmcgui.ControlButton(0, 350, 150, 100, "    ")
+        self.backwardPageButton = xbmcgui.ControlButton(
+            0, 350, 150, 100, "    ")
         self.addControl(self.backwardPageButton)
 
         self.results = None
@@ -98,44 +167,37 @@ class LoopPlayWindow(xbmcgui.Window):
         for i, v in enumerate(chunk):
             label = self.loopyGrid[i]
             label.setLabel(v["title"])
-            image = self.loopyImages[i]
-            image.setImage(v["thumbnail"])
+            image = self.loopyGridImages[i]
+            imageUrl = urllib.parse.unquote(v["art"]["poster"])
+            imageUrl = imageUrl[len("image://"):][:-1]
+            image.setImage(imageUrl)
 
-        
+        for i in range(len(chunk), self.ITEMS_PER_PAGE):
+            self.loopyGrid[i].setVisible(False)
+            self.loopyGridImages[i].setVisible(False)
 
-    # def Example1(self, text):
-    #     label = xbmcgui.ControlLabel(200, 100, 200, 100, text)
-    #     self.addControl(label)
+    # def onAction(self, action: xbmcgui.Action) -> None:
+    #     # print(f"action: {action}")
+    #     if action == xbmcgui.ACTION_PREVIOUS_MENU or action == xbmcgui.ACTION_NAV_BACK:
+    #         self.close()
 
-    # def Example2(self, text):
-    #     label = xbmcgui.ControlLabel(400, 100, 200, 100, text)
-    #     self.addControl(label)
+    #     if action == xbmcgui.ACTION_MOUSE_LEFT_CLICK:
+    #         control = self.getFocus()
 
-    # def Example3(self, text):
-    #     label = xbmcgui.ControlLabel(200, 300, 200, 100, text)
-    #     self.addControl(label)
+    #         if control.getId() == self.watchStatus.getId():
+    #             self.listBack2.setVisible(not self.listBack2.isVisible())
+    #             self.watchStatusList.setVisible(not self.watchStatusList.isVisible())
+    #             text = "visible" if self.watchStatusList.isVisible() else "invisible"
+    #             text2 = "visible" if self.listBack2.isVisible() else "invisible"
+    #             xbmc.log("button was pressed, List Background is now " + text2)
+    #             xbmc.log("button was pressed, watchStatusList is now " + text)
 
-    # def Example4(self, text):
-    #     label = xbmcgui.ControlLabel(400, 300, 200, 100, text)
-    #     self.addControl(label)
+    #         #The getting options thing
+    #         if control.getId() == self.watchStatusList.getId():
+    #             global WatchStatusItem
+    #             selectedWatchStatusItem = self.watchStatusList.getSelectedItem()
+    #             xbmc.log( selectedWatchStatusItem.getLabel() + " was clicked from WatchStatus option")
+    #             WatchStatusItem = selectedWatchStatusItem
 
-        
-        # if len(results) < self.ITEMS_PER_PAGE:
-        #     for i in range(len(results), self.ITEMS_PER_PAGE):
-        #         self.loopyGrid[i].setLabel("empty")
-
-        # ListShown = xbmcgui.ControlList(400, 400, 200, 400)
-        # self.addControl(ListShown)
-        # for something in results:
-        #     item = xbmcgui.ListItem(something["title"])
-        #     ListShown.addItem(item)
-
-        # Cherry1 = ListShown.getListItem(0)
-        # Cherry2 = ListShown.getListItem(1)
-        # Cherry3 = ListShown.getListItem(3)
-        # Cherry4 = ListShown.getListItem(4)
-        # self.Example1(Cherry1.getLabel())
-        # self.Example2(Cherry2.getLabel())
-        # self.Example3(Cherry3.getLabel())
-        # self.Example4(Cherry4.getLabel())
-"""
+    #             selectedWatchStatusItem.select(not selectedWatchStatusItem.isSelected())
+    #             xbmc.log(f"{selectedWatchStatusItem.getLabel()} selected status: {selectedWatchStatusItem.isSelected()}")
