@@ -1,5 +1,16 @@
 # Change Log
 
+### 4/25/23
+- Merged branches again
+- cleaned up conflicts in guiPlayWindows
+
+### 4/24/23
+- Merged all branches together
+- FUNCTIONAL GUI!
+- added comments for:
+  - metaData.py
+  - searchOptions.py
+
 ### 4/23/23
 - updated filter function to work with only media type
 - Merged Hsu branch and Dustin Branch
