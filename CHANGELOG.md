@@ -2,6 +2,8 @@
 
 ### 4/26/23
 - fixed profile gui call
+- fixed episode images not being displayed
+- added profileGUI button classes
 
 ### 4/25/23
 - Merged branches again
