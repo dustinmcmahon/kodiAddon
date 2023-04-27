@@ -845,11 +845,12 @@ class MyWindow(xbmcgui.Window):
                         studios.append(item.getLabel().lower())
                 so.setStudio(studios)
 
-                mostWatchedes = []
+                mostWatchedes = False
                 for i in range(self.mostWatchedList.size()):
                     item = self.mostWatchedList.getListItem(i)
                     if item.isSelected():
-                        mostWatchedes.append(item.getLabel().lower())
+                        if item.getLabel().lower() == 'on':
+                            mostWatchedes = True
                 so.setMostWatched(mostWatchedes)
 
                 castes = []

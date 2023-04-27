@@ -140,7 +140,7 @@ def _loopPlay(videoList, mostWatched, mediaTypes):
     episodeList = []
     for mediaType in mediaTypes:
         if (mediaType == 'movie'):
-            if (mostWatched == 'on'):
+            if (mostWatched):
                 videoList.sort(key=_getPC, reverse=True)
                 movieList = videoList
             else:
@@ -148,7 +148,7 @@ def _loopPlay(videoList, mostWatched, mediaTypes):
                 movieList = videoList
             return movieList
         elif (mediaType == 'episode'):
-            if (mostWatched == 'off'):
+            if (mostWatched):
                 videoList.sort(key=_getPC, reverse=True)
                 episodeList = videoList
             else:
