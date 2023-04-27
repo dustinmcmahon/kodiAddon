@@ -41,7 +41,9 @@ def _filterList_(name, valueList):
 
 def _filterIncExc(videoList, inList, exList):
     returnList = []
-    if (len(inList) < len(exList)):
+    if (inList == [] and exList == []):
+        return videoList
+    elif (len(inList) < len(exList)):
         for x in inList:
             for y in videoList:
                 if (x == y['title']):
@@ -63,7 +65,7 @@ def _filterLength(videos, lengths):
     max = lengths[1]
 
     for x in videos:
-        if (((min != 0) & (x['runtime'] < min)) | ((max != 0) & (x['runtime'] > max))):
+        if (((min != 0) and (x['runtime'] < min)) or ((max != 0) and (x['runtime'] > max))):
             removeVideos.append(x)
 
     for y in removeVideos:
@@ -138,7 +140,7 @@ def _loopPlay(videoList, mostWatched, mediaTypes):
     episodeList = []
     for mediaType in mediaTypes:
         if (mediaType == 'movie'):
-            if (mostWatched):
+            if (mostWatched == 'on'):
                 videoList.sort(key=_getPC, reverse=True)
                 movieList = videoList
             else:
@@ -146,7 +148,7 @@ def _loopPlay(videoList, mostWatched, mediaTypes):
                 movieList = videoList
             return movieList
         elif (mediaType == 'episode'):
-            if (mostWatched):
+            if (mostWatched == 'off'):
                 videoList.sort(key=_getPC, reverse=True)
                 episodeList = videoList
             else:
@@ -180,6 +182,7 @@ def _loopPlay(videoList, mostWatched, mediaTypes):
 
 
 def filter(options: searchOptions.SearchOptions):
+    print(options)
     genreFilter = _filterList_('genre', options.getGenre())
     tagFilter = _filterList_('tag', options.getTag())
     castFilter = _filterList_('actor', options.getCast())
@@ -267,8 +270,7 @@ def filter(options: searchOptions.SearchOptions):
     if (movieList != []):
         videoList += movieList
 
-    videoList = _filterIncExc(
-        videoList, options.getInclude(), options.getExclude())
+    videoList = _filterIncExc(videoList, options.getInclude(), options.getExclude())
     videoList = _filterLength(videoList, options.getLength())
     videoList = _filterWatchStatus(videoList, options.getWatchStatus())
 
@@ -276,8 +278,6 @@ def filter(options: searchOptions.SearchOptions):
     if options.getPBFunction() == 1:
         result = _playOne(videoList, options.getMostWatched())
     elif options.getPBFunction() == 2:
-        result = _showList(videoList, options.getMostWatched())
-    if options.getPBFunction() == 2:
         result = _showList(videoList, options.getMostWatched())
     elif options.getPBFunction() == 3:
         result = _loopPlay(videoList, options.getMostWatched(), options.getMediaType())

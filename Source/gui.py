@@ -718,7 +718,7 @@ class MyWindow(xbmcgui.Window):
                     xbmcgui.Dialog().ok("Silly Human!", "Length min and max must be numbers! (specified in minutes)")
                     return
                 
-                so.setMINLength(int(maxValue) * 60)
+                so.setMINLength(int(minValue) * 60)
                 so.setMAXLength(int(maxValue) * 60)
 
                 years = []
@@ -821,7 +821,7 @@ class MyWindow(xbmcgui.Window):
                     xbmcgui.Dialog().ok("Silly Human!", "Length min and max must be numbers! (specified in minutes)")
                     return
                 
-                so.setMINLength(int(maxValue) * 60)
+                so.setMINLength(int(minValue) * 60)
                 so.setMAXLength(int(maxValue) * 60)
 
                 years = []
@@ -926,7 +926,7 @@ class MyWindow(xbmcgui.Window):
                     xbmcgui.Dialog().ok("Silly Human!", "Length min and max must be numbers! (specified in minutes)")
                     return
                 
-                so.setMINLength(int(maxValue) * 60)
+                so.setMINLength(int(minValue) * 60)
                 so.setMAXLength(int(maxValue) * 60)
 
                 years = []

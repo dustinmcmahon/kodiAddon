@@ -98,7 +98,10 @@ class LoopPlayWindow(xbmcgui.Window):
             label = self.loopyGrid[i]
             label.setLabel(v["title"])
             image = self.loopyGridImages[i]
-            imageUrl = urllib.parse.unquote(v["art"]["poster"])
+            if 'episodeid' in v:
+                imageUrl = urllib.parse.unquote(v["art"]["thumb"])
+            else:
+                imageUrl = urllib.parse.unquote(v["art"]["poster"])
             imageUrl = imageUrl[len("image://"):][:-1]
             image.setImage(imageUrl)
 
