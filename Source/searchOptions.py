@@ -3,18 +3,18 @@
 """class SearchOptions:
 
     def __init__(self):  # when object created
-        self.genre = []
-        self.tag = []
-        self.cast = []
-        self.director = []
-        self.include = []
-        self.exclude = []
-        self.watchStatus = []
+        self.genre = [] # this is a list of genre names
+        self.tag = [] # this is a list of tag names
+        self.cast = [] # this is a list of names
+        self.director = [] # this is a list of director names
+        self.include = [] # list of movie names
+        self.exclude = [] # list of movie names
+        self.watchStatus = [] # list of ints [0,1] 0 = unwatched, 1 = watched
         self.length = [0, 0]  # time based in seconds
-        self.year = []
-        self.rating = []
-        self.mediaType = ['movie', 'episode']
-        self.studio = []
+        self.year = [] # this is a list of years
+        self.rating = [] # this is a list of ratings
+        self.mediaType = ['movie', 'episode'] # these are the two options
+        self.studio = [] # this is a list of studio names
         self.mostWatched = False
         self.function = 0  # possible options: 1 = playOne, 2 = showList, 3 = loopPlay
         self.shutTime = [0, 0]  # time in hour and min
@@ -23,93 +23,141 @@
         return f"genre: {self.genre}\ntag: {self.tag}\ncast: {self.cast}\ndirector: {self.director}\ninclude: {self.include}\nexclude: {self.exclude}\nwatchStatus: {self.watchStatus}\nlength: {self.length}\nyear: {self.year}\nrating: {self.rating}\nmediaType: {self.mediaType}\nstudio: {self.studio}\nmostWatched: {self.mostWatched}\nPB Func: {self.function}\n"
 
     # genre functions
+    # get current genres
     def getGenre(self):
         return self.genre
 
+    # set the genre
+    ## newGenre should be a list
     def setGenre(self, newGenre):
         self.genre = newGenre
 
+    # add a genre to the list
+    ## genreName should be a string
     def addGenre(self, genreName):
         self.genre.append(genreName)
 
+    # remove a genre
+    ## genreName should be a string
     def removeGenre(self, genreName):
         self.genre.remove(genreName)
 
     # tag functions
+    # get current tags
     def getTag(self):
         return self.tag
 
+    # set the tags
+    ## newTag should be a list of tags
     def setTag(self, newTag):
         self.tag = newTag
 
+    # add a tag to the list
+    ## tagName should be a string
     def addTag(self, tagName):
         self.tag.append(tagName)
-
+    # remove a tag
+    ## tagName should be a string
     def removeTag(self, tagName):
         self.tag.remove(tagName)
 
     # cast functions
+    # get current cast
     def getCast(self):
         return self.cast
 
+    # set the case
+    ## newCast is a list of actors
     def setCast(self, newCast):
         self.cast = newCast
 
+    # add a case member to the list
+    ## castName should be a string
     def addCast(self, castName):
         self.cast.append(castName)
 
+    # remove a cast member from the list
+    ## castName should be a string
     def removeCast(self, castName):
         self.cast.remove(castName)
 
     # director functions
+    # get the director
     def getDirector(self):
         return self.director
 
+    # set the director
+    ## newDirector should be a list of director names
     def setDirector(self, newDirector):
         self.director = newDirector
 
+    # add director to the list
+    ## directorName should be a string
     def addDirector(self, directorName):
         self.director.append(directorName)
 
+    # remove a director from the list
+    ## directorName should be a string
     def removeDirector(self, directorName):
         self.director.remove(directorName)
 
     # include functions
+    # get the include list
     def getInclude(self):
         return self.include
 
+    # set the include list
+    ## newInclude should be a list of video titles
     def setInclude(self, newInclude):
         self.include = newInclude
 
-    def addInclude(self, includeID):
-        self.include.append(includeID)
+    # add a video to the include list
+    ## videoName should be a string
+    def addInclude(self, videoName):
+        self.include.append(videoName)
 
-    def removeInclude(self, includeID):
-        self.include.remove(includeID)
+    # remove a video from the include list
+    ## videoName should be a string
+    def removeInclude(self, videoName):
+        self.include.remove(videoName)
 
     # exclude functions
+    # get the exclude list
     def getExclude(self):
         return self.exclude
 
+    # set the exclude list
+    ## new Exclude should be a list of video titles
     def setExclude(self, newExclude):
         self.exclude = newExclude
 
-    def addExclude(self, excludeID):
-        self.exclude.append(excludeID)
+    # add to the exclude list
+    ## videoName should be a string
+    def addExclude(self, videoName):
+        self.exclude.append(videoName)
 
-    def removeExclude(self, excludeID):
-        self.exclude.remove(excludeID)
+    # remove from the exclude list
+    ## videoName should be a string
+    def removeExclude(self, videoName):
+        self.exclude.remove(videoName)
 
     # watchStatus functions
+    # get the watch status
     def getWatchStatus(self):
         return self.watchStatus
 
+    # set the watch status
+    # should be an array of 0 and or 1
     def setWatchStatus(self, newWatchStatus):
         self.watchStatus = newWatchStatus
 
+    # add a watch status
+    ## watchStatusVal should be an int (0,1)
     def addWatchStatus(self, watchStatusVal):
         self.watchStatus.append(watchStatusVal)
 
+    # remove a watch status
+    ## watchStatusVal should be an int (0,1)
     def removeWatchStatus(self, watchStatusVal):
         self.watchStatus.remove(watchStatusVal)
 
@@ -621,7 +669,7 @@ def unitTestEpisode():
     testCase.setYear(['2016', '2017', '2018', '2019', '2020', '2021', '2022'])
     testCase.setMediaType(['episode'])
     testCase.setPBFunction(3)
-    testCase.setMostWatched(False)
+    testCase.setMostWatched(True)
     testCase.setHours(0)
     testCase.setMins(0)
 

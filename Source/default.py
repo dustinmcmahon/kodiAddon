@@ -9,6 +9,7 @@ import filter
 import gui
 import unitTests
 import time
+import profileGUI
 
 searchProfile.install()
 
@@ -21,12 +22,18 @@ Each Python file should have a single unit test function to test all other funct
 '''
 # **********************
 
-'''
-if (unitTests.run()):
+
 """if (unitTests.run()):
     xbmc.log("Unit Testing Complete!", 0)
 else:
     xbmc.log("Unit Testing Failed!", 0)
-'''
+"""
 
-gui.showGui()
+# gui.showGui()
+
+dialog = xbmcgui.Dialog()
+result = dialog.contextmenu(['New Search', 'Saved Search'])
+if (result == 0):
+    gui.showGui()
+elif (result == 1):
+    profileGUI.SavedSearch().showGui()

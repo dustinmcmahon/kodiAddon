@@ -3,6 +3,7 @@ import xbmc
 import searchOptions
 import filter as OurFilter
 import gui
+from typing import List
 import urllib.parse
 import xbmcvfs
 import urllib.parse
@@ -13,11 +14,13 @@ class PlayOneWindow(xbmcgui.Window):
     def setResults(self, so) -> None:
         so.setPBFunction(1)
         results = OurFilter.filter(so)
-        ListShown = xbmcgui.ControlList(400, 400, 200, 400)
+        """ListShown = xbmcgui.ControlList(400, 400, 200, 400)
         self.addControl(ListShown)
         for something in results:
             item = xbmcgui.ListItem(something["title"])
             ListShown.addItem(item)
+
+            
 
         self.image = xbmcgui.ControlImage(400, 450, 200, 400, "")
         self.addControl(self.image)
@@ -25,7 +28,12 @@ class PlayOneWindow(xbmcgui.Window):
         if len(results) > 0:
             imageUrl = urllib.parse.unquote(results[0]["art"]["poster"])
             imageUrl = imageUrl[len("image://"):][:-1]
-            self.image.setImage(imageUrl)
+            self.image.setImage(imageUrl)"""
+
+        # Immediately start playing when PlayOne is clicked.
+        if results:
+            player = xbmc.Player()
+            player.play(results[0]['file'])
 
 
 class ShowListWindow(xbmcgui.Window):
@@ -89,11 +97,22 @@ class ShowListWindow(xbmcgui.Window):
         end = min(len(results), self.page * self.ITEMS_PER_PAGE + 4)
         chunk = results[start:end]
 
-        for i, v in enumerate(chunk):
+        """for i, v in enumerate(chunk):
             label = self.loopyGrid[i]
             label.setLabel(v["title"])
             image = self.loopyGridImages[i]
             imageUrl = urllib.parse.unquote(v["art"]["poster"])
+            imageUrl = imageUrl[len("image://"):][:-1]
+            image.setImage(imageUrl)"""
+
+        for i, v in enumerate(chunk):
+            label = self.loopyGrid[i]
+            label.setLabel(v["title"])
+            image = self.loopyGridImages[i]
+            if 'episodeid' in v:
+                imageUrl = urllib.parse.unquote(v["art"]["thumb"])
+            else:
+                imageUrl = urllib.parse.unquote(v["art"]["poster"])
             imageUrl = imageUrl[len("image://"):][:-1]
             image.setImage(imageUrl)
 
@@ -102,6 +121,9 @@ class ShowListWindow(xbmcgui.Window):
             self.loopyGridImages[i].setVisible(False)
 
         self.show_Setting(10, 10, 300, 0xFF0000)
+
+        self.show_Setting(10, 10, 300, 0xFF0000)
+# Conrol image with control button underneath it.
 
 
 class LoopPlayWindow(xbmcgui.Window):
@@ -113,8 +135,8 @@ class LoopPlayWindow(xbmcgui.Window):
     loopyimages = []
     movieButton = []
 
-    loopyGrid: list[xbmcgui.ControlLabel]
-    loopyGridImages:  list[xbmcgui.ControlImage]
+    loopyGrid: List[xbmcgui.ControlLabel]
+    LoopyGridImages:  List[xbmcgui.ControlImage]
 
     def show_circle(self, x, y, radius, color):
         circlePath = gui.imagesFolder + "circle.png"
@@ -168,7 +190,10 @@ class LoopPlayWindow(xbmcgui.Window):
             label = self.loopyGrid[i]
             label.setLabel(v["title"])
             image = self.loopyGridImages[i]
-            imageUrl = urllib.parse.unquote(v["art"]["poster"])
+            if 'episodeid' in v:
+                imageUrl = urllib.parse.unquote(v["art"]["thumb"])
+            else:
+                imageUrl = urllib.parse.unquote(v["art"]["poster"])
             imageUrl = imageUrl[len("image://"):][:-1]
             image.setImage(imageUrl)
 

@@ -41,7 +41,9 @@ def _filterList_(name, valueList):
 
 def _filterIncExc(videoList, inList, exList):
     returnList = []
-    if (len(inList) < len(exList)):
+    if (inList == [] and exList == []):
+        return videoList
+    elif (len(inList) < len(exList)):
         for x in inList:
             for y in videoList:
                 if (x == y['title']):
@@ -63,7 +65,7 @@ def _filterLength(videos, lengths):
     max = lengths[1]
 
     for x in videos:
-        if (((min != 0) & (x['runtime'] < min)) | ((max != 0) & (x['runtime'] > max))):
+        if (((min != 0) and (x['runtime'] < min)) or ((max != 0) and (x['runtime'] > max))):
             removeVideos.append(x)
 
     for y in removeVideos:
@@ -124,7 +126,7 @@ def _getTitle(video):
     return video['title']
 
 
-def _getfirstAired(video: dict):
+def _getfirstAired(video):  # won't display list according to firstaired with dict
     firstaired_str = video['firstaired']  # M I put this
     if (firstaired_str):
         ''' date_obj = datetime.strptime(firstaired_str, "%Y-%m-%d")
@@ -181,6 +183,7 @@ def _loopPlay(videoList, mostWatched, mediaTypes):
 
 
 def filter(options: searchOptions.SearchOptions):
+    print(options)
     genreFilter = _filterList_('genre', options.getGenre())
     tagFilter = _filterList_('tag', options.getTag())
     castFilter = _filterList_('actor', options.getCast())
@@ -217,7 +220,7 @@ def filter(options: searchOptions.SearchOptions):
     movieList = []
     episodeList = []
 
-    xbmc.log(f"filters: {filterList}")
+    # xbmc.log(f"filters: {filterList}")
     for x in mediaTypes:
         if (x == 'movie'):
             if filterList == []:
@@ -280,8 +283,6 @@ def filter(options: searchOptions.SearchOptions):
     if options.getPBFunction() == 1:
         result = _playOne(videoList, options.getMostWatched())
     elif options.getPBFunction() == 2:
-        result = _showList(videoList, options.getMostWatched())
-    if options.getPBFunction() == 2:
         result = _showList(videoList, options.getMostWatched())
     elif options.getPBFunction() == 3:
         result = _loopPlay(
