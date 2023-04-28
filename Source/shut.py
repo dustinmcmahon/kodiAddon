@@ -16,22 +16,6 @@ import datetime
             xbmc.executebuiltin("Quit()")"""
 
 
-<<<<<<< HEAD
-"""def shutdownTime(shutTimes):
-
-=======
-def shutdownTime(shutTimes):
->>>>>>> Queen-Mahella
-    hours = shutTimes[0]
-    minutes = shutTimes[1]
-    time_to_quit = datetime.time(hours, minutes)
-    while True:
-        if time_to_quit != datetime.time(0, 0):
-            current_time = datetime.datetime.now().time()
-            if current_time >= time_to_quit:
-                xbmc.executebuiltin("Quit()")"""
-
-
 def shutdownTime(shutTimes):
     hours = shutTimes[0]
     minutes = shutTimes[1]
