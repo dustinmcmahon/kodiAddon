@@ -125,8 +125,9 @@ def _showList(videoList, mostWatched):
 def _getTitle(video):
     return video['title']
 
-def _getfirstAired(video: dict):
-    firstaired_str = video['firstaired']#M I put this
+
+def _getfirstAired(video):  # won't display list according to firstaired with dict
+    firstaired_str = video['firstaired']  # M I put this
     if (firstaired_str):
         ''' date_obj = datetime.strptime(firstaired_str, "%Y-%m-%d")
          return date_obj'''
@@ -221,7 +222,7 @@ def filter(options: searchOptions.SearchOptions):
 
     # xbmc.log(f"filters: {filterList}")
     for x in mediaTypes:
-        if(x == 'movie'):
+        if (x == 'movie'):
             if filterList == []:
                 command = {
                     "jsonrpc": "2.0",
@@ -236,13 +237,14 @@ def filter(options: searchOptions.SearchOptions):
                     "jsonrpc": "2.0",
                     "method": "VideoLibrary.GetMovies",
                     "params": {
-                        "filter": { "or" : filterList },
+                        "filter": {"or": filterList},
                         "properties": ["uniqueid", "art", "thumbnail", "playcount", "file", "runtime", "rating", "title"],
                         "sort": {"order": "ascending", "method": "label"}
                     },
                     "id": "library"}
-            movieList = json.loads(xbmc.executeJSONRPC(json.dumps(command)))['result']['movies']
-        elif(x == 'episode'):
+            movieList = json.loads(xbmc.executeJSONRPC(
+                json.dumps(command)))['result']['movies']
+        elif (x == 'episode'):
             if filterList == []:
                 command = {
                     "jsonrpc": "2.0",
@@ -257,12 +259,14 @@ def filter(options: searchOptions.SearchOptions):
                     "jsonrpc": "2.0",
                     "method": "VideoLibrary.GetEpisodes",
                     "params": {
-                        "filter": { "or" : filterList }, # get_genre_filer() = {"field": "genre", "operator": "is", "value": genre}
+                        # get_genre_filer() = {"field": "genre", "operator": "is", "value": genre}
+                        "filter": {"or": filterList},
                         "properties": ["uniqueid", "art", "thumbnail", "rating", "file", "playcount", 'title', 'runtime', 'firstaired', 'showtitle'],
                         "sort": {"order": "ascending", "method": "label"}
                     },
                     "id": "library"}
-            episodeList = json.loads(xbmc.executeJSONRPC(json.dumps(command)))['result']['episodes']
+            episodeList = json.loads(xbmc.executeJSONRPC(json.dumps(command)))[
+                'result']['episodes']
 
     videoList = []
     if (episodeList != []):
@@ -270,7 +274,8 @@ def filter(options: searchOptions.SearchOptions):
     if (movieList != []):
         videoList += movieList
 
-    videoList = _filterIncExc(videoList, options.getInclude(), options.getExclude())
+    videoList = _filterIncExc(
+        videoList, options.getInclude(), options.getExclude())
     videoList = _filterLength(videoList, options.getLength())
     videoList = _filterWatchStatus(videoList, options.getWatchStatus())
 
@@ -280,7 +285,8 @@ def filter(options: searchOptions.SearchOptions):
     elif options.getPBFunction() == 2:
         result = _showList(videoList, options.getMostWatched())
     elif options.getPBFunction() == 3:
-        result = _loopPlay(videoList, options.getMostWatched(), options.getMediaType())
+        result = _loopPlay(
+            videoList, options.getMostWatched(), options.getMediaType())
 
     return result
 

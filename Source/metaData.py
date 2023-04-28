@@ -42,7 +42,7 @@ def testMetaData():
 
 
 # get all of the actors in the system
-## [(id, name)...]
+# [(id, name)...]
 def getActors():
     connection = sqlite3.connect(videoDB)
     actors = connection.cursor().execute(
@@ -52,7 +52,9 @@ def getActors():
     return actors
 
 # get into about a single actor by using their ID
-## [(name)...]
+# [(name)...]
+
+
 def getActor(actorID):
     connection = sqlite3.connect(videoDB)
     name = connection.cursor().execute(
@@ -62,6 +64,8 @@ def getActor(actorID):
     return name
 
 # get the role of an actor give an actor id and media id
+
+
 def getActorRole(actorID, mediaID):
     connection = sqlite3.connect(videoDB)
     role = connection.cursor().execute(
@@ -71,7 +75,9 @@ def getActorRole(actorID, mediaID):
     return role
 
 # get a list of directors
-## [(id,name)...]
+# [(id,name)...]
+
+
 def getDirectors():
     connection = sqlite3.connect(videoDB)
     directors = connection.cursor().execute(
@@ -81,7 +87,9 @@ def getDirectors():
     return directors
 
 # get a list of genres
-## [(id,title)...]
+# [(id,title)...]
+
+
 def getGenres():
     connection = sqlite3.connect(videoDB)
     genres = connection.cursor().execute('SELECT * FROM genre').fetchall()
@@ -90,7 +98,9 @@ def getGenres():
     return genres
 
 # get a list of studios
-## [(id, name)...]
+# [(id, name)...]
+
+
 def getStudios():
     connection = sqlite3.connect(videoDB)
     studios = connection.cursor().execute('SELECT * FROM studio').fetchall()
@@ -99,7 +109,9 @@ def getStudios():
     return studios
 
 # get a list of tags
-## [(id, name)...]
+# [(id, name)...]
+
+
 def getTags():
     connection = sqlite3.connect(videoDB)
     tags = connection.cursor().execute('SELECT * FROM tag').fetchall()
@@ -108,16 +120,21 @@ def getTags():
     return tags
 
 # get a list of ratings from the movies
-## [(rating)]
+# [(rating)]
+
+
 def getRatings():
     connection = sqlite3.connect(videoDB)
-    ratings = connection.cursor().execute('SELECT DISTINCT c12 FROM movie').fetchall()
+    ratings = connection.cursor().execute(
+        'SELECT DISTINCT c12 FROM movie').fetchall()
     connection.commit()
     connection.close()
     return ratings
 
 # get a list of years from the movies
-## [(year)]
+# [(year)]
+
+
 def getYears():
     connection = sqlite3.connect(videoDB)
     years = connection.cursor().execute('SELECT premiered FROM movie').fetchall()
@@ -130,7 +147,9 @@ def getYears():
     return result
 
 # geta list of movies
-## [(id, title)...]
+# [(id, title)...]
+
+
 def getMovies():
     connection = sqlite3.connect(videoDB)
     movies = connection.cursor().execute('SELECT idMovie,c00 FROM movie').fetchall()
