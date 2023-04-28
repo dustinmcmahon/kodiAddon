@@ -17,7 +17,6 @@ import datetime
 
 
 def shutdownTime(shutTimes):
-
     hours = shutTimes[0]
     minutes = shutTimes[1]
     time_to_quit = datetime.time(hours, minutes)

@@ -4,8 +4,10 @@ import xbmcaddon
 import metaData
 import searchOptions
 import filter as OurFilter
+import shut
 
 import guiPlayWindows
+import searchProfile
 
 class IncludeWindow(xbmcgui.Window):
     # TODO: write the code
@@ -324,19 +326,17 @@ class MyWindow(xbmcgui.Window):
 
         self.hourInput = xbmcgui.ControlEdit(120, 660, 50, 30, " ")
         self.minuteInput = xbmcgui.ControlEdit(200, 660, 50, 30, " ")
+        self.activateTime = xbmcgui.ControlButton(120, 590, 200, 50, " ")
         self.addControl(self.hourInput)
         self.addControl(self.minuteInput)
+        self.addControl(self.activateTime)
         hourValue = self.hourInput.getText()
         minuteValue = self.minuteInput.getText()
         self.time("Hour          Min")
-        xbmc.log(" This is the number of hours" + hourValue)
-        xbmc.log(" This is the number of minutes" + minuteValue)
+        xbmc.log("This is the number of hours" + hourValue)
+        xbmc.log("This is the number of minutes" + minuteValue)
 
         #Use controlImage to get the filename with the URL
-
-
-
-
 
         self.mediaTypeList = xbmcgui.ControlList(0, 100, 300, 200, selectedColor = SELECTED_COLOR)
         self.mediaTypeListBack = self.show_backList(30, 100, 200, 100, 0xFF0000)
@@ -666,7 +666,104 @@ class MyWindow(xbmcgui.Window):
                 includeWindow.doModal()
                 del includeWindow
 
-            if control.getId() == self.playOneButton.getId():
+            if control.getId() == self.saveButton.getId(): #//////////////////////////////////////////////////////////////////////////
+                dialog = xbmcgui.Dialog().input("Give Your Saved Search A Name!")
+                so = searchOptions.SearchOptions()
+
+                mediaTypes = []
+                for i in range(self.mediaTypeList.size()):
+                    item = self.mediaTypeList.getListItem(i)
+                    if item.isSelected():
+                        mediaTypes.append(item.getLabel().lower())
+                so.setMediaType(mediaTypes)
+                if not so.getMediaType():
+                    so.setMediaType(["movie"])
+
+                watchStatuses = []
+                for i in range(self.watchStatusList.size()):
+                    item = self.watchStatusList.getListItem(i)
+                    if item.isSelected() and item.getLabel().lower() == "unwatched":
+                        watchStatuses.append(0)
+                    elif item.isSelected() and item.getLabel().lower() == "watched":
+                        watchStatuses.append(1)
+
+                if watchStatuses:
+                    so.setWatchStatus(watchStatuses)
+                else:
+                    so.setWatchStatus([0])
+
+                ratings = []
+                for i in range(self.ratingList.size()):
+                    item = self.ratingList.getListItem(i)
+                    if item.isSelected():
+                        ratings.append(item.getLabel())
+                so.setRating(ratings)
+                
+                genres = []
+                for i in range(self.genreList.size()):
+                    item = self.genreList.getListItem(i)
+                    if item.isSelected():
+                        genres.append(item.getLabel().lower())
+                so.setGenre(genres)
+
+                #Length Stuff
+                minValue = self.minInput.getText()
+                maxValue = self.maxInput.getText()
+
+                # check if min and max value are numbers
+                if not minValue.isdigit() or not maxValue.isdigit():
+                    xbmcgui.Dialog().ok("Silly Human!", "Length min and max must be numbers! (specified in minutes)")
+                    return
+                
+                so.setMINLength(int(minValue) * 60)
+                so.setMAXLength(int(maxValue) * 60)
+
+                years = []
+                for i in range(self.yearList.size()):
+                    item = self.yearList.getListItem(i)
+                    if item.isSelected():
+                        years.append(item.getLabel().lower())
+                so.setYear(years)
+
+                tagses = []
+                for i in range(self.tagsList.size()):
+                    item = self.tagsList.getListItem(i)
+                    if item.isSelected():
+                        tagses.append(item.getLabel().lower())
+                so.setTag(tagses)
+
+                studios = []
+                for i in range(self.studioList.size()):
+                    item = self.studioList.getListItem(i)
+                    if item.isSelected():
+                        studios.append(item.getLabel().lower())
+                so.setStudio(studios)
+
+                mostWatchedes = []
+                for i in range(self.mostWatchedList.size()):
+                    item = self.mostWatchedList.getListItem(i)
+                    if item.isSelected():
+                        mostWatchedes.append(item.getLabel().lower())
+                so.setMostWatched(mostWatchedes)
+
+                castes = []
+                for i in range(self.castsList.size()):
+                    item = self.castsList.getListItem(i)
+                    if item.isSelected():
+                        castes.append(item.getLabel().lower())
+                so.setCast(castes)
+
+                directores = []
+                for i in range(self.directorList.size()):
+                    item = self.directorList.getListItem(i)
+                    if item.isSelected():
+                        directores.append(item.getLabel().lower())
+                so.setDirector(directores)
+                
+                
+                searchProfile.addProfile(dialog, so)
+
+            if control.getId() == self.playOneButton.getId(): #//////////////////////////////////////////////////////////////////////////////
                 so = searchOptions.SearchOptions()
 
                 # each thing is a list of stuff so we build a regular python list from kodi's lists
@@ -763,13 +860,16 @@ class MyWindow(xbmcgui.Window):
                         directores.append(item.getLabel().lower())
                 so.setDirector(directores)
 
+                so.setPBFunction(1)
+                if OurFilter.filter(so):
+                    playOneWindow = guiPlayWindows.PlayOneWindow()
+                    playOneWindow.setResults(so)
+                    playOneWindow.doModal()
+                    del playOneWindow
+                else:
+                    xbmcgui.Dialog().ok("Error", "There Is Nothing!!")
 
-                playOneWindow = guiPlayWindows.PlayOneWindow()
-                playOneWindow.setResults(so)
-                playOneWindow.doModal()
-                del playOneWindow
-
-            if control.getId() == self.loopPlayButton.getId():
+            if control.getId() == self.loopPlayButton.getId(): #////////////////////////////////////////////////////////////////////////
                 so = searchOptions.SearchOptions()
 
                 # each thing is a list of stuff so we build a regular python list from kodi's lists
@@ -867,13 +967,17 @@ class MyWindow(xbmcgui.Window):
                         directores.append(item.getLabel().lower())
                 so.setDirector(directores)
 
-                loopPlayWindow = guiPlayWindows.LoopPlayWindow()
-                loopPlayWindow.setResults(so)
-                loopPlayWindow.doModal()
-                del loopPlayWindow
+                so.setPBFunction(3)
+                if OurFilter.filter(so):
+                    loopPlay = guiPlayWindows.LoopPlayWindow()
+                    loopPlay.setResults(so)
+                    loopPlay.doModal()
+                    del loopPlay
+                else:
+                    xbmcgui.Dialog().ok("Error", "Your Playlist is empty!")
 
             # start of filter stuff
-            if control.getId() == self.showListButton.getId():
+            if control.getId() == self.showListButton.getId():  #//////////////////////////////////////////////////////////////////////////
                 # show list button clicked, generate search options from gui
                 so = searchOptions.SearchOptions()
 
@@ -974,16 +1078,27 @@ class MyWindow(xbmcgui.Window):
 
                 # TODO take into account watch status later- True or false. 0 ones that have been. 1 have not. 0 and 1 get passed is both.
 
-                showListWindow = guiPlayWindows.ShowListWindow()
-                showListWindow.setResults(so)
-                showListWindow.doModal()
-                del showListWindow
+                #Add this to LoopPLay and PlayOne
+                so.setPBFunction(2)
+                if OurFilter.filter(so):
+                    showListWindow = guiPlayWindows.ShowListWindow()
+                    showListWindow.setResults(so)
+                    showListWindow.doModal()
+                    del showListWindow
+                else:
+                    xbmcgui.Dialog().ok("Error", "Your list is empty!")
+
+                #End of add things to Loopplay and PlayOne
 
                 # print("Filter results:")
                 # for result in results:
                 #     xbmc.log(f"{result}")
                 # xbmc.log(f"backup print: {results}")
             # end of the code I tried testing
+            if control.getId() == self.activateTime.getId():
+                xbmc.log("shutting down some time...")
+                shut.shutdownTime([int(self.hourInput.getText()), int(self.minuteInput.getText())])
+            
 
 #Global Variables for options
 SELECTED_COLOR = "0xFF000000" #For the highlightedness of the selected list item

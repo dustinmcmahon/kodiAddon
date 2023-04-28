@@ -8,8 +8,10 @@ from typing import List
 class SavedSearch(xbmcgui.Window):
     
     def makeGroup(self, name: str) -> xbmcgui.ControlGroup:
-        result = xbmcgui.ControlGroup
+        result = xbmcgui.ControlGroup(100, 100, 600, 100)
         return result
+    
+
 
     def showGui(self):
         profiles = searchProfile.getAllProfiles()
@@ -17,6 +19,12 @@ class SavedSearch(xbmcgui.Window):
             gui.showGui()
         groups: List(xbmcgui.ControlGroup) = []
         for x in profiles:
-            groups.append(self.makeGroup(x[0]))
+            g = self.makeGroup(x[0])
+            self.addControl(g)
+            groups.append(g)
+            
+
 
         self.show()
+        self.doModal()
+        del self
