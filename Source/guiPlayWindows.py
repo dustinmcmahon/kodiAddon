@@ -26,6 +26,11 @@ class ShowListWindow(xbmcgui.Window):
         setting = xbmcgui.ControlImage(x, y, radius, radius, settingPath, color)
         self.addControl(setting)
 
+    def show_Play(self, x, y, radius, color):
+        playPath = gui.imagesFolder + "PLAY.png"
+        play = xbmcgui.ControlImage(x, y, radius, radius, playPath, color)
+        self.addControl(play)
+
     
     def setResults(self, so: searchOptions.SearchOptions) -> None:
         so.setPBFunction(2)
@@ -36,7 +41,9 @@ class ShowListWindow(xbmcgui.Window):
             item = xbmcgui.ListItem(something["title"])
             ListShown.addItem(item)
 
-        self.show_Setting (10, 10, 300, 0xFF0000)
+        self.show_Setting (10, 10, 400, 0xFF0000)
+        self.show_Play (1010, 500, 400, 0xFF0000)
+
 #Conrol image with control button underneath it.
 
 class LoopPlayWindow(xbmcgui.Window):
@@ -55,6 +62,16 @@ class LoopPlayWindow(xbmcgui.Window):
         circlePath = gui.imagesFolder + "circle.png"
         circle = xbmcgui.ControlImage(x, y, radius, radius, circlePath, color)
         self.addControl(circle)
+
+    def show_Setting(self, x, y, radius, color):
+        settingPath = gui.imagesFolder + "Settings.png"
+        setting = xbmcgui.ControlImage(x, y, radius, radius, settingPath, color)
+        self.addControl(setting)
+
+    def show_Play(self, x, y, radius, color):
+        playPath = gui.imagesFolder + "PLAY.png"
+        play = xbmcgui.ControlImage(x, y, radius, radius, playPath, color)
+        self.addControl(play)
 
 
 
@@ -108,6 +125,9 @@ class LoopPlayWindow(xbmcgui.Window):
         for i in range(len(chunk), self.ITEMS_PER_PAGE ):
             self.loopyGrid[i].setVisible(False)
             self.loopyGridImages[i].setVisible(False)
+
+        self.show_Setting (10, 10, 400, 0xFF0000)
+        self.show_Play (1010, 500, 400, 0xFF0000)
 
     # def onAction(self, action: xbmcgui.Action) -> None:
     #     # print(f"action: {action}")

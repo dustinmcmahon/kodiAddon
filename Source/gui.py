@@ -9,8 +9,24 @@ import guiPlayWindows
 
 class IncludeWindow(xbmcgui.Window):
     # TODO: write the code
+
+    def show_Setting(self, x, y, radius, color):
+        settingPath = imagesFolder + "Settings.png"
+        setting = xbmcgui.ControlImage(x, y, radius, radius, settingPath, color)
+        self.addControl(setting)
+
+    def show_Back(self, x, y, radius, color):
+        backPath = imagesFolder + "IncludeBackground.png"
+        backGround = xbmcgui.ControlImage(x, y, radius, radius, backPath, color)
+        self.addControl(backGround)
+
+    def show_Arrow(self, x, y, radius, color):
+        backPath = imagesFolder + "IncludeBackground.png"
+        backGround = xbmcgui.ControlImage(x, y, radius, radius, backPath, color)
+        self.addControl(backGround)
+
     def include_List(self, text):
-        label = xbmcgui.ControlLabel(370, 50, 200, 100, text)
+        label = xbmcgui.ControlLabel(350, 50, 200, 100, text)
         self.addControl(label)
 
     def exclude_List(self, text):
@@ -19,8 +35,12 @@ class IncludeWindow(xbmcgui.Window):
 
     def __init__(self) -> None:
         super().__init__()      
+        self.show_Back (10, 50, 600, 0xFF0000)
+        self.show_Back (500, 50, 600, 0xFF0000)
         self.include_List("Include")
         self.exclude_List("Exclude")
+        self.show_Setting (10, 10, 300, 0xFF0000)
+
 
     pass
 
@@ -55,26 +75,6 @@ class IncludeWindow(xbmcgui.Window):
 #             url=video['url'], listitem=listitem)
 #     print(xbmc.PlayList(xbmc.PLAYLIST_VIDEO))
 #     xbmc.Player().play(xbmc.PlayList(xbmc.PLAYLIST_VIDEO))
-
-
-    
-
-#Try again later
-dummy_list = [
-        {'MediaType':'Movie', 'Name': 'Movie 1', 'Rating': '5', 'Genre': 'Horror', 'Length': '130', 'Year': '2019'},
-        {'MediaType':'Epsiode', 'Name': 'Epsiode 2', 'Rating': '2', 'Genre': 'Slice-Of-Life', 'Length': '40', 'Year': '2020'},
-        {'MediaType':'Movie', 'Name': 'Movie 2', 'Rating': '4', 'Genre': 'Comedy', 'Length': '90', 'Year': '2023'},
-        {'MediaType':'Movie', 'Name': 'Movie 3', 'Rating': '3', 'Genre': 'Action', 'Length': '120', 'Year': '2022'},
-        {'MediaType':'Episode', 'Name': 'Epsode 2', 'Rating': '1', 'Genre': 'Romance', 'Length': '20', 'Year': '2021'}
-]
-media_Length_List = [
-    "0 to 30 minutes", "0 to 60 minutes", "0 to 90 minutes",
-    "0 to 120 minutes", "30 to 60 minutes", "30 to 90 minutes",
-    "30 to 120 minutes", "60 to 90 minutes", "60 to 120 minutes",
-    "90 to 120 minutes", "30 minutes and more ", "60 minutes and more ",
-    "90 minutes and more ","120 minutes and more "
-]
-
 
 addon = xbmcaddon.Addon()
 addonDataFolder = ""
@@ -355,8 +355,8 @@ class MyWindow(xbmcgui.Window):
         self.watchStatusList.addItem(str("Unwatched"))
         self.watchStatusList.setVisible(False)
 
-        self.ratingList = xbmcgui.ControlList(260, 100, 300, 200, selectedColor = SELECTED_COLOR)
-        self.listBack3 = self.show_backList(280, 100, 480, 300, 0xFF0000)
+        self.ratingList = xbmcgui.ControlList(300, 100, 300, 200, selectedColor = SELECTED_COLOR)
+        self.listBack3 = self.show_backList(330, 100, 220, 100, 0xFF0000)
         self.listBack3.setVisible(False)
         self.addControl(self.ratingList)
         for item in metaData.getRatings():
@@ -415,7 +415,7 @@ class MyWindow(xbmcgui.Window):
         self.studioList.setVisible(False)
 
         self.mostWatchedList = xbmcgui.ControlList(0, 250, 300, 200, selectedColor = SELECTED_COLOR)
-        self.listBack9 = self.show_backList(30, 250, 480, 300, 0xFF0000)
+        self.listBack9 = self.show_backList(30, 250, 200, 100, 0xFF0000)
         self.listBack9.setVisible(False)
         self.addControl(self.mostWatchedList)
         self.mostWatchedList.addItem(str("On"))
@@ -431,18 +431,18 @@ class MyWindow(xbmcgui.Window):
         self.castsList.setVisible(False)
 
         self.directorList = xbmcgui.ControlList(300, 250, 300, 200, selectedColor = SELECTED_COLOR)
-        self.listBack11 = self.show_backList(330, 250, 220, 300, 0xFF0000)
+        self.listBack11 = self.show_backList(330, 250, 400, 300, 0xFF0000)
         self.listBack11.setVisible(False)
         self.addControl(self.directorList)
         for item in metaData.getDirectors():
             self.directorList.addItem(item[1])
         self.directorList.setVisible(False)
 
-        self.list12 = xbmcgui.ControlList(410, 250, 300, 200)
-        self.addControl(self.list12)
-        for item in dummy_list:
-            self.list12.addItem(str(item))
-        self.list12.setVisible(False)
+        # self.list12 = xbmcgui.ControlList(410, 250, 300, 200)
+        # self.addControl(self.list12)
+        # for item in dummy_list:
+        #     self.list12.addItem(str(item))
+        # self.list12.setVisible(False)
 
 
     def onAction(self, action: xbmcgui.Action) -> None:
