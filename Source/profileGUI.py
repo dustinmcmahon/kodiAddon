@@ -64,6 +64,8 @@ class SavedSearch(xbmcgui.Window):
     def makeGroup(self, name: str) -> xbmcgui.ControlGroup:
         result = xbmcgui.ControlGroup(0,0,100,100)
         return result
+    
+
 
     def showGui(self):
         profiles = searchProfile.getAllProfiles()
@@ -76,3 +78,5 @@ class SavedSearch(xbmcgui.Window):
         xbmcgui.ControlButton()
 
         self.show()
+        self.doModal()
+        del self

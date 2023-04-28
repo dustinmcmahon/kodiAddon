@@ -16,8 +16,12 @@ import datetime
             xbmc.executebuiltin("Quit()")"""
 
 
+<<<<<<< HEAD
 """def shutdownTime(shutTimes):
 
+=======
+def shutdownTime(shutTimes):
+>>>>>>> Queen-Mahella
     hours = shutTimes[0]
     minutes = shutTimes[1]
     time_to_quit = datetime.time(hours, minutes)
