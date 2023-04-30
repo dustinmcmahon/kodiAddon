@@ -76,8 +76,8 @@ class ShowListWindow(xbmcgui.Window):
     loopyimages = []
     movieButton = []
 
-    loopyGrid: list[xbmcgui.ControlLabel]
-    loopyGridImages:  list[xbmcgui.ControlImage]
+    loopyGrid: List[xbmcgui.ControlLabel]
+    loopyGridImages:  List[xbmcgui.ControlImage]
     
 
     def show_Setting(self, x, y, radius, color):
@@ -209,8 +209,8 @@ class LoopPlayWindow(xbmcgui.Window):
     loopyimages = []
     movieButton = []
 
-    loopyGrid: list[xbmcgui.ControlLabel]
-    loopyGridImages:  list[xbmcgui.ControlImage]
+    loopyGrid: List[xbmcgui.ControlLabel]
+    loopyGridImages:  List[xbmcgui.ControlImage]
 
     def show_circle(self, x, y, radius, color):
         circlePath = gui.imagesFolder + "circle.png"

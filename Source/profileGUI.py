@@ -1,8 +1,10 @@
 import xbmcgui
-import xbmc
+import xbmcaddon
+from xbmcgui import Action, Control
 import searchOptions
 import searchProfile
 import gui
+import filter
 from typing import List
 
 # Class for the buttons to extend
@@ -15,68 +17,87 @@ class SaveSearchBtn(xbmcgui.ControlButton):
     
     def setProfileName(self, name: str):
         self.profileName = name
+        return self
 
     def actionTaken(self):
         print(f'Some Button Pressed on {self.getProfileName()}')
 
+# Class for the Play One Button
 class PlayOneBtn(SaveSearchBtn):
 
-    def __init__(self):
-        result = super()
-        result.setLabel('Play One')
-        return result
-
     def actionTaken(self):
-        print(f'Play One Pressed on {self.getProfileName()}')
+        options = searchProfile.getProfile(self.getProfileName())
+        options.setPBFunction(1)
+        filter.filter(options)
 
 
+# Class for the Loop Play Button
 class LoopPlayBtn(SaveSearchBtn):
 
-    def __init__(self):
-        result = super()
-        result.setLabel('Loop Play')
-        return result
-
     def actionTaken(self):
-        print(f'Loop Play Pressed on {self.getProfileName()}')
+        options = searchProfile.getProfile(self.getProfileName())
+        options.setPBFunction(3)
+        filter.filter(options)
 
+# Class for Show List Button
 class ShowListBtn(SaveSearchBtn):
+    
+    def actionTaken(self):
+        options = searchProfile.getProfile(self.getProfileName())
+        options.setPBFunction(2)
+        filter.filter(options)
 
-    def __init__(self):
-        result = super()
-        result.setLabel('Edit')
-        return result
+# Class for Edit Profile Button
+class EditProfileBtn(SaveSearchBtn):
     
     def actionTaken(self):
         print(f'Edit Profile {self.getProfileName()}')
-
-class EditProfileBtn(SaveSearchBtn):
-
-    def __init__(self):
-        result = super()
-        result.setLabel('Show List')
-        return result
-    
-    def actionTaken(self):
-        print(f'Show List Pressed on {self.getProfileName()}')
 class SavedSearch(xbmcgui.Window):
-    
-    def makeGroup(self, name: str) -> xbmcgui.ControlGroup:
-        result = xbmcgui.ControlGroup(0,0,100,100)
-        return result
-    
 
+    controlList: List[SaveSearchBtn]
 
-    def showGui(self):
+    # constructor for window
+    def __init__(self):
+        
+        # ensure there are profiles to display
         profiles = searchProfile.getAllProfiles()
         if (profiles == []):
+            # show the search options settings window instead
             gui.showGui()
-        groups: List(xbmcgui.ControlGroup) = []
+
+        # build inherited object
+        super().__init__()
+        
+        addon = xbmcaddon.Addon()
+        imagesFolder = addon.getAddonInfo('path') + "/images/"
+
+        # window specific info
+        controls: List(xbmcgui.Control) = []
+        self.controlList = []
+        v: int = 200
         for x in profiles:
-            groups.append(self.makeGroup(x[0]))
+            controls.append(xbmcgui.ControlLabel(100, v-75, 400, 50, x[0]))
+            editBtn = EditProfileBtn(200, v, 150, 75, 'Edit Profile', focusTexture=f'{imagesFolder}circle.png', noFocusTexture=f'{imagesFolder}circle.png')
+            editBtn.profileName = x[0]
+            controls.append(editBtn)
+            self.controlList.append(editBtn)
+            poBtn = PlayOneBtn(400, v, 150, 75, 'Play One', focusTexture=f'{imagesFolder}circle.png', noFocusTexture=f'{imagesFolder}circle.png')
+            poBtn.profileName = x[0]
+            controls.append(poBtn)
+            self.controlList.append(poBtn)
+            lpBtn = LoopPlayBtn(600, v, 150, 75, 'Loop Play', focusTexture=f'{imagesFolder}circle.png', noFocusTexture=f'{imagesFolder}circle.png')
+            lpBtn.profileName = x[0]
+            controls.append(lpBtn)
+            self.controlList.append(lpBtn)
+            slBtn = ShowListBtn(800, v, 150, 75, 'Show List', focusTexture=f'{imagesFolder}circle.png', noFocusTexture=f'{imagesFolder}circle.png')
+            slBtn.profileName = x[0]
+            controls.append(slBtn)
+            self.controlList.append(slBtn)
+            v+=200
+        self.addControls(controls)
 
-        xbmcgui.ControlButton()
-
-        self.show()
-        self.doModal()
-        del self
+    def onControl(self, control: xbmcgui.Control):
+        for x in self.controlList:
+            if x.getId() == control.getId():
+                x.actionTaken()
+        print(control.getLabel())

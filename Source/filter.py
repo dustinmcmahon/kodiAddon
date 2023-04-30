@@ -157,31 +157,6 @@ def _loopPlay(videoList, mostWatched, mediaTypes):
                 episodeList = videoList
             return episodeList
 
-
-# Take this gui
-"""    xbmc.PlayList(xbmc.PLAYLIST_VIDEO).clear()
-    for video in sort_videoList:
-        listitem = xbmcgui.ListItem(label=video['title'], path=video['url'])
-        listitem.addThumbnailImage(video['thumbnail'])
-        listitem.setInfo('video', video)
-        xbmc.PlayList(xbmc.PLAYLIST_VIDEO).add(
-            url=video['url'], listitem=listitem)
-    print(xbmc.PlayList(xbmc.PLAYLIST_VIDEO))
-    xbmc.Player().play(xbmc.PlayList(xbmc.PLAYLIST_VIDEO))
-"""
-"""playList = xbmc.Playlist(1)
-    videos = videoList
-    for video in videos:
-        picture = video.pop('pic')
-        url = video.pop('url')
-        listitem = xbmcgui.ListItem(video['title'])
-        listitem.setInfo('video', video)
-        listitem.setThumbnailImage(picture)
-        playList.add(url, listitem)
-        '''play=xbmc.PlayList(xbmc.xbmc.PLAYLIST_VIDEO)'''
-    xbmc.Player().play(playList)"""
-
-
 def filter(options: searchOptions.SearchOptions):
     print(options)
     genreFilter = _filterList_('genre', options.getGenre())

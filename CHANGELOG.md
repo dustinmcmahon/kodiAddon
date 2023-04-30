@@ -1,5 +1,10 @@
 # Change Log
 
+### 4/30/23
+- profile gui playback functions being called (not working)
+- changed list to List
+- cleaned up searchOption comments
+
 ### 4/26/23
 - fixed profile gui call
 - fixed episode images not being displayed
