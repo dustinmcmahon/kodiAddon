@@ -22,5 +22,7 @@ def shutdownTime(shutTimes):
     time_to_quit = datetime.time(hours, minutes)
     if time_to_quit != datetime.time(0, 0):
         current_time = datetime.datetime.now().time()
-        if current_time >= time_to_quit:
-            xbmc.executebuiltin("Quit()")
+        time_diff = datetime.datetime.combine(datetime.date.today(
+        ), time_to_quit) - datetime.datetime.combine(datetime.date.today(), current_time)
+        time.sleep(time_diff.seconds)
+        xbmc.executebuiltin("Quit()")

@@ -10,12 +10,6 @@ import urllib.parse
 
 
 class PlayOneWindow(xbmcgui.Window):
-
-    def show_Setting(self, x, y, radius, color):
-        settingPath = gui.imagesFolder + "Settings.png"
-        setting = xbmcgui.ControlImage(x, y, radius, radius, settingPath, color)
-        self.addControl(setting)
-
     def show_Play(self, x, y, radius, color):
         playPath = gui.imagesFolder + "PLAY.png"
         play = xbmcgui.ControlImage(x, y, radius, radius, playPath, color)
@@ -31,14 +25,14 @@ class PlayOneWindow(xbmcgui.Window):
             ListShown.addItem(item)
 
         self.PlayButton2 = xbmcgui.ControlButton(1125, 625, 150, 100, "    ")
-        self.show_Setting (10, 10, 400, 0xFF0000)
         self.addControl(self.PlayButton2)
         self.show_Play (1010, 500, 400, 0xFF0000)
         self.PlayButton = xbmcgui.ControlButton(500, 200, 300, 400, "    ")
         self.addControl(self.PlayButton)
         self.image = xbmcgui.ControlImage(500, 200, 300, 400, "")
         self.addControl(self.image)
- 
+
+        self.show_Setting(10, 10, 400, 0xFF0000)
         
         if len(self.results) > 0:
             v = self.results[0]
@@ -49,6 +43,14 @@ class PlayOneWindow(xbmcgui.Window):
                 imageUrl = urllib.parse.unquote(v["art"]["poster"])
             imageUrl = imageUrl[len("image://"):][:-1]
             self.image.setImage(imageUrl)
+
+    def show_Setting(self, x, y, radius, color):
+        settingPath = gui.imagesFolder + "Settings.png"
+        self.settingsButton = xbmcgui.ControlButton(x, y, 226, 77, "")
+        setting = xbmcgui.ControlImage(x, y, radius, radius, settingPath, color)
+        self.addControl(self.settingsButton)
+        self.addControl(setting)
+
 
     def onAction(self, action: xbmcgui.Action) -> None:
         if action == xbmcgui.ACTION_PREVIOUS_MENU or action == xbmcgui.ACTION_NAV_BACK:
@@ -65,6 +67,8 @@ class PlayOneWindow(xbmcgui.Window):
                 player = xbmc.Player()
                 player.play(self.results[0]['file'])
 
+            if control.getId() == self.settingsButton.getId():
+                self.close()
 
 
 class ShowListWindow(xbmcgui.Window):
@@ -79,12 +83,6 @@ class ShowListWindow(xbmcgui.Window):
     loopyGrid: list[xbmcgui.ControlLabel]
     loopyGridImages:  list[xbmcgui.ControlImage]
     
-
-    def show_Setting(self, x, y, radius, color):
-        settingPath = gui.imagesFolder + "Settings.png"
-        setting = xbmcgui.ControlImage(x, y, radius, radius, settingPath, color)
-        self.addControl(setting)
-
     def show_Play(self, x, y, radius, color):
         playPath = gui.imagesFolder + "PLAY.png"
         play = xbmcgui.ControlImage(x, y, radius, radius, playPath, color)
@@ -100,6 +98,12 @@ class ShowListWindow(xbmcgui.Window):
         Lpage = xbmcgui.ControlImage(x, y, radius, radius, LpagePath, color)
         self.addControl(Lpage)
 
+    def show_Setting(self, x, y, radius, color):
+        settingPath = gui.imagesFolder + "Settings.png"
+        self.settingsButton = xbmcgui.ControlButton(x, y, 226, 77, "")
+        setting = xbmcgui.ControlImage(x, y, radius, radius, settingPath, color)
+        self.addControl(self.settingsButton)
+        self.addControl(setting)
     
 
     def __init__(self) -> None:
@@ -114,14 +118,12 @@ class ShowListWindow(xbmcgui.Window):
                 self.loopyGrid.append(xbmcgui.ControlLabel(x, 150, self.LOOPY_WIDTH, self.LOOPY_HEIGHT, f"loopy do {i}")) #Space from the top of the screen to the top of the list
                 self.loopyGridImages.append(xbmcgui.ControlImage(x, 200, self.LOOPY_WIDTH, self.LOOPY_IMAGE_HEIGHT, ""))
                 self.loopyGridButtons.append(xbmcgui.ControlButton(x, 200, self.LOOPY_WIDTH, self.LOOPY_IMAGE_HEIGHT, ""))
-                # self.movieButton.append(xbmcgui.ControlButton( x , 200, self.LOOPY_WIDTH, self.LOOPY_IMAGE_HEIGHT, " "))
             else:
                 self.loopyGrid.append(xbmcgui.ControlLabel(x, 450, self.LOOPY_WIDTH, self.LOOPY_HEIGHT, f"loopy do {i}")) #Space in height between top and bottom lists
                 self.loopyGridImages.append(xbmcgui.ControlImage(x, 500, self.LOOPY_WIDTH, self.LOOPY_IMAGE_HEIGHT, ""))
-                self.loopyGridButtons.append(xbmcgui.ControlButton(x, 450, self.LOOPY_WIDTH, self.LOOPY_IMAGE_HEIGHT, ""))
-                # self.movieButton.append(xbmcgui.ControlButton( x , 200, self.LOOPY_WIDTH, self.LOOPY_IMAGE_HEIGHT, " "))
+                self.loopyGridButtons.append(xbmcgui.ControlButton(x, 500, self.LOOPY_WIDTH, self.LOOPY_IMAGE_HEIGHT, ""))
                 
-        
+        self.addControls(self.loopyGridButtons)
         self.addControls(self.loopyGrid)
         self.addControls(self.loopyGridImages)
 
@@ -158,13 +160,17 @@ class ShowListWindow(xbmcgui.Window):
             for i, b in enumerate(self.loopyGridButtons):
                 if b.getId() == control.getId():
                     movieIndex = self.page * self.ITEMS_PER_PAGE + i
-                    
-                    print(f"current moveie to play is ")
-                    pass
+                    player = xbmc.Player()
+                    player.play(self.results[movieIndex]["file"])
+                    break
+
+            if control.getId() == self.settingsButton.getId():
+                self.close()
 
     def reloadLoopy(self):
         self.so.setPBFunction(2)
         results = OurFilter.filter(self.so)
+        self.results = results
         self.maxPage = len(results) // self.ITEMS_PER_PAGE
 
         start = self.page * self.ITEMS_PER_PAGE
@@ -187,6 +193,7 @@ class ShowListWindow(xbmcgui.Window):
         for i in range(len(chunk), self.ITEMS_PER_PAGE ):
             self.loopyGrid[i].setVisible(False)
             self.loopyGridImages[i].setVisible(False)
+            self.loopyGridButtons[i].setVisible(False)
 
     
     def setResults(self, so: searchOptions.SearchOptions) -> None:
@@ -206,7 +213,7 @@ class LoopPlayWindow(xbmcgui.Window):
     LOOPY_HEIGHT = 10
     LOOPY_IMAGE_HEIGHT = 200 #thumbnail
     loopyimages = []
-    movieButton = []
+    movieButtons = []
 
     loopyGrid: list[xbmcgui.ControlLabel]
     loopyGridImages:  list[xbmcgui.ControlImage]
@@ -218,7 +225,9 @@ class LoopPlayWindow(xbmcgui.Window):
 
     def show_Setting(self, x, y, radius, color):
         settingPath = gui.imagesFolder + "Settings.png"
+        self.settingsButton = xbmcgui.ControlButton(x, y, 226, 77, "")
         setting = xbmcgui.ControlImage(x, y, radius, radius, settingPath, color)
+        self.addControl(self.settingsButton)
         self.addControl(setting)
 
     def show_Play(self, x, y, radius, color):
@@ -248,23 +257,13 @@ class LoopPlayWindow(xbmcgui.Window):
             if i < self.HALF_PAGE:
                 self.loopyGrid.append(xbmcgui.ControlLabel(x, 150, self.LOOPY_WIDTH, self.LOOPY_HEIGHT, f"loopy do {i}")) #Space from the top of the screen to the top of the list
                 self.loopyGridImages.append(xbmcgui.ControlImage(x, 200, self.LOOPY_WIDTH, self.LOOPY_IMAGE_HEIGHT, ""))
-                # self.movieButton.append(xbmcgui.ControlButton( x , 200, self.LOOPY_WIDTH, self.LOOPY_IMAGE_HEIGHT, " "))
-                
             else:
                 self.loopyGrid.append(xbmcgui.ControlLabel(x, 450, self.LOOPY_WIDTH, self.LOOPY_HEIGHT, f"loopy do {i}")) #Space in height between top and bottom lists
                 self.loopyGridImages.append(xbmcgui.ControlImage(x, 500, self.LOOPY_WIDTH, self.LOOPY_IMAGE_HEIGHT, ""))
-                # self.movieButton.append(xbmcgui.ControlButton( x , 200, self.LOOPY_WIDTH, self.LOOPY_IMAGE_HEIGHT, " "))
                 
         
         self.addControls(self.loopyGrid)
         self.addControls(self.loopyGridImages)
-
-
-        # self.SettingButton = xbmcgui.ControlButton(1080, 350, 150, 100, "    ")
-        # self.addControl(self.SettingButton)
-
-        # self.PlayButton = xbmcgui.ControlButton(1080, 350, 150, 100, "    ")
-        # self.addControl(self.PlayButton)
 
         self.forwardPageButton = xbmcgui.ControlButton(1060, 342, 200, 100, "    ")
         self.addControl(self.forwardPageButton)
@@ -330,4 +329,6 @@ class LoopPlayWindow(xbmcgui.Window):
                 if (self.page - 1) >= 0:
                     self.page -= 1
                     self.reloadLoopy()
-            
+
+            if control.getId() == self.settingsButton.getId():
+                self.close()
