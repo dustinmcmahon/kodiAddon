@@ -1,6 +1,7 @@
 import xbmcgui
 import xbmc
 import xbmcaddon
+from xbmcgui import Action
 import metaData
 import searchOptions
 import filter as OurFilter
@@ -10,8 +11,6 @@ import guiPlayWindows
 import searchProfile
 
 class IncludeWindow(xbmcgui.Window):
-    # TODO: write the code
-
     def show_Setting(self, x, y, radius, color):
         settingPath = imagesFolder + "Settings.png"
         setting = xbmcgui.ControlImage(x, y, radius, radius, settingPath, color)
@@ -22,10 +21,15 @@ class IncludeWindow(xbmcgui.Window):
         backGround = xbmcgui.ControlImage(x, y, radius, radius, backPath, color)
         self.addControl(backGround)
 
-    def show_Arrow(self, x, y, radius, color):
-        backPath = imagesFolder + "IncludeBackground.png"
-        backGround = xbmcgui.ControlImage(x, y, radius, radius, backPath, color)
-        self.addControl(backGround)
+    def show_LeftArrow(self, x, y, radius, color):
+        leftPath = imagesFolder + "LeftPage.png"
+        left = xbmcgui.ControlImage(x, y, radius, radius, leftPath, color)
+        self.addControl(left)
+
+    def show_RightArrow(self, x, y, radius, color):
+        rightPath = imagesFolder + "RightPage.png"
+        right = xbmcgui.ControlImage(x, y, radius, radius, rightPath, color)
+        self.addControl(right)
 
     def include_List(self, text):
         label = xbmcgui.ControlLabel(350, 50, 200, 100, text)
@@ -36,36 +40,72 @@ class IncludeWindow(xbmcgui.Window):
         self.addControl(label)
 
     def __init__(self) -> None:
-        super().__init__()      
+        super().__init__()
+        self.leftButton = xbmcgui.ControlButton(560, 208, 200, 200, " ")
+        self.rightButton = xbmcgui.ControlButton(580, 408, 200, 200, " ")
+        self.addControl(self.leftButton) 
+        self.addControl(self.rightButton)
+        
         self.show_Back (10, 50, 600, 0xFF0000)
         self.show_Back (500, 50, 600, 0xFF0000)
+        self.show_RightArrow(570, 200, 100, 0xFF0000)
+        self.show_LeftArrow(570, 400, 100, 0xFF0000)
         self.include_List("Include")
         self.exclude_List("Exclude")
         self.show_Setting (10, 10, 300, 0xFF0000)
 
+        self.IncludeList = xbmcgui.ControlList(150, 50, 400,900, "0xFFFFFF", selectedColor=SELECTED_COLOR)
+        self.ExcludeList = xbmcgui.ControlList(650, 50, 400, 900, "0xFFFFFF", selectedColor=SELECTED_COLOR)
 
-    pass
+        self.addControl(self.IncludeList)
+        self.addControl(self.ExcludeList)
+    
+    def setResults(self, so: searchOptions.SearchOptions):
+        results = OurFilter.filter(so)
+        for res in results:
+            self.IncludeList.addItem(res["title"])
 
-    #     for i in range(0, 8):
-    #         cookie = page * 8  # index into list based on page
+    def onAction(self, action: Action):
+        if action == xbmcgui.ACTION_PREVIOUS_MENU or action == xbmcgui.ACTION_NAV_BACK:
+            self.close()
 
-    #         if i < 4:
-    #             topLabels[i].
-    #             xbmc.PlayList(xbmc.PLAYLIST_VIDEO).clear()
+        if action == xbmcgui.ACTION_MOUSE_LEFT_CLICK:
+            control = self.getFocus()
 
-    # for video in sort_videoList:
-    #     listitem = xbmcgui.ListItem(label=video['title'], path=video['url'])
-    #     listitem.addThumbnailImage(video['thumbnail'])
-    #     listitem.setInfo('video', video)
-    #     xbmc.PlayList(xbmc.PLAYLIST_VIDEO).add(
-    #         url=video['url'], listitem=listitem)
-    # print(xbmc.PlayList(xbmc.PLAYLIST_VIDEO))
-    # xbmc.Player().play(xbmc.PlayList(xbmc.PLAYLIST_VIDEO))
+            if self.leftButton.getId() == control.getId():
+                toRemove = []
+                for i in range(self.IncludeList.size()):
+                    item = self.IncludeList.getListItem(i)
+                    if item.isSelected():
+                        toRemove.append((i, item))
+                
+                for i, item in reversed(toRemove):
+                    item.select(False)
+                    self.ExcludeList.addItem(item)
+                    self.IncludeList.removeItem(i)
 
-    #         else:
-    #             bottomLabels[i]
+            if self.rightButton.getId() == control.getId():
+                toRemove = []
+                for i in range(self.ExcludeList.size()):
+                    item = self.ExcludeList.getListItem(i)
+                    if item.isSelected():
+                        toRemove.append((i, item))
+                
+                for i, item in reversed(toRemove):
+                    item.select(False)
+                    self.IncludeList.addItem(item)
+                    self.ExcludeList.removeItem(i)
 
+            if self.IncludeList.getId() == control.getId():
+                selected = self.IncludeList.getSelectedItem()
+                selected.select(not selected.isSelected())
 
+            if self.ExcludeList.getId() == control.getId():
+                selected = self.ExcludeList.getSelectedItem()
+                selected.select(not selected.isSelected())
+
+        
+    
 # xbmc.PlayList(xbmc.PLAYLIST_VIDEO).clear()
 #     for video in sort_videoList:
 #         listitem = xbmcgui.ListItem(label=video['title'], path=video['url'])
@@ -320,7 +360,7 @@ class MyWindow(xbmcgui.Window):
 
         self.hourInput = xbmcgui.ControlEdit(120, 660, 50, 30, " ")
         self.minuteInput = xbmcgui.ControlEdit(200, 660, 50, 30, " ")
-        self.activateTime = xbmcgui.ControlButton(120, 590, 200, 50, " ")
+        self.activateTime = xbmcgui.ControlButton(200, 590, 100, 50, " ")
         self.addControl(self.hourInput)
         self.addControl(self.minuteInput)
         self.addControl(self.activateTime)
@@ -680,7 +720,102 @@ class MyWindow(xbmcgui.Window):
                     f"{selectedDirectorItem.getLabel()} selected status: {selectedDirectorItem.isSelected()}")
 
             if control.getId() == self.includeList.getId():
+                so = searchOptions.SearchOptions()
+
+                mediaTypes = []
+                for i in range(self.mediaTypeList.size()):
+                    item = self.mediaTypeList.getListItem(i)
+                    if item.isSelected():
+                        mediaTypes.append(item.getLabel().lower())
+                so.setMediaType(mediaTypes)
+                if not so.getMediaType():
+                    so.setMediaType(["movie"])
+
+                watchStatuses = []
+                for i in range(self.watchStatusList.size()):
+                    item = self.watchStatusList.getListItem(i)
+                    if item.isSelected() and item.getLabel().lower() == "unwatched":
+                        watchStatuses.append(0)
+                    elif item.isSelected() and item.getLabel().lower() == "watched":
+                        watchStatuses.append(1)
+
+                if watchStatuses:
+                    so.setWatchStatus(watchStatuses)
+                else:
+                    so.setWatchStatus([0])
+
+                ratings = []
+                for i in range(self.ratingList.size()):
+                    item = self.ratingList.getListItem(i)
+                    if item.isSelected():
+                        ratings.append(item.getLabel())
+                so.setRating(ratings)
+                
+                genres = []
+                for i in range(self.genreList.size()):
+                    item = self.genreList.getListItem(i)
+                    if item.isSelected():
+                        genres.append(item.getLabel().lower())
+                so.setGenre(genres)
+
+                #Length Stuff
+                minValue = self.minInput.getText()
+                maxValue = self.maxInput.getText()
+
+                # check if min and max value are numbers
+                if not minValue.isdigit() or not maxValue.isdigit():
+                    xbmcgui.Dialog().ok("Silly Human!", "Length min and max must be numbers! (specified in minutes)")
+                    return
+                
+                so.setMINLength(int(minValue) * 60)
+                so.setMAXLength(int(maxValue) * 60)
+
+                years = []
+                for i in range(self.yearList.size()):
+                    item = self.yearList.getListItem(i)
+                    if item.isSelected():
+                        years.append(item.getLabel().lower())
+                so.setYear(years)
+
+                tagses = []
+                for i in range(self.tagsList.size()):
+                    item = self.tagsList.getListItem(i)
+                    if item.isSelected():
+                        tagses.append(item.getLabel().lower())
+                so.setTag(tagses)
+
+                studios = []
+                for i in range(self.studioList.size()):
+                    item = self.studioList.getListItem(i)
+                    if item.isSelected():
+                        studios.append(item.getLabel().lower())
+                so.setStudio(studios)
+
+                mostWatchedes = False
+                for i in range(self.mostWatchedList.size()):
+                    item = self.mostWatchedList.getListItem(i)
+                    if item.isSelected():
+                        if item.getLabel().lower() == 'on':
+                            mostWatchedes = True
+                so.setMostWatched(mostWatchedes)
+
+                castes = []
+                for i in range(self.castsList.size()):
+                    item = self.castsList.getListItem(i)
+                    if item.isSelected():
+                        castes.append(item.getLabel().lower())
+                so.setCast(castes)
+
+                directores = []
+                for i in range(self.directorList.size()):
+                    item = self.directorList.getListItem(i)
+                    if item.isSelected():
+                        directores.append(item.getLabel().lower())
+                so.setDirector(directores)
+                
+                so.setPBFunction(2)
                 includeWindow = IncludeWindow()
+                includeWindow.setResults(so)
                 includeWindow.doModal()
                 del includeWindow
 
@@ -757,11 +892,12 @@ class MyWindow(xbmcgui.Window):
                         studios.append(item.getLabel().lower())
                 so.setStudio(studios)
 
-                mostWatchedes = []
+                mostWatchedes = False
                 for i in range(self.mostWatchedList.size()):
                     item = self.mostWatchedList.getListItem(i)
                     if item.isSelected():
-                        mostWatchedes.append(item.getLabel().lower())
+                        if item.getLabel().lower() == 'on':
+                            mostWatchedes = True
                 so.setMostWatched(mostWatchedes)
 
                 castes = []
