@@ -36,4 +36,5 @@ result = dialog.contextmenu(['New Search', 'Saved Search'])
 if (result == 0):
     gui.showGui()
 elif (result == 1):
-    profileGUI.SavedSearch().doModal()
+    window = profileGUI.SavedSearch().doModal()
+    del window

@@ -98,9 +98,12 @@ def _playOne(videoList, mostWatched):
     if (not mostWatched):
         result.append(random.choice(videoList))
     else:
+        tempList = []
         for x in videoList:
-            if (result != {} or x['playcount'] > result['playcount']):
-                result = x
+            if (tempList == [] or x['playcount'] > tempList[0]['playcount']):
+                tempList = []
+                tempList.append(x)
+        result.append(random.choice(tempList))
     return result
 
 # Hsu's Assignment

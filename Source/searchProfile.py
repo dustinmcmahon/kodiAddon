@@ -362,9 +362,12 @@ def _addWatchStatus(profileID: int, watchStatus: int, cursor: sqlite3.Cursor):
 
 
 def _getWatchStatus(profileID: int, cursor: sqlite3.Cursor) -> int:
-    defaultID = cursor.execute(
-        "SELECT id FROM searchOptionType WHERE title = 'watchStatus';").fetchall()[0][0]
-    return cursor.execute("SELECT value FROM profileOptions WHERE r_profile = {} AND r_searchOptionType = {};".format(profileID, defaultID)).fetchall()[0][0]
+    defaultID = cursor.execute("SELECT id FROM searchOptionType WHERE title = 'watchStatus';").fetchall()[0][0]
+    tempList = cursor.execute("SELECT value FROM profileOptions WHERE r_profile = {} AND r_searchOptionType = {};".format(profileID, defaultID)).fetchall()
+    result = []
+    for x in tempList:
+        result.append(x[0])
+    return result
 
 # Trigger CRUD Operations for length
 

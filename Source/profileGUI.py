@@ -2,6 +2,7 @@ import xbmcgui
 import xbmcaddon
 from xbmcgui import Action, Control
 import searchOptions
+import guiPlayWindows
 import searchProfile
 import gui
 import filter
@@ -28,7 +29,13 @@ class PlayOneBtn(SaveSearchBtn):
     def actionTaken(self):
         options = searchProfile.getProfile(self.getProfileName())
         options.setPBFunction(1)
-        filter.filter(options)
+        if filter.filter(options):
+            poWindow = guiPlayWindows.PlayOneWindow()
+            poWindow.setResults(options)
+            poWindow.doModal()
+            del poWindow
+        else:
+            xbmcgui.Dialog().ok("Error", "Your list is empty!")
 
 
 # Class for the Loop Play Button
@@ -37,7 +44,13 @@ class LoopPlayBtn(SaveSearchBtn):
     def actionTaken(self):
         options = searchProfile.getProfile(self.getProfileName())
         options.setPBFunction(3)
-        filter.filter(options)
+        if filter.filter(options):
+            lpWindow = guiPlayWindows.LoopPlayWindow()
+            lpWindow.setResults(options)
+            lpWindow.doModal()
+            del lpWindow
+        else:
+            xbmcgui.Dialog().ok("Error", "Your list is empty!")
 
 # Class for Show List Button
 class ShowListBtn(SaveSearchBtn):
@@ -45,7 +58,13 @@ class ShowListBtn(SaveSearchBtn):
     def actionTaken(self):
         options = searchProfile.getProfile(self.getProfileName())
         options.setPBFunction(2)
-        filter.filter(options)
+        if filter.filter(options):
+            slWindow = guiPlayWindows.ShowListWindow()
+            slWindow.setResults(options)
+            slWindow.doModal()
+            del slWindow
+        else:
+            xbmcgui.Dialog().ok("Error", "Your list is empty!")
 
 # Class for Edit Profile Button
 class EditProfileBtn(SaveSearchBtn):
