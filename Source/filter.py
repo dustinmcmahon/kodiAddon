@@ -78,7 +78,7 @@ def _filterLength(videos, lengths):
 
 def _filterWatchStatus(videos, status):
     returnList = []
-    if (len(status) > 1):
+    if (len(status) == 0 or len(status) == 2):
         return videos
     elif (status[0] == 0):
         for x in videos:

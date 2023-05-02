@@ -32,9 +32,19 @@ else:
 # gui.showGui()
 
 dialog = xbmcgui.Dialog()
-result = dialog.contextmenu(['New Search', 'Saved Search'])
+result = dialog.contextmenu(['Play', 'New Search', 'Saved Search'])
+
 if (result == 0):
+    so = searchOptions.SearchOptions()
+    so.setPBFunction(1)
+    so.setWatchStatus([])
+    movie = filter.filter(so)
+    player = xbmc.Player()
+    player.play(movie[0]['file'])
+
+if (result == 1):
     gui.showGui()
-elif (result == 1):
+
+elif (result == 2):
     window = profileGUI.SavedSearch().doModal()
     del window

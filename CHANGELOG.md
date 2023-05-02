@@ -1,5 +1,15 @@
 # Change Log
 
+### 5/2/23
+- Quick play function from the menu
+- Allows multiple watch statuses
+
+### 5/1/23
+- Saved Profile GUI Updated
+  - Play One Functionality
+  - Loop Play Functionality
+  - Show List Functionality
+
 ### 4/30/23
 - profile gui playback functions being called (not working)
 - changed list to List
