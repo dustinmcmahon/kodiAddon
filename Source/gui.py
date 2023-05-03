@@ -7,8 +7,17 @@ import searchOptions
 import filter as OurFilter
 import shut
 
+from typing import Any
+
 import guiPlayWindows
 import searchProfile
+import searchOptions
+
+def formatNicely(res: dict[str, Any]) -> str:
+    if "episodeid" in res:
+        return f"{res['showtitle']} - {res['title']}"
+    else:
+        return res["title"]
 
 class IncludeWindow(xbmcgui.Window):
     def show_Setting(self, x, y, radius, color):
@@ -41,8 +50,10 @@ class IncludeWindow(xbmcgui.Window):
 
     def __init__(self) -> None:
         super().__init__()
-        self.leftButton = xbmcgui.ControlButton(560, 208, 200, 200, " ")
-        self.rightButton = xbmcgui.ControlButton(580, 408, 200, 200, " ")
+        self.leftButton = xbmcgui.ControlButton(580, 408, 100, 50, " ")
+        self.rightButton = xbmcgui.ControlButton(560, 208, 100, 50, " ")
+        self.refreshButton = xbmcgui.ControlButton(580, 300, 100, 50, "REFRESHING TIME")
+        self.addControl(self.refreshButton)
         self.addControl(self.leftButton) 
         self.addControl(self.rightButton)
         
@@ -54,6 +65,9 @@ class IncludeWindow(xbmcgui.Window):
         self.exclude_List("Exclude")
         self.show_Setting (10, 10, 300, 0xFF0000)
 
+        self.include: list[str] = []
+        self.exclude: list[str] = []
+
         self.IncludeList = xbmcgui.ControlList(150, 50, 400,900, "0xFFFFFF", selectedColor=SELECTED_COLOR)
         self.ExcludeList = xbmcgui.ControlList(650, 50, 400, 900, "0xFFFFFF", selectedColor=SELECTED_COLOR)
 
@@ -61,9 +75,39 @@ class IncludeWindow(xbmcgui.Window):
         self.addControl(self.ExcludeList)
     
     def setResults(self, so: searchOptions.SearchOptions):
+        self.so = so
         results = OurFilter.filter(so)
-        for res in results:
-            self.IncludeList.addItem(res["title"])
+        opposite = searchOptions.SearchOptions()
+        opposite.setMediaType(["movie", "episode"])
+        opposite.setWatchStatus([0])
+        opposite.setMAXLength(18000)
+        opposite.setPBFunction(2)
+        oppositeResults = OurFilter.filter(opposite)
+        self.include = []
+        self.exclude = []
+        if not so.getInclude() and not so.getExclude():
+            for res in results:
+                xbmc.log(f"res? {res['title']}")
+                self.IncludeList.addItem(formatNicely(res))
+                self.include.append(res["title"])
+            
+            for res in oppositeResults:
+                if res["title"] in self.include:
+                    continue
+                self.ExcludeList.addItem(formatNicely(res))
+                self.exclude.append(res["title"])
+            return
+            
+    
+        for inc in results:
+            xbmc.log(f"inc? {inc['title']}")
+            self.IncludeList.addItem(formatNicely(inc))
+            self.include.append(inc["title"])
+        for exc in oppositeResults:
+            if exc["title"] in self.include:
+                    continue
+            self.ExcludeList.addItem(formatNicely(exc))
+            self.exclude.append(exc["title"])
 
     def onAction(self, action: Action):
         if action == xbmcgui.ACTION_PREVIOUS_MENU or action == xbmcgui.ACTION_NAV_BACK:
@@ -72,7 +116,7 @@ class IncludeWindow(xbmcgui.Window):
         if action == xbmcgui.ACTION_MOUSE_LEFT_CLICK:
             control = self.getFocus()
 
-            if self.leftButton.getId() == control.getId():
+            if self.rightButton.getId() == control.getId():
                 toRemove = []
                 for i in range(self.IncludeList.size()):
                     item = self.IncludeList.getListItem(i)
@@ -83,8 +127,10 @@ class IncludeWindow(xbmcgui.Window):
                     item.select(False)
                     self.ExcludeList.addItem(item)
                     self.IncludeList.removeItem(i)
+                    thing = self.include.pop(i)
+                    self.exclude.append(thing)
 
-            if self.rightButton.getId() == control.getId():
+            if self.leftButton.getId() == control.getId():
                 toRemove = []
                 for i in range(self.ExcludeList.size()):
                     item = self.ExcludeList.getListItem(i)
@@ -95,6 +141,8 @@ class IncludeWindow(xbmcgui.Window):
                     item.select(False)
                     self.IncludeList.addItem(item)
                     self.ExcludeList.removeItem(i)
+                    thing = self.exclude.pop(i)
+                    self.include.append(thing)
 
             if self.IncludeList.getId() == control.getId():
                 selected = self.IncludeList.getSelectedItem()
@@ -104,6 +152,19 @@ class IncludeWindow(xbmcgui.Window):
                 selected = self.ExcludeList.getSelectedItem()
                 selected.select(not selected.isSelected())
 
+            if self.refreshButton.getId() == control.getId():
+                self.so.setInclude([])
+                self.so.setExclude([])
+                self.IncludeList.reset()
+                self.ExcludeList.reset()
+                self.include = []
+                self.exclude = []
+                self.setResults(self.so)
+
+                
+    def getIncludeExclude(self) -> tuple[list[str], list[str]]:
+        return (self.include, self.exclude)
+        
         
     
 # xbmc.PlayList(xbmc.PLAYLIST_VIDEO).clear()
@@ -482,6 +543,9 @@ class MyWindow(xbmcgui.Window):
         #     self.list12.addItem(str(item))
         # self.list12.setVisible(False)
 
+        self.include: list[str] = []
+        self.exclude: list[str] = []
+
 
     def onAction(self, action: xbmcgui.Action) -> None:
         # print(f"action: {action}")
@@ -795,9 +859,19 @@ class MyWindow(xbmcgui.Window):
                 
                 so.setPBFunction(2)
                 includeWindow = IncludeWindow()
+                so.setInclude(self.include)
+                so.setExclude(self.exclude)
                 includeWindow.setResults(so)
                 includeWindow.doModal()
+                include, exclude = includeWindow.getIncludeExclude()
+                xbmc.log(f"post include: {include}")
+                xbmc.log(f"post exclude: {exclude}")
+
+                self.include = include
+                self.exclude = exclude
+
                 del includeWindow
+
 
             if control.getId() == self.saveButton.getId(): #//////////////////////////////////////////////////////////////////////////
                 dialog = xbmcgui.Dialog().input("Give Your Saved Search A Name!")
@@ -998,6 +1072,8 @@ class MyWindow(xbmcgui.Window):
                 so.setPBFunction(1)
                 if OurFilter.filter(so):
                     playOneWindow = guiPlayWindows.PlayOneWindow()
+                    so.setInclude(self.include)
+                    so.setExclude(self.exclude)
                     playOneWindow.setResults(so)
                     playOneWindow.doModal()
                     del playOneWindow
@@ -1105,6 +1181,8 @@ class MyWindow(xbmcgui.Window):
                 so.setPBFunction(3)
                 if OurFilter.filter(so):
                     loopPlay = guiPlayWindows.LoopPlayWindow()
+                    so.setInclude(self.include)
+                    so.setExclude(self.exclude)
                     loopPlay.setResults(so)
                     loopPlay.doModal()
                     del loopPlay
@@ -1217,6 +1295,8 @@ class MyWindow(xbmcgui.Window):
                 so.setPBFunction(2)
                 if OurFilter.filter(so):
                     showListWindow = guiPlayWindows.ShowListWindow()
+                    so.setInclude(self.include)
+                    so.setExclude(self.exclude)
                     showListWindow.setResults(so)
                     showListWindow.doModal()
                     del showListWindow
