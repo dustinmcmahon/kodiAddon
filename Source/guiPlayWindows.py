@@ -230,6 +230,10 @@ class LoopPlayWindow(xbmcgui.Window):
         self.addControl(self.settingsButton)
         self.addControl(setting)
 
+
+
+    
+
     def show_Play(self, x, y, radius, color):
         playPath = gui.imagesFolder + "PLAY.png"
         play = xbmcgui.ControlImage(x, y, radius, radius, playPath, color)
@@ -265,6 +269,10 @@ class LoopPlayWindow(xbmcgui.Window):
         self.addControls(self.loopyGrid)
         self.addControls(self.loopyGridImages)
 
+
+        self.PlayButton2 = xbmcgui.ControlButton(1125, 625, 150, 100, "    ")
+        self.addControl(self.PlayButton2)
+
         self.forwardPageButton = xbmcgui.ControlButton(1060, 342, 200, 100, "    ")
         self.addControl(self.forwardPageButton)
 
@@ -289,12 +297,12 @@ class LoopPlayWindow(xbmcgui.Window):
 
     def reloadLoopy(self):
         self.so.setPBFunction(3)
-        results = OurFilter.filter(self.so)
-        self.maxPage = len(results) // self.ITEMS_PER_PAGE
+        self.results = OurFilter.filter(self.so)
+        self.maxPage = len(self.results) // self.ITEMS_PER_PAGE
 
         start = self.page * self.ITEMS_PER_PAGE
-        end = min(len(results), self.page * self.ITEMS_PER_PAGE + self.ITEMS_PER_PAGE)
-        chunk = results[start:end]
+        end = min(len(self.results), self.page * self.ITEMS_PER_PAGE + self.ITEMS_PER_PAGE)
+        chunk = self.results[start:end]
 
         for i, v in enumerate(chunk):
             self.loopyGrid[i].setVisible(True)
@@ -329,6 +337,16 @@ class LoopPlayWindow(xbmcgui.Window):
                 if (self.page - 1) >= 0:
                     self.page -= 1
                     self.reloadLoopy()
+            
+            if control.getId() == self.PlayButton2.getId():
+                playList = xbmc.PlayList(xbmc.PLAYLIST_VIDEO)
+                for thing in self.results:
+                    playList.add(thing["file"])
+
+                player = xbmc.Player()
+                player.play(playList)
+
+                pass
 
             if control.getId() == self.settingsButton.getId():
                 self.close()
