@@ -334,9 +334,10 @@ class MyWindow(xbmcgui.Window):
         self.show_circle(680, 635, 200, 0xFF0000)
         self.show_circle(480, 635, 200, 0xFF0000)
 
-        self.show_circle(35, 590, 300, 0xFF0000)
-        self.show_timerSquare(120, 630, 100, 0xFF0000)
-        self.show_timerSquare(205, 630, 100, 0xFF0000)
+        #self.show_circle(35, 590, 300, 0xFF0000)
+        #self.show_timerSquare(120, 630, 100, 0xFF0000)
+        #self.show_timerSquare(205, 630, 100, 0xFF0000)
+        
 
         # Identifying
         self.media_Type("MediaType")
@@ -356,6 +357,12 @@ class MyWindow(xbmcgui.Window):
         self.loopPlay("Loop Play")
         self.showList("Show List")
         self.saveSearch("Save")
+
+
+        ########
+        # Removing Shutdown Timer
+        ########
+        '''
         self.shutDown("ShutDown Time")
 
         self.hourInput = xbmcgui.ControlEdit(120, 660, 50, 30, " ")
@@ -369,6 +376,7 @@ class MyWindow(xbmcgui.Window):
         self.time("Hour          Min")
         xbmc.log("This is the number of hours" + hourValue)
         xbmc.log("This is the number of minutes" + minuteValue)
+        '''
 
         #Use controlImage to get the filename with the URL
 

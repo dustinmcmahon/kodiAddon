@@ -3,6 +3,7 @@
 ### 5/2/23
 - Quick play function from the menu
 - Allows multiple watch statuses
+- removed shutdown timer button
 
 ### 5/1/23
 - Saved Profile GUI Updated
