@@ -18,7 +18,8 @@ def formatNicely(res: dict[str, Any]) -> str:
         return f"{res['showtitle']} - {res['title']}"
     else:
         return res["title"]
-
+#Ecxlude Shut, timer, and hour, and min, and time, the third one above timersqueared
+#Make include and exclude list 800 down. Include_List change y to 0.
 class IncludeWindow(xbmcgui.Window):
     def show_Setting(self, x, y, radius, color):
         settingPath = imagesFolder + "Settings.png"
@@ -41,11 +42,11 @@ class IncludeWindow(xbmcgui.Window):
         self.addControl(right)
 
     def include_List(self, text):
-        label = xbmcgui.ControlLabel(350, 50, 200, 100, text)
+        label = xbmcgui.ControlLabel(350, 0, 200, 100, text)
         self.addControl(label)
 
     def exclude_List(self, text):
-        label = xbmcgui.ControlLabel(830, 50, 200, 100, text)
+        label = xbmcgui.ControlLabel(830, 0, 200, 100, text)
         self.addControl(label)
 
     def __init__(self) -> None:
@@ -68,8 +69,8 @@ class IncludeWindow(xbmcgui.Window):
         self.include: list[str] = []
         self.exclude: list[str] = []
 
-        self.IncludeList = xbmcgui.ControlList(150, 50, 400,900, "0xFFFFFF", selectedColor=SELECTED_COLOR)
-        self.ExcludeList = xbmcgui.ControlList(650, 50, 400, 900, "0xFFFFFF", selectedColor=SELECTED_COLOR)
+        self.IncludeList = xbmcgui.ControlList(150, 50, 400,800, "0xFFFFFF", selectedColor=SELECTED_COLOR)
+        self.ExcludeList = xbmcgui.ControlList(650, 50, 400, 800, "0xFFFFFF", selectedColor=SELECTED_COLOR)
 
         self.addControl(self.IncludeList)
         self.addControl(self.ExcludeList)
@@ -267,13 +268,13 @@ class MyWindow(xbmcgui.Window):
         label = xbmcgui.ControlLabel(555, 660, 300, 200, text)
         self.addControl(label)
 
-    def shutDown(self, text):
-        label = xbmcgui.ControlLabel(95, 610, 300, 200, text)
-        self.addControl(label)
+    # def shutDown(self, text):
+    #     label = xbmcgui.ControlLabel(95, 610, 300, 200, text)
+    #     self.addControl(label)
 
-    def time(self, text):
-        label = xbmcgui.ControlLabel(95, 660, 300, 200, text)
-        self.addControl(label)
+    # def time(self, text):
+    #     label = xbmcgui.ControlLabel(95, 660, 300, 200, text)
+    #     self.addControl(label)
     
 
        #The images
@@ -288,11 +289,11 @@ class MyWindow(xbmcgui.Window):
         self.addControl(backgroundList)
         return backgroundList
 
-    def show_timerSquare(self, x, y, radius, color):
-        timerPath = imagesFolder + "TimeBackground.png"
-        timeGroundList = xbmcgui.ControlImage(x, y, radius, radius, timerPath, color)
-        self.addControl(timeGroundList)
-        return timeGroundList
+    # def show_timerSquare(self, x, y, radius, color):
+    #     timerPath = imagesFolder + "TimeBackground.png"
+    #     timeGroundList = xbmcgui.ControlImage(x, y, radius, radius, timerPath, color)
+    #     self.addControl(timeGroundList)
+    #     return timeGroundList
 
     # def onClick(self, controlId: int):
     #     xbmc.log(f"something was clicked! {controlId}")
@@ -396,9 +397,9 @@ class MyWindow(xbmcgui.Window):
         self.show_circle (680, 635, 200, 0xFF0000)
         self.show_circle (480, 635, 200, 0xFF0000)
 
-        self.show_circle (35, 590, 300, 0xFF0000)
-        self.show_timerSquare(120, 630, 100, 0xFF0000)
-        self.show_timerSquare(205, 630, 100, 0xFF0000)
+        # self.show_circle (35, 590, 300, 0xFF0000)
+        # self.show_timerSquare(120, 630, 100, 0xFF0000)
+        # self.show_timerSquare(205, 630, 100, 0xFF0000)
 
 
         #Identifying
@@ -419,21 +420,21 @@ class MyWindow(xbmcgui.Window):
         self.loopPlay("Loop Play")
         self.showList("Show List")
         self.saveSearch("Save")
-        self.shutDown("ShutDown Time")
+        # self.shutDown("ShutDown Time")
 
 
 
-        self.hourInput = xbmcgui.ControlEdit(120, 660, 50, 30, " ")
-        self.minuteInput = xbmcgui.ControlEdit(200, 660, 50, 30, " ")
-        self.activateTime = xbmcgui.ControlButton(200, 590, 100, 50, " ")
-        self.addControl(self.hourInput)
-        self.addControl(self.minuteInput)
-        self.addControl(self.activateTime)
-        hourValue = self.hourInput.getText()
-        minuteValue = self.minuteInput.getText()
-        self.time("Hour          Min")
-        xbmc.log("This is the number of hours" + hourValue)
-        xbmc.log("This is the number of minutes" + minuteValue)
+        # self.hourInput = xbmcgui.ControlEdit(120, 660, 50, 30, " ")
+        # self.minuteInput = xbmcgui.ControlEdit(200, 660, 50, 30, " ")
+        # self.activateTime = xbmcgui.ControlButton(200, 590, 100, 50, " ")
+        # self.addControl(self.hourInput)
+        # self.addControl(self.minuteInput)
+        # self.addControl(self.activateTime)
+        # hourValue = self.hourInput.getText()
+        # minuteValue = self.minuteInput.getText()
+        # self.time("Hour          Min")
+        # xbmc.log("This is the number of hours" + hourValue)
+        # xbmc.log("This is the number of minutes" + minuteValue)
 
         #Use controlImage to get the filename with the URL
 
@@ -1310,9 +1311,9 @@ class MyWindow(xbmcgui.Window):
                 #     xbmc.log(f"{result}")
                 # xbmc.log(f"backup print: {results}")
             # end of the code I tried testing
-            if control.getId() == self.activateTime.getId():
-                xbmc.log("shutting down some time...")
-                shut.shutdownTime([int(self.hourInput.getText()), int(self.minuteInput.getText())])
+            # if control.getId() == self.activateTime.getId():
+            #     xbmc.log("shutting down some time...")
+            #     shut.shutdownTime([int(self.hourInput.getText()), int(self.minuteInput.getText())])
             
 
 #Global Variables for options
