@@ -8,12 +8,15 @@ import filter as OurFilter
 import shut
 
 from typing import Any
+from typing import List
+from typing import Dict
+from typing import Tuple
 
 import guiPlayWindows
 import searchProfile
 import searchOptions
 
-def formatNicely(res: dict[str, Any]) -> str:
+def formatNicely(res: Dict[str, Any]) -> str:
     if "episodeid" in res:
         return f"{res['showtitle']} - {res['title']}"
     else:
@@ -66,8 +69,8 @@ class IncludeWindow(xbmcgui.Window):
         self.exclude_List("Exclude")
         self.show_Setting (10, 10, 300, 0xFF0000)
 
-        self.include: list[str] = []
-        self.exclude: list[str] = []
+        self.include: List[str] = []
+        self.exclude: List[str] = []
 
         self.IncludeList = xbmcgui.ControlList(150, 50, 400,800, "0xFFFFFF", selectedColor=SELECTED_COLOR)
         self.ExcludeList = xbmcgui.ControlList(650, 50, 400, 800, "0xFFFFFF", selectedColor=SELECTED_COLOR)
@@ -98,8 +101,7 @@ class IncludeWindow(xbmcgui.Window):
                 self.ExcludeList.addItem(formatNicely(res))
                 self.exclude.append(res["title"])
             return
-            
-    
+        
         for inc in results:
             xbmc.log(f"inc? {inc['title']}")
             self.IncludeList.addItem(formatNicely(inc))
@@ -162,21 +164,8 @@ class IncludeWindow(xbmcgui.Window):
                 self.exclude = []
                 self.setResults(self.so)
 
-                
-    def getIncludeExclude(self) -> tuple[list[str], list[str]]:
+    def getIncludeExclude(self) -> Tuple[List[str], List[str]]:
         return (self.include, self.exclude)
-        
-        
-    
-# xbmc.PlayList(xbmc.PLAYLIST_VIDEO).clear()
-#     for video in sort_videoList:
-#         listitem = xbmcgui.ListItem(label=video['title'], path=video['url'])
-#         listitem.addThumbnailImage(video['thumbnail'])
-#         listitem.setInfo('video', video)
-#         xbmc.PlayList(xbmc.PLAYLIST_VIDEO).add(
-#             url=video['url'], listitem=listitem)
-#     print(xbmc.PlayList(xbmc.PLAYLIST_VIDEO))
-#     xbmc.Player().play(xbmc.PlayList(xbmc.PLAYLIST_VIDEO))
 
 addon = xbmcaddon.Addon()
 addonDataFolder = ""
@@ -189,7 +178,6 @@ if xbmc.getCondVisibility('system.platform.osx') or xbmc.getCondVisibility('syst
 
 imagesFolder = addon.getAddonInfo('path') + "/images/"
 
-
 def show_options_window():
     # Create a window from the XML file
     optionspath = addon.getAddonInfo('path') + "optionsWindow.xml"
@@ -198,10 +186,8 @@ def show_options_window():
     # Display the window
     dialog.doModal()
 
-
 def options():
     show_options_window()
-
 
 class MyWindow(xbmcgui.Window):
     # def display_list(self):
@@ -398,7 +384,6 @@ class MyWindow(xbmcgui.Window):
         # self.show_timerSquare(120, 630, 100, 0xFF0000)
         # self.show_timerSquare(205, 630, 100, 0xFF0000)
 
-
         # Identifying
         self.media_Type("MediaType")
         self.watch_Status("WatchStatus")
@@ -423,8 +408,8 @@ class MyWindow(xbmcgui.Window):
         ########
         # Removing Shutdown Timer
         ########
-        '''
-        self.shutDown("ShutDown Time")
+        
+        #self.shutDown("ShutDown Time")
 
         # self.hourInput = xbmcgui.ControlEdit(120, 660, 50, 30, " ")
         # self.minuteInput = xbmcgui.ControlEdit(200, 660, 50, 30, " ")
@@ -554,9 +539,8 @@ class MyWindow(xbmcgui.Window):
         #     self.list12.addItem(str(item))
         # self.list12.setVisible(False)
 
-        self.include: list[str] = []
-        self.exclude: list[str] = []
-
+        self.include: List[str] = []
+        self.exclude: List[str] = []
 
     def onAction(self, action: xbmcgui.Action) -> None:
         # print(f"action: {action}")
@@ -892,14 +876,13 @@ class MyWindow(xbmcgui.Window):
                 includeWindow.setResults(so)
                 includeWindow.doModal()
                 include, exclude = includeWindow.getIncludeExclude()
-                xbmc.log(f"post include: {include}")
-                xbmc.log(f"post exclude: {exclude}")
+                #xbmc.log(f"post include: {include}")
+                #xbmc.log(f"post exclude: {exclude}")
 
                 self.include = include
                 self.exclude = exclude
 
                 del includeWindow
-
 
             if control.getId() == self.saveButton.getId(): #//////////////////////////////////////////////////////////////////////////
                 dialog = xbmcgui.Dialog().input("Give Your Saved Search A Name!")
@@ -995,7 +978,6 @@ class MyWindow(xbmcgui.Window):
                     if item.isSelected():
                         directores.append(item.getLabel().lower())
                 so.setDirector(directores)
-                
                 
                 searchProfile.addProfile(dialog, so)
 
