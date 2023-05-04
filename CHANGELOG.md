@@ -1,5 +1,9 @@
 # Change Log
 
+### 5/3/23
+- Merged Code
+- Delete Saved Search Function
+
 ### 5/2/23
 - Quick play function from the menu
 - Allows multiple watch statuses

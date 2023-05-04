@@ -1,11 +1,3 @@
-'''
-' This is not completed Yet
-' Tasks to be completed
-' - filter functions for each field
-' - get functions for media type
-' - playback functions
-'''
-
 import xbmc
 import json
 import searchOptions
@@ -161,7 +153,6 @@ def _loopPlay(videoList, mostWatched, mediaTypes):
             return episodeList
 
 def filter(options: searchOptions.SearchOptions):
-    print(options)
     genreFilter = _filterList_('genre', options.getGenre())
     tagFilter = _filterList_('tag', options.getTag())
     castFilter = _filterList_('actor', options.getCast())
@@ -265,7 +256,7 @@ def filter(options: searchOptions.SearchOptions):
     elif options.getPBFunction() == 3:
         result = _loopPlay(
             videoList, options.getMostWatched(), options.getMediaType())
-
+    
     return result
 
 
