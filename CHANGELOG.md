@@ -1,5 +1,8 @@
 # Change Log
 
+### 5/4/23
+- Linux installation functionality
+
 ### 5/3/23
 - Merged Code
 - Delete Saved Search Function

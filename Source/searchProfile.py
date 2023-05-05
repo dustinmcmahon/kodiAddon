@@ -8,7 +8,7 @@ addon = xbmcaddon.Addon()
 if xbmc.getCondVisibility('system.platform.windows'):
     addonDataFolder = addon.getAddonInfo('path').replace(
         "addons\\video.kodi.episode.selector\\", "userdata\\addon_data\\video.kodi.episode.selector\\")
-if xbmc.getCondVisibility('system.platform.osx'):
+if xbmc.getCondVisibility('system.platform.osx') or xbmc.getCondVisibility('system.platform.linux'):
     addonDataFolder = addon.getAddonInfo('path').replace(
         "addons/video.kodi.episode.selector/", "userdata/addon_data/video.kodi.episode.selector/")
 kesDBPath = "{}kesProfile.db".format(addonDataFolder)
@@ -20,11 +20,6 @@ kesDBPath = "{}kesProfile.db".format(addonDataFolder)
 # ************************
 # *** Setup Functions ****
 # ************************
-
-# ************************
-# *** Setup Functions ****
-# ************************
-
 
 def install():
     if not os.path.exists(addonDataFolder):
